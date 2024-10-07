@@ -65,19 +65,26 @@ pipeline {
                         sh 'ls -al'  // 파일 목록 확인
                         sh "docker images"  // 현재 빌드된 이미지 확인
 
-                        for (module in modules) {
-                            def imageTag = "songjih452/paran:${module}:${env.BUILD_ID}"
+                        modules.each { module ->
+                            def imageNameWithoutTag = "paran/${module}"
+                            def imageTag = "${env.BUILD_ID}"
+                            def fullImageName = "${imageNameWithoutTag}:${imageTag}"
 
                             // 이미지 존재 여부 확인
-                            def imageExists = sh(script: "docker image inspect songjih452/paran:${module} >/dev/null 2>&1", returnStatus: true) == 0
+                            def imageExists = sh(script: "docker image inspect ${imageNameWithoutTag}:latest >/dev/null 2>&1", returnStatus: true) == 0
 
                             if (imageExists) {
                                 // 태그와 푸시
-                                sh "docker tag  songjih452/paran:${module} ${imageTag}"
-                                sh "docker push ${imageTag}"
-                                echo "Successfully pushed ${imageTag}"
+                                sh "docker tag ${imageNameWithoutTag}:latest ${fullImageName}"
+                                def pushResult = sh(script: "docker push ${fullImageName}", returnStatus: true)
+
+                                if (pushResult == 0) {
+                                    echo "Successfully pushed ${fullImageName}"
+                                } else {
+                                    error "Failed to push ${fullImageName}"
+                                }
                             } else {
-                                echo "Warning: Image songjih452/paran:${module}:latest does not exist. Skipping..."
+                                echo "Warning: Image ${imageNameWithoutTag}:latest does not exist. Skipping..."
                             }
                         }
                     }
