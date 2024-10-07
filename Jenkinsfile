@@ -44,6 +44,7 @@ pipeline {
 
         stage('Build Docker Images') {
             steps {
+            credentialsId:'docker-hub',
                 sh 'pwd'  // 현재 작업 디렉토리 확인
                 sh 'ls -al'  // 파일 목록 확인
                 dir('/var/jenkins_home/workspace/paranmanzang') {  // docker-compose.yml 파일이 있는 디렉토리로 이동
