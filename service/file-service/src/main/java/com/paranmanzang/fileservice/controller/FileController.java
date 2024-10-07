@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 
 @RestController
@@ -22,8 +23,8 @@ public class FileController {
 
     @GetMapping("/list")
     @Operation(summary = "리스트 조회", description = "type의 refId인 파일 path 리스트를 조회합니다.", tags = {"01. File",})
-    public ResponseEntity<?> findByRefId(@RequestParam("refId") Long refId, @RequestParam("type") String type) {
-        return ResponseEntity.ok(fileService.findByRefId(refId, type));
+    public ResponseEntity<?> findByRefId(@RequestParam("refIds") List<Long> refIdList, @RequestParam("type") String type) {
+        return ResponseEntity.ok(fileService.findByRefIds(refIdList, type));
     }
 
     @GetMapping("")
@@ -49,6 +50,5 @@ public class FileController {
     public ResponseEntity<?> delete(@RequestBody FileDeleteModel model) {
         return ResponseEntity.ok(fileService.delete(model));
     }
-
 
 }

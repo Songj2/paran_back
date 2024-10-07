@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Flux;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -82,10 +83,18 @@ public class FileServiceImpl implements FileService {
 
 
     @Override
-    public List<FileModel> findByRefId(Long refId, String type) {
+    public List<FileModel> findByRefIds(List<Long> refIds, String type) {
+        return Flux.fromIterable(refIds)
+                .flatMap(refId -> fileRepository.findByRefId(refId, FileType.fromType(type).getCode())
+                        .map(this::convertToFileModel))
+                .collectList()
+                .block();
+    }
+
+    public FileModel findByRefId(Long refId, String type) {
         return fileRepository.findByRefId(refId, FileType.fromType(type).getCode())
                 .map(this::convertToFileModel)
-                .collectList().block();
+                .block();
     }
 
     @Override
@@ -94,9 +103,11 @@ public class FileServiceImpl implements FileService {
                 .getObject(s3bucket, path)
                 .getObjectContent());
     }
+
     public byte[] findFileByRefId(Long refId, String type) throws IOException {
-        return IOUtils.toByteArray(amazonS3.getObject(s3bucket, findByRefId(refId, type).get(0).getPath()).getObjectContent());
+        return IOUtils.toByteArray(amazonS3.getObject(s3bucket, findByRefId(refId, type).getPath()).getObjectContent());
     }
+
     @Override
     public Boolean delete(FileDeleteModel model) {
         amazonS3.deleteObject(s3bucket, model.getPath());

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface FileService {
     FileModel insert(MultipartFile file, String type, Long refId) throws IOException;
-    List<?> findByRefId(Long refId, String type);
+    List<?> findByRefIds(List<Long> refIds, String type);
     byte[] getFile(String path) throws IOException;
     byte[] findFileByRefId(Long refId, String type) throws IOException;
     Boolean delete(FileDeleteModel model);
