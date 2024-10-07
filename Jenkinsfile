@@ -12,6 +12,12 @@ pipeline {
             }
         }
 
+        stage('gradlew +x'){
+                    steps{
+                        sh 'chmod +x ./gradlew' // 루트의 gradlew에 실행 권한 부여
+                    }
+                }
+
         stage('Build') {
             steps {
                 script {
