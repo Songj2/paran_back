@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                 git branch: 'master', credentialsId: 'jenkins-secert', url: 'git@github.com:Songj2/paran_back.git'
+                 git branch: 'master', credentialsId: 'git-token', url: 'git@github.com:Songj2/paran_back.git'
             }
         }
 
