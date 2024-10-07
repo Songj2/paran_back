@@ -42,13 +42,12 @@ pipeline {
             }
         }
 
-
         stage('Build Docker Images') {
             steps {
                 sh 'pwd'  // 현재 작업 디렉토리 확인
                 sh 'ls -al'  // 파일 목록 확인
                 dir('/var/jenkins_home/workspace/paranmanzang') {  // docker-compose.yml 파일이 있는 디렉토리로 이동
-                sh 'chmod +x /usr/local/bin/docker-compose' // 루트의 gradlew에 실행 권한 부여
+                    sh 'chmod +x /usr/local/bin/docker-compose'  //docker-compose 권한 부여
                     sh 'docker-compose up -d --build'
                     sh 'docker images' // 현재 빌드된 이미지 확인
                     sh 'docker-compose logs'  // 로그 확인
