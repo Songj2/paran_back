@@ -65,18 +65,18 @@ pipeline {
                         sh "docker images"  // 현재 빌드된 이미지 확인
 
                         for (module in modules) {
-                            def imageTag = "meteoriver/${module}:${env.BUILD_ID}"
+                            def imageTag = "songjih452/paran:${module}:${env.BUILD_ID}"
 
                             // 이미지 존재 여부 확인
-                            def imageExists = sh(script: "docker image inspect meteoriver/${module}:latest >/dev/null 2>&1", returnStatus: true) == 0
+                            def imageExists = sh(script: "docker image inspect songjih452/paran:${module} >/dev/null 2>&1", returnStatus: true) == 0
 
                             if (imageExists) {
                                 // 태그와 푸시
-                                sh "docker tag meteoriver/${module}:latest ${imageTag}"
+                                sh "docker tag  songjih452/paran:${module} ${imageTag}"
                                 sh "docker push ${imageTag}"
                                 echo "Successfully pushed ${imageTag}"
                             } else {
-                                echo "Warning: Image meteoriver/${module}:latest does not exist. Skipping..."
+                                echo "Warning: Image songjih452/paran:${module}:latest does not exist. Skipping..."
                             }
                         }
                     }
@@ -89,7 +89,7 @@ pipeline {
                     def modules = ["gateway", "config", "eureka", "user", "group", "chat", "file", "room", "comment"]
 
                     for (module in modules) {
-                        sh "kubectl set image deployment/${module} ${module}=meteoriver/${module}:${env.BUILD_ID}"
+                        sh "kubectl set image deployment/${module} ${module}=songjih452/paran:${module}:${env.BUILD_ID}"
                     }
                 }
             }
