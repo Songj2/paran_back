@@ -1,81 +1,95 @@
 pipeline {
     agent any
 
+    environment {
+        JAVA_HOME = '/opt/java/openjdk'
+    }
+
     stages {
-//         stage('SSH Folder Creation') {
-//             steps {
-//                 sshagent(credentials: ['paran-credential-secret']) {
-//                     sh """
-//                         ssh -o StrictHostKeyChecking=no root@serverIP 'ls -la'
-//                     """
-//                 }
-//             }
-//         }
-        stage('Push') { // use 'room' branch
+        stage('Checkout') {
             steps {
-                git branch: 'master', credentialsId: 'git-token', url: 'git@github.com:Songj2/paran_back.git'
+                git branch: 'master', credentialsId: 'paran', url: 'https://github.com/MeteoRiver/paran_msa.git'
             }
         }
-        stage('gradlew +x'){
-            steps{
-                sh 'chmod +x ./gradlew' // 루트의 gradlew에 실행 권한 부여
 
-            }
-        }
         stage('Build') {
-            parallel {
-                stage("config-server") {
-                    steps {
-                        sh './gradlew :server:config-server:clean build --info' // 루트의 gradlew 사용
-                    }
+            steps {
+                script {
+                    sh '''#!/bin/bash
+                    set -e
+                    export JAVA_HOME="$JAVA_HOME"
+
+                    all_modules=("server:gateway-server" "server:config-server" "server:eureka-server"
+                                 "service:user-service" "service:group-service" "service:chat-service"
+                                 "service:file-service" "service:room-service" "service:comment-service")
+
+                    echo "Cleaning..."
+                    ./gradlew clean
+
+                    for module in "${all_modules[@]}"
+                    do
+                      echo "Building BootJar for $module"
+                      ./gradlew :$module:bootJar
+                    done
+                    '''
                 }
-                stage("eureka-server") {
-                    steps {
-                        sh './gradlew :server:eureka-server:clean build --info' // 루트의 gradlew 사용
-                    }
+            }
+        }
+
+        stage('Build Docker Images') {
+            steps {
+                sh 'pwd'  // 현재 작업 디렉토리 확인
+                sh 'ls -al'  // 파일 목록 확인
+                dir('./path/to/your/docker-compose') {  // docker-compose.yml 파일이 있는 디렉토리로 이동
+                    sh 'docker-compose up -d --build'
+                    sh 'docker images' // 현재 빌드된 이미지 확인
+                    sh 'docker-compose logs'  // 로그 확인
                 }
-                stage("gateway-server") {
-                    steps {
-                        sh './gradlew :server:gateway-server:clean build --info' // 루트의 gradlew 사용
-                    }
-                }
-                stage("chat-service") {
-                    steps {
-                        sh './gradlew :service:chat-service:clean build --info' // 루트의 gradlew 사용
-                    }
-                }
-                stage("comment-service") {
-                    steps {
-                        sh './gradlew :service:comment-service:clean build --info' // 루트의 gradlew 사용
-                    }
-                }
-                stage("file-service") {
-                    steps {
-                        sh './gradlew :service:file-service:clean build --info' // 루트의 gradlew 사용
-                    }
-                }
-                stage("group-service") {
-                    steps {
-                        sh './gradlew :service:group-service:clean build --info' // 루트의 gradlew 사용
-                    }
-                }
-                stage("room-service") {
-                    steps {
-                        sh './gradlew :service:room-service:clean build --info' // 루트의 gradlew 사용
-                    }
-                }
-                stage("user-service") {
-                    steps {
-                        sh './gradlew :service:user-service:clean build --info' // 루트의 gradlew 사용
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'paran-docker') {
+                        def modules = ["config", "eureka", "user", "group", "chat", "file", "room", "comment", "gateway"]
+
+                        for (module in modules) {
+                            def imageTag = "meteoriver/${module}:${env.BUILD_ID}"
+
+                            sh 'pwd'  // 현재 작업 디렉토리 확인
+                            sh 'ls -al'  // 파일 목록 확인
+                            // 현재 빌드된 이미지 확인
+                            sh "docker images"
+
+                            // 태그와 푸시
+                            sh "docker tag meteoriver/${module}:latest ${imageTag}" // 태그를 추가
+                            sh "docker push ${imageTag}" // 이미지를 푸시
+                        }
                     }
                 }
             }
         }
 
-        stage('Test') {
+        stage('Deploy to Kubernetes') {
             steps {
-                sh './gradlew test --info' // 루트 디렉토리의 gradlew 실행
+                script {
+                    def modules = ["gateway", "config", "eureka", "user", "group", "chat", "file", "room", "comment"]
+
+                    for (module in modules) {
+                        sh "kubectl set image deployment/${module} ${module}=meteoriver/${module}:${env.BUILD_ID}"
+                    }
+                }
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed.'
         }
     }
 }
