@@ -46,7 +46,7 @@ pipeline {
             steps {
                 sh 'pwd'  // 현재 작업 디렉토리 확인
                 sh 'ls -al'  // 파일 목록 확인
-                dir('./path/to/your/docker-compose') {  // docker-compose.yml 파일이 있는 디렉토리로 이동
+                dir('/var/jenkins_home/workspace/paranmanzang') {  // docker-compose.yml 파일이 있는 디렉토리로 이동
                     sh 'docker-compose up -d --build'
                     sh 'docker images' // 현재 빌드된 이미지 확인
                     sh 'docker-compose logs'  // 로그 확인
@@ -57,26 +57,32 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'paran-docker') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
                         def modules = ["config", "eureka", "user", "group", "chat", "file", "room", "comment", "gateway"]
+
+                        sh 'pwd'  // 현재 작업 디렉토리 확인
+                        sh 'ls -al'  // 파일 목록 확인
+                        sh "docker images"  // 현재 빌드된 이미지 확인
 
                         for (module in modules) {
                             def imageTag = "meteoriver/${module}:${env.BUILD_ID}"
 
-                            sh 'pwd'  // 현재 작업 디렉토리 확인
-                            sh 'ls -al'  // 파일 목록 확인
-                            // 현재 빌드된 이미지 확인
-                            sh "docker images"
+                            // 이미지 존재 여부 확인
+                            def imageExists = sh(script: "docker image inspect meteoriver/${module}:latest >/dev/null 2>&1", returnStatus: true) == 0
 
-                            // 태그와 푸시
-                            sh "docker tag meteoriver/${module}:latest ${imageTag}" // 태그를 추가
-                            sh "docker push ${imageTag}" // 이미지를 푸시
+                            if (imageExists) {
+                                // 태그와 푸시
+                                sh "docker tag meteoriver/${module}:latest ${imageTag}"
+                                sh "docker push ${imageTag}"
+                                echo "Successfully pushed ${imageTag}"
+                            } else {
+                                echo "Warning: Image meteoriver/${module}:latest does not exist. Skipping..."
+                            }
                         }
                     }
                 }
             }
         }
-
         stage('Deploy to Kubernetes') {
             steps {
                 script {
