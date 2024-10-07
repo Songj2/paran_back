@@ -1,0 +1,125 @@
+services:
+  config:
+    build:
+      context: server/config-server
+      dockerfile: Dockerfile
+    image: paran/config:latest
+    container_name: config
+    ports:
+      - 8888:8888
+    networks:
+      - paran-net
+    hostname: config
+
+  eureka:
+    build:
+      context: server/eureka-server
+      dockerfile: Dockerfile
+    image: paran/eureka:latest
+    container_name: eureka
+    ports:
+      - 8761:8761
+    networks:
+      - paran-net
+    hostname: eureka
+
+  gateway:
+    build:
+      context: server/gateway-server
+      dockerfile: Dockerfile
+    image: paran/gateway:latest
+    container_name: gateway
+    ports:
+      - 8000:8000
+    networks:
+      - paran-net
+    depends_on:
+      - eureka
+    hostname: gateway
+
+  user:
+    build:
+      context: service/user-service
+      dockerfile: Dockerfile
+    image: paran/user:latest
+    container_name: user
+    ports:
+      - 8082:8082
+    networks:
+      - paran-net
+    depends_on:
+      - eureka
+    hostname: user
+
+  chat:
+    build:
+      context: service/chat-service
+      dockerfile: Dockerfile
+    image: paran/chat:latest
+    container_name: chat
+    ports:
+      - 8081:8081
+    networks:
+      - paran-net
+    depends_on:
+      - eureka
+    hostname: chat
+
+  comment:
+    build:
+      context: service/comment-service
+      dockerfile: Dockerfile
+    image: paran/comment:latest
+    container_name: comment
+    ports:
+      - 8084:8084
+    networks:
+      - paran-net
+    depends_on:
+      - user
+    hostname: comment
+
+  group:
+    build:
+      context: service/group-service
+      dockerfile: Dockerfile
+    image: paran/group:latest
+    container_name: group
+    ports:
+      - 8085:8085
+    networks:
+      - paran-net
+    depends_on:
+      - user
+    hostname: group
+
+  file:
+    build:
+      context: service/file-service
+      dockerfile: Dockerfile
+    image: paran/file:latest
+    container_name: file
+    ports:
+      - 8090:8090
+    networks:
+      - paran-net
+    hostname: file
+
+  room:
+    build:
+      context: service/room-service
+      dockerfile: Dockerfile
+    image: paran/room:latest
+    container_name: room
+    ports:
+      - 8083:8083
+    networks:
+      - paran-net
+    depends_on:
+      - user
+    hostname: room
+
+
+networks:
+  paran-net:
+    driver: bridge
