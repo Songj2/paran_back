@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master', credentialsId: 'paran', url: 'https://github.com/MeteoRiver/paran_msa.git'
+                 git branch: 'master', credentialsId: 'git-token', url: 'git@github.com:Songj2/paran_back.git'
             }
         }
 
