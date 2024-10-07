@@ -60,10 +60,11 @@ pipeline {
 
         stage('Push to Docker Hub') {
             steps {
-            withCredentials([usernamePassword(credentialsId: 'docker-hub')]) {
+            withCredentials([usernamePassword(credentialsId: 'docker-hub', , usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     script {
                         def modules = ["config", "eureka", "user", "group", "chat", "file", "room", "comment", "gateway"]
 
+                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
                         sh 'pwd'  // 현재 작업 디렉토리 확인
                         sh 'ls -al'  // 파일 목록 확인
                         sh "docker images"  // 현재 빌드된 이미지 확인
