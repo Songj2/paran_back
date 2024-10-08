@@ -1,0 +1,3 @@
+[submodule "server/secret-server"]
+	path = server/secret-server
+	url = git@github.com:Songj2/paran-secret.git
