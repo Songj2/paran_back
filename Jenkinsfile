@@ -4,7 +4,7 @@ pipeline {
         environment {
             JAVA_HOME = '/opt/java/openjdk'
             DOCKERHUB_CREDENTIALS = credentials('docker-hub') // jenkins에 등록해 놓은 docker hub credentials 이름
-            dockerImage = ''
+            dockerUsername='songjih452'
         }
 
     stages {
@@ -77,7 +77,7 @@ pipeline {
                     sh "docker images"  // 현재 빌드된 이미지 확인
 
                     modules.each { module ->
-                        def imageNameWithoutTag = "paran/${module}"
+                        def imageNameWithoutTag = "${dockerUsername}/paran-${module}"
                         def imageTag = "${env.BUILD_ID}"
                         def fullImageName = "${imageNameWithoutTag}:${imageTag}"
 
