@@ -1,0 +1,75 @@
+services:
+  config:
+    container_name: paran-config
+    image: songjih452/paran:config-latest
+    ports:
+      - "8888:8888"
+    restart: always
+
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    volumes:
+      - ./mysql/paran/etc/mysql/conf.d:/etc/mysql/conf.d:ro
+      - ./mysql/paran/var/lib/mysql:/var/lib/mysql
+      - ./mysql/paran/var/log/mysql:/var/log/mysql
+    environment:
+      - MYSQL_DATABASE=parandb
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_ROOT_HOST=%
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    ports:
+      - "3306:3306"
+    restart: always
+    networks:
+      - paran-net
+    
+  mongodb:
+    container_name: mongo
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongodb:/data/parandb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=1234
+      - MONGO_INITDB_DATABASE=parandb
+    restart: always
+    networks:
+      - paran-net
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - 6379:6379
+    command: redis-server --requirepass password
+    volumes:
+      - ./redis/data:/data
+      - ./redis/conf/redis.conf:/usr/local/conf/redis.conf
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    restart: always
+    networks:
+      - paran-net
+
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: parandb
+    restart: always
+    networks:
+      - paran-net
+
+networks:
+  paran-net:
+    driver: bridge
