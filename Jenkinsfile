@@ -4,7 +4,7 @@ pipeline {
         environment {
             JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
             DOCKERHUB_CREDENTIALS = credentials('docker-hub') // jenkins에 등록해 놓은 docker hub credentials 이름
-            dockerUsername='songjih452'
+            repositoryName='paran'
         }
 
     stages {
@@ -52,7 +52,6 @@ pipeline {
                     dir('/var/lib/jenkins/workspace/paranmanzang') {  // docker-compose.yml 파일이 있는 디렉토리로 이동
                         sh 'docker-compose up -d --build'
                         sh 'docker images' // 현재 빌드된 이미지 확인
-                        sh 'docker-compose logs'  // 로그 확인
                 }
             }
         }
@@ -77,7 +76,7 @@ pipeline {
                     sh "docker images"  // 현재 빌드된 이미지 확인
 
                     modules.each { module ->
-                        def imageNameWithoutTag = "${dockerUsername}/${repositoryName}"
+                        def imageNameWithoutTag = "${DOCKER_USERNAME}/${repositoryName}"
                         def imageTag = "${module}-${env.BUILD_ID}"
                         def fullImageName = "${imageNameWithoutTag}:${imageTag}"
 
