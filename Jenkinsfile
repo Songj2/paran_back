@@ -11,6 +11,7 @@ pipeline {
         stage('Checkout') {
             steps {
                  git branch: 'main', credentialsId: 'git-token', url: 'git@github.com:Songj2/paran_back.git'
+                 sh 'git submodule update --init --recursive'
             }
         }
 
