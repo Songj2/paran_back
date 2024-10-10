@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                 git branch: 'main', credentialsId: 'git-token', url: 'git@github.com:Songj2/paran_back.git'
+                 git branch: 'main', credentialsId: 'git-token', url: 'https://github.com/Songj2/paran_back.git'
             }
         }
 
