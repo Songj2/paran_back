@@ -2,7 +2,7 @@ pipeline {
     agent any
 
         environment {
-            JAVA_HOME = '/opt/java/openjdk'
+            JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
             DOCKERHUB_CREDENTIALS = credentials('docker-hub') // jenkins에 등록해 놓은 docker hub credentials 이름
             dockerUsername='songjih452'
         }
@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                 git branch: 'main', credentialsId: 'git-token', url: 'git@github.com:Songj2/paran_back.git'
+                 git branch: 'main', credentialsId: 'git-token', url: 'https://github.com/Songj2/paran_back.git'
             }
         }
 
@@ -37,7 +37,7 @@ pipeline {
                     for module in "${all_modules[@]}"
                     do
                       echo "Building BootJar for $module"
-                      ./gradlew :$module:bootJar
+                      ./gradlew :$module:bootJar --info
                     done
                     '''
                 }
