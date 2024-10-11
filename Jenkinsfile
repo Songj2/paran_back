@@ -116,7 +116,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    sh "export KUBECONFIG=/var/lib/jenkins/kubeconfig.yaml"
+                    sh "echo $KUBECONFIG"
 
                     def modules = ["gateway", "config", "eureka", "user", "group", "chat", "file", "room", "comment"]
 
