@@ -88,7 +88,7 @@ pipeline {
 
                         modules.each { module ->
                             def imageNameWithoutTag = "${DOCKER_USERNAME}/${repositoryName}"
-                            def imageTag = "${module}-${env.BUILD_ID}"
+                            def imageTag = "${module}-latest"
                             def fullImageName = "${imageNameWithoutTag}:${imageTag}"
 
                             // 이미지 존재 여부 확인
@@ -115,16 +115,13 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                withCredentials([file(credentialsId:'kubeconfig', variable:'KUBECONFIG_FILE')]){
+                script {
+                    sh "export KUBECONFIG=/var/lib/jenkins/kubeconfig.yaml"
 
-                    script {
-                        sh "export KUBECONFIG=/var/lib/jenkins/${KUBECONFIG_FILE}"
+                    def modules = ["gateway", "config", "eureka", "user", "group", "chat", "file", "room", "comment"]
 
-                        def modules = ["gateway", "config", "eureka", "user", "group", "chat", "file", "room", "comment"]
-
-                        for (module in modules) {
-                            sh "kubectl set image deployment/${module} ${module}=songjih452/${repositoryName}:${module}-latest"
-                        }
+                    for (module in modules) {
+                        sh "kubectl set image deployment/${module} ${module}=songjih452/${repositoryName}:${module}-latest"
                     }
                 }
             }
