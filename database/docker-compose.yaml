@@ -1,6 +1,6 @@
 services:
   config:
-    container_name: paran-config
+    container_name: config
     image: songjih452/paran:config-latest
     ports:
       - "8888:8888"
@@ -44,7 +44,7 @@ services:
     image: redis:latest
     ports:
       - 6379:6379
-    command: redis-server --requirepass password
+    command: redis-server --requirepass 1234
     volumes:
       - ./redis/data:/data
       - ./redis/conf/redis.conf:/usr/local/conf/redis.conf

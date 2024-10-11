@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
-        DOCKERHUB_CREDENTIALS = credentials('docker-hub') // Jenkins에 등록된 Docker Hub 자격 증명 이름
+        DOCKER_HUB_USERNAME = credentials('docker-hub').usernameVariable // Jenkins에 등록된 Docker Hub 자격 증명 이름
         repositoryName = 'paran'
     }
 
@@ -51,6 +51,7 @@ pipeline {
                 sh 'ls -al'  // 파일 목록 확인
                 dir('/var/lib/jenkins/workspace/paranmanzang') {  // docker-compose.yml 파일이 있는 디렉토리로 이동
                     sh 'docker compose up -d --build'
+                    sh 'docker rmi $(docker images -f "dangling=true" -q) --force' // 미사용하는 image 제거
                     sh 'docker images' // 현재 빌드된 이미지 확인
                 }
             }
@@ -74,7 +75,7 @@ pipeline {
                     sh "docker images"  // 현재 빌드된 이미지 확인
 
                     modules.each { module ->
-                        def imageNameWithoutTag = "${DOCKER_USERNAME}/${repositoryName}"
+                        def imageNameWithoutTag = "${DOCKER_HUB_USERNAME}/${repositoryName}"
                         def imageTag = "${module}-${env.BUILD_ID}"
                         def fullImageName = "${imageNameWithoutTag}:${imageTag}"
 
