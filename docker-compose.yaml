@@ -5,7 +5,7 @@ services:
     build:
       context: server/config-server
       dockerfile: Dockerfile
-    image: songjih452/paran:config-${BUILD_ID}
+    image: songjih452/paran:config-latest
     container_name: config
     ports:
       - 8888:8888
@@ -17,7 +17,7 @@ services:
     build:
       context: server/eureka-server
       dockerfile: Dockerfile
-    image: songjih452/paran:eureka-${BUILD_ID}
+    image: songjih452/paran:eureka-latest
     container_name: eureka
     ports:
       - 8761:8761
@@ -29,7 +29,7 @@ services:
     build:
       context: server/gateway-server
       dockerfile: Dockerfile
-    image: songjih452/paran:gateway-${BUILD_ID}
+    image: songjih452/paran:gateway-latest
     container_name: gateway
     ports:
       - 8000:8000
@@ -43,7 +43,7 @@ services:
     build:
       context: service/user-service
       dockerfile: Dockerfile
-    image: songjih452/paran:user-${BUILD_ID}
+    image: songjih452/paran:user-latest
     container_name: user
     ports:
       - 8082:8082
@@ -57,7 +57,7 @@ services:
     build:
       context: service/chat-service
       dockerfile: Dockerfile
-    image: songjih452/paran:chat-${BUILD_ID}
+    image: songjih452/paran:chat-latest
     container_name: chat
     ports:
       - 8081:8081
@@ -71,7 +71,7 @@ services:
     build:
       context: service/comment-service
       dockerfile: Dockerfile
-    image: songjih452/paran:comment-${BUILD_ID}
+    image: songjih452/paran:comment-latest
     container_name: comment
     ports:
       - 8084:8084
@@ -85,7 +85,7 @@ services:
     build:
       context: service/group-service
       dockerfile: Dockerfile
-    image: songjih452/paran:group-${BUILD_ID}
+    image: songjih452/paran:group-latest
     container_name: group
     ports:
       - 8085:8085
@@ -99,7 +99,7 @@ services:
     build:
       context: service/file-service
       dockerfile: Dockerfile
-    image: songjih452/paran:file-${BUILD_ID}
+    image: songjih452/paran:file-latest
     container_name: file
     ports:
       - 8090:8090
@@ -111,7 +111,7 @@ services:
     build:
       context: service/room-service
       dockerfile: Dockerfile
-    image: songjih452/paran:room-${BUILD_ID}
+    image: songjih452/paran:room-latest
     container_name: room
     ports:
       - 8083:8083
