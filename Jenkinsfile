@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
-        DOCKER_HUB_USERNAME = credentials('docker-hub').usernameVariable // Jenkins에 등록된 Docker Hub 자격 증명 이름
         repositoryName = 'paran'
     }
 
@@ -57,43 +56,40 @@ pipeline {
             }
         }
 
-        stage('Login') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
-                }
-            }
-        }
 
         stage('Push to Docker Hub') {
             steps {
-                script {
-                    def modules = ["config", "eureka", "user", "group", "chat", "file", "room", "comment", "gateway"]
+                withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    script {
+                        def modules = ["config", "eureka", "user", "group", "chat", "file", "room", "comment", "gateway"]
 
-                    sh 'pwd'  // 현재 작업 디렉토리 확인
-                    sh 'ls -al'  // 파일 목록 확인
-                    sh "docker images"  // 현재 빌드된 이미지 확인
+                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
 
-                    modules.each { module ->
-                        def imageNameWithoutTag = "${DOCKER_HUB_USERNAME}/${repositoryName}"
-                        def imageTag = "${module}-${env.BUILD_ID}"
-                        def fullImageName = "${imageNameWithoutTag}:${imageTag}"
+                        sh 'pwd'  // 현재 작업 디렉토리 확인
+                        sh 'ls -al'  // 파일 목록 확인
+                        sh "docker images"  // 현재 빌드된 이미지 확인
 
-                        // 이미지 존재 여부 확인
-                        def imageExists = sh(script: "docker image inspect ${DOCKER_USERNAME}/paran-${module}:latest >/dev/null 2>&1", returnStatus: true) == 0
+                        modules.each { module ->
+                            def imageNameWithoutTag = "${DOCKER_USERNAME}/${repositoryName}"
+                            def imageTag = "${module}-${env.BUILD_ID}"
+                            def fullImageName = "${imageNameWithoutTag}:${imageTag}"
 
-                        if (imageExists) {
-                            // 태그와 푸시
-                            sh "docker tag ${DOCKER_USERNAME}/paran-${module}:latest ${fullImageName}"
-                            def pushResult = sh(script: "docker push ${fullImageName}", returnStatus: true)
+                            // 이미지 존재 여부 확인
+                            def imageExists = sh(script: "docker image inspect ${DOCKER_USERNAME}/${repositoryName}-${module}:latest >/dev/null 2>&1", returnStatus: true) == 0
 
-                            if (pushResult == 0) {
-                                echo "Successfully pushed ${fullImageName}"
+                            if (imageExists) {
+                                // 태그와 푸시
+                                sh "docker tag ${DOCKER_USERNAME}/${repositoryName}-${module}:latest ${fullImageName}"
+                                def pushResult = sh(script: "docker push ${fullImageName}", returnStatus: true)
+
+                                if (pushResult == 0) {
+                                    echo "Successfully pushed ${fullImageName}"
+                                } else {
+                                    error "Failed to push ${fullImageName}"
+                                }
                             } else {
-                                error "Failed to push ${fullImageName}"
+                                echo "Warning: Image ${DOCKER_USERNAME}/${repositoryName}-${module}:latest does not exist. Skipping..."
                             }
-                        } else {
-                            echo "Warning: Image ${DOCKER_USERNAME}/paran-${module}:latest does not exist. Skipping..."
                         }
                     }
                 }
@@ -106,7 +102,7 @@ pipeline {
                     def modules = ["gateway", "config", "eureka", "user", "group", "chat", "file", "room", "comment"]
 
                     for (module in modules) {
-                        sh "kubectl set image deployment/${module} ${module}=songjih452/paran:${module}:${env.BUILD_ID}"
+                        sh "kubectl set image deployment/${module} ${module}=songjih452/${repositoryName}:${module}-latest"
                     }
                 }
             }
