@@ -50,12 +50,29 @@ pipeline {
                 sh 'ls -al'  // 파일 목록 확인
                 dir('/var/lib/jenkins/workspace/paranmanzang') {  // docker-compose.yml 파일이 있는 디렉토리로 이동
                     sh 'docker compose up -d --build'
-                    sh 'docker rmi $(docker images -f "dangling=true" -q) --force' // 미사용하는 image 제거
                     sh 'docker images' // 현재 빌드된 이미지 확인
                 }
             }
         }
 
+        stage('Remove Dangling Images') {
+            steps {
+                script {
+                    // Dangling 이미지 목록 가져오기
+                    def danglingImages = sh(script: 'docker images -f dangling=true -q', returnStdout: true).trim()
+
+                    // 이미지가 있을 경우에만 삭제
+                    if (danglingImages) {
+                        // 각 이미지 ID에 대해 rmi 실행
+                        for (image in danglingImages.split("\n")) {
+                            sh "docker rmi --force ${image}"
+                        }
+                    } else {
+                        echo "No dangling images to remove."
+                    }
+                }
+            }
+        }
 
         stage('Push to Docker Hub') {
             steps {
@@ -75,11 +92,11 @@ pipeline {
                             def fullImageName = "${imageNameWithoutTag}:${imageTag}"
 
                             // 이미지 존재 여부 확인
-                            def imageExists = sh(script: "docker image inspect ${DOCKER_USERNAME}/${repositoryName}-${module}:latest >/dev/null 2>&1", returnStatus: true) == 0
+                            def imageExists = sh(script: "docker image inspect ${DOCKER_USERNAME}/${repositoryName}:${module}-latest >/dev/null 2>&1", returnStatus: true) == 0
 
                             if (imageExists) {
                                 // 태그와 푸시
-                                sh "docker tag ${DOCKER_USERNAME}/${repositoryName}-${module}:latest ${fullImageName}"
+                                sh "docker tag ${DOCKER_USERNAME}/${repositoryName}:${module}-latest ${fullImageName}"
                                 def pushResult = sh(script: "docker push ${fullImageName}", returnStatus: true)
 
                                 if (pushResult == 0) {
@@ -98,11 +115,16 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                script {
-                    def modules = ["gateway", "config", "eureka", "user", "group", "chat", "file", "room", "comment"]
+                withCredentials([file(credentialsId:'kubeconfig', variable:'KUBECONFIG_FILE')]){
 
-                    for (module in modules) {
-                        sh "kubectl set image deployment/${module} ${module}=songjih452/${repositoryName}:${module}-latest"
+                    script {
+                        sh "export KUBECONFIG=/var/lib/jenkins/${KUBECONFIG_FILE}"
+
+                        def modules = ["gateway", "config", "eureka", "user", "group", "chat", "file", "room", "comment"]
+
+                        for (module in modules) {
+                            sh "kubectl set image deployment/${module} ${module}=songjih452/${repositoryName}:${module}-latest"
+                        }
                     }
                 }
             }
