@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: comment-service
+  profiles:
+    active: prod
+  config:
+    import: optional:configserver:http://223.130.150.223:8888
+
+
+
