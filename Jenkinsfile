@@ -118,14 +118,6 @@ pipeline {
                 script {
                     sh "echo $KUBECONFIG"
                     sh "kubectl apply -f /var/lib/jenkins/workspace/paranmanzang/k8s/paranmanzang.yaml"
-
-                    def modules = ["gateway-server", "config-server", "eureka-server", "user-service", "group-service", "chat-service", "file-service", "room-service", "comment-service"]
-
-                    // 배포 롤아웃 상태 확인
-                    for (module in modules) {
-                        sh "Checking rollout status for deployment ${module}"
-                        sh " kubectl rollout status deployment/${module}"
-                    }
                 }
             }
         }
