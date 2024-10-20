@@ -1,4 +1,4 @@
-package com.paranmanzang.fileservice;
+package com.paranmanzang.fileservice.service.impl;
 
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;

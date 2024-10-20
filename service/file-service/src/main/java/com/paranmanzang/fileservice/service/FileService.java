@@ -1,4 +1,4 @@
-package com.paranmanzang.fileservice;
+package com.paranmanzang.fileservice.service;
 
 import com.paranmanzang.fileservice.model.domain.FileDeleteModel;
 import com.paranmanzang.fileservice.model.domain.FileModel;
