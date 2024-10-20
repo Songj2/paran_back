@@ -1,5 +1,6 @@
 package com.paranmanzang.groupservice.service.impl;
 
+import com.paranmanzang.groupservice.model.domain.BookResponseModel;
 import com.paranmanzang.groupservice.model.domain.LikeBookModel;
 import com.paranmanzang.groupservice.model.entity.LikeBooks;
 import com.paranmanzang.groupservice.model.repository.BookRepository;
@@ -25,10 +26,11 @@ public class LikeBookServiceImpl implements LikeBookService {
                     if (likeBooksRepository.existsByNicknameAndBook(likeBookModel.getNickname(), book)) {
                         return false;
                     }
-                    return LikeBookModel.fromEntity(likeBooksRepository.save(LikeBooks.builder()
+                    LikeBookModel.fromEntity(likeBooksRepository.save(LikeBooks.builder()
                             .nickname(likeBookModel.getNickname())
                             .book(book)
                             .build()));
+                    return BookResponseModel.fromEntity(bookRepository.findById(likeBookModel.getBookId()).get());
                 })
                 .orElseThrow(() -> {
                     var bindException = new BindException(likeBookModel, "likeBookModel");
@@ -52,7 +54,7 @@ public class LikeBookServiceImpl implements LikeBookService {
     }
 
     @Override
-    public List<LikeBookModel> findAllByNickname(String nickname) {
+    public List<BookResponseModel> findAllByNickname(String nickname) {
         return likeBooksRepository.findLikeBooksByNickname(nickname);
     }
 }

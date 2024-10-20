@@ -28,7 +28,8 @@ public class UserRoute {
                         .andRoute(PUT("/api/users/updateRole").and(accept(MediaType.APPLICATION_JSON)), userController::updateRole)
                         .andRoute(GET("/api/users/findAllByNickname").and(accept(MediaType.APPLICATION_JSON)), userController::findAllByNickname)
                         .andRoute(GET("/api/users/findByNickname").and(accept(MediaType.APPLICATION_JSON)), userController::findByNickname)
-                        .andRoute(GET("/api/users/checkRole").and(accept(MediaType.APPLICATION_JSON)), userController::checkRole);
+                        .andRoute(GET("/api/users/checkRole").and(accept(MediaType.APPLICATION_JSON)), userController::checkRole)
+                        .andRoute(GET("/api/users/checkUsername").and(accept(MediaType.APPLICATION_JSON)), userController::checkUsername);
     }
 }
 

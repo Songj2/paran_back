@@ -1,8 +1,8 @@
 package com.paranmanzang.gatewayserver.oauth;
 
-import com.paranmanzang.gatewayserver.model.Domain.oauth.CustomOAuth2User;
 import com.paranmanzang.gatewayserver.jwt.JWTUtil;
 import com.paranmanzang.gatewayserver.jwt.JwtTokenServiceImpl;
+import com.paranmanzang.gatewayserver.model.Domain.oauth.CustomOAuth2User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -43,17 +43,16 @@ public class CustomSuccessHandler implements ServerAuthenticationSuccessHandler 
         String access = jwtUtil.createAccessJwt(username, role, nickname, 3600000L);
         String refresh = jwtUtil.createRefreshJwt(username, role, nickname, 86400000L);
         response.getHeaders().set("Authorization", "Bearer " + access);
+        response.getHeaders().set("nickname", nickname);
+        response.addCookie(createCookie("Authorization", access));
+        response.addCookie(createCookie("nickname", nickname));
         response.addCookie(createCookie("refresh", refresh));
         jwtTokenService.storeToken(refresh, nickname, 86400000L);
-        String returnUrl = serverWebExchange.getRequest().getQueryParams().getFirst("return_url");
-        if (returnUrl != null) {
-            response.getHeaders().setLocation(URI.create(returnUrl));
-        } else {
-            response.getHeaders().setLocation(URI.create("http://localhost:3000")); // 기본값
-        }
+
+
+        response.getHeaders().setLocation(URI.create("http://localhost:3000/users/oauth")); // 기본값
 
         response.setStatusCode(HttpStatus.FOUND); // 302 Found로 변경
-        //response.setStatusCode(HttpStatus.OK);
         return response.setComplete();
     }
 
@@ -61,7 +60,7 @@ public class CustomSuccessHandler implements ServerAuthenticationSuccessHandler 
         return ResponseCookie.fromClientResponse(key, value)
                 .maxAge(86400)  // 쿠키의 만료 시간을 초 단위로 설정
                 .path("/")
-                .httpOnly(true)
+                .httpOnly(false)
                 .build();
     }
 }

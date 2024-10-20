@@ -7,12 +7,14 @@ import com.paranmanzang.roomservice.model.repository.AccountCustomRepository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 public class AccountRepositoryImpl implements AccountCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
@@ -44,10 +46,13 @@ public class AccountRepositoryImpl implements AccountCustomRepository {
                                 account.amount.as("amount"),
                                 account.amountTaxFree.as("amountTaxFree"),
                                 account.usePoint.as("usePoint"),
+                                account.canceled.as("canceled"),
                                 account.reason.as("reason"),
+                                account.createAt.as("createAt"),
                                 account.groupId.as("groupId"),
                                 account.roomId.as("roomId"),
                                 account.bookingId.as("bookingId")
+
                         )
                 )
                 .from(account)
@@ -59,6 +64,7 @@ public class AccountRepositoryImpl implements AccountCustomRepository {
                                 .offset(pageable.getOffset())
                                 .fetch()
                 )).fetch();
+        log.info("result: "+ result);
         return new PageImpl<>( result, pageable, result.size());
 
     }
@@ -73,7 +79,9 @@ public class AccountRepositoryImpl implements AccountCustomRepository {
                                 account.amount.as("amount"),
                                 account.amountTaxFree.as("amountTaxFree"),
                                 account.usePoint.as("usePoint"),
+                                account.canceled.as("canceled"),
                                 account.reason.as("reason"),
+                                account.createAt.as("createAt"),
                                 account.groupId.as("groupId"),
                                 account.roomId.as("roomId"),
                                 account.bookingId.as("bookingId")

@@ -3,10 +3,12 @@ package com.paranmanzang.groupservice.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface GroupService {
     Page<?> groupList(Pageable pageable);
 
-    Page<?> groupsByUserNickname(String userNickname, Pageable pageable);
+    List<?> groupsByUserNickname(String userNickname);
 
     Object enableGroup(Long groupId);
 

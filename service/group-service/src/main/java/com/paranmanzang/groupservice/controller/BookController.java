@@ -17,7 +17,7 @@ public class BookController {
     private final BookServiceImpl bookService;
 
     @GetMapping
-    public ResponseEntity<?> getBookList(@RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<?> findList(@RequestParam int page, @RequestParam int size) {
         return ResponseEntity.ok(bookService.getBookList(PageRequest.of(page, size)));
     }
 }

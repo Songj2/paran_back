@@ -36,7 +36,7 @@ public class CommentController {
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<?> getCommentListByPostId(@PathVariable Long postId, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<?> findByPostId(@PathVariable Long postId, @RequestParam int page, @RequestParam int size) {
         return ResponseEntity.ok(commentService.getCommentListByPostId(postId, PageRequest.of(page, size)));
     }
 

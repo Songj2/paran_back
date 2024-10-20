@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @Component
@@ -19,6 +21,7 @@ public class AccountModel {
     private int usePoint;
     private boolean canceled;
     private String reason;
+    private LocalDateTime createAt;
 
     private Long groupId;
     private Long roomId;

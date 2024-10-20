@@ -4,6 +4,9 @@ import com.paranmanzang.roomservice.model.domain.*;
 import com.paranmanzang.roomservice.model.entity.*;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.Optional;
+
 @Component
 public class Converter {
     public AddressModel convertTonAddressModel(Address address){
@@ -21,7 +24,12 @@ public class Converter {
                 .id(booking.getId())
                 .date(booking.getDate())
                 .enabled(booking.isEnabled())
-                .usingTime(booking.getTimes().stream().map(Time::getTime).toList())
+                .usingTime(
+                        Optional.ofNullable(booking.getTimes())
+                        .orElse(Collections.emptyList())
+                        .stream()
+                        .map(Time::getTime)
+                        .toList())
                 .roomId(booking.getRoom().getId())
                 .groupId(booking.getGroupId())
                 .build();

@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class AccountServiceImpl implements AccountService {
                 .roomId(model.getRoomId())
                 .groupId(model.getGroupId())
                 .bookingId(model.getBookingId())
+                .createAt(LocalDateTime.now())
                 .build()) == null ? Boolean.FALSE : Boolean.TRUE;
     }
 
@@ -74,6 +77,7 @@ public class AccountServiceImpl implements AccountService {
                                 .groupId(account.getGroupId())
                                 .usePoint(account.getUsePoint())
                                 .canceled(account.isCanceled())
+                                .createAt(account.getCreateAt())
                                 .build()
                 )
                 .orElse(null);

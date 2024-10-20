@@ -1,7 +1,6 @@
-package com.paranmanzang.userservice.model.repository;
+package com.paranmanzang.roomservice.model.repository;
 
-import com.paranmanzang.userservice.model.entity.LikeRooms;
-import com.paranmanzang.userservice.model.repository.custom.LikeRoomRepositoryCustom;
+import com.paranmanzang.roomservice.model.entity.LikeRooms;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

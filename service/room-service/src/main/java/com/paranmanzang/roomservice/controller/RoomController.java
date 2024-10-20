@@ -48,8 +48,13 @@ public class RoomController {
         return ResponseEntity.ok(roomService.delete(id));
     }
 
+    @GetMapping("/user/{nickname}")
+    @Operation(summary = "등록자의 모든 공간 조회", description = "nickname인 유저가 등록한 모든 공간정보를 조회합니다.")
+    public ResponseEntity<?> findAllByUser(@PathVariable("nickname") String nickname) {
+        return ResponseEntity.ok(roomService.findAllByNickname(nickname));
+    }
     @GetMapping("/user")
-    @Operation(summary = "등록자의 공간 조회", description = "nickname인 유저가 등록한 모든 공간정보를 조회합니다.")
+    @Operation(summary = "등록자의 공간 조회", description = "nickname인 유저가 등록한  공간정보를 조회합니다. pagination")
     public ResponseEntity<?> findByUser(@RequestParam String nickname, Pageable pageable) {
         return ResponseEntity.ok(roomService.findByNickname(nickname, pageable));
     }
@@ -60,10 +65,22 @@ public class RoomController {
         return ResponseEntity.ok(roomService.findAll(pageable));
     }
 
+    @GetMapping("/enabled-all")
+    @Operation(summary = "승인된 공간 조회", description = "승인된 모든 공간정보를 조회합니다.")
+    public ResponseEntity<?> findAllByEnabled( ) {
+        return ResponseEntity.ok(roomService.findAllByEnabled());
+    }
+
     @GetMapping("/enabled")
-    @Operation(summary = "승인된 공간 조회", description = "승인된 모든 공간정보를 조회합니다. ver.pagination")
+    @Operation(summary = "승인된 공간 조회", description = "승인된 공간정보를 조회합니다. '페이지네이션'")
     public ResponseEntity<?> findByEnabled(Pageable pageable) {
         return ResponseEntity.ok(roomService.findByEnabled(pageable));
+    }
+
+    @GetMapping("/like/{nickname}")
+    @Operation(summary = "좋아요한 공간 조회", description = "nickname인 유저가 좋아요한 공간정보를 조회합니다.")
+    public ResponseEntity<?> findByLikeRoom(@PathVariable String nickname){
+        return ResponseEntity.ok(roomService.findByLikeRoom(nickname));
     }
 
     @PutMapping("/confirm/{id}")

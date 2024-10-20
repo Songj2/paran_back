@@ -25,26 +25,8 @@ public class Friends {
     private String requestUser;
 
     @CreatedDate
-    @Column(nullable = false)
     private LocalDateTime request_at;
 
     @CreatedDate
-    @Column(nullable = false)
     private LocalDateTime response_at;
-    //
-    @PrePersist
-    public void prePersist() {
-        if (request_at == null) {
-            request_at = LocalDateTime.now();
-        }
-        if (response_at == null) {
-            response_at = LocalDateTime.now();
-        }
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        response_at = LocalDateTime.now();
-    }
-
 }

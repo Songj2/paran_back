@@ -18,7 +18,6 @@ jar {
 }
 bootJar {
 	enabled = true
-	mainClass = 'com.paranmanzang.groupservice'
 }
 
 repositories {
@@ -38,6 +37,8 @@ dependencyManagement {
 
 dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -69,6 +70,8 @@ dependencies {
 
 
 	implementation 'org.apache.commons:commons-lang3:3.12.0'
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+
 }
 
 tasks.named('test') {

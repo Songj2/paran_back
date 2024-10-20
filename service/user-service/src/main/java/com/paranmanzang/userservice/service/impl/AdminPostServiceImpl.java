@@ -7,15 +7,12 @@ import com.paranmanzang.userservice.service.AdminPostService;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
-
-import static com.paranmanzang.userservice.model.entity.QAdminPosts.adminPosts;
 
 @Service
 @Transactional
@@ -29,7 +26,7 @@ public class AdminPostServiceImpl implements AdminPostService {
 
     // 게시글 작성
     @Override
-    public Object createAPost(AdminPostModel adminPostModel) {
+    public Object insert(AdminPostModel adminPostModel) {
 
         AdminPosts savedPost = adminPostRepository.save(AdminPosts.builder()
                 .title(adminPostModel.getTitle())
@@ -43,7 +40,7 @@ public class AdminPostServiceImpl implements AdminPostService {
 
     // 게시글 수정
     @Override
-    public Object updateAPost(Long id, AdminPostModel adminPostModel) {
+    public Object update(Long id, AdminPostModel adminPostModel) {
         return adminPostRepository.findById(id)
                 .map(existingPost -> {
                     existingPost.setTitle(adminPostModel.getTitle());
@@ -56,34 +53,34 @@ public class AdminPostServiceImpl implements AdminPostService {
 
     // 게시글 삭제
     @Override
-    public boolean deleteAPost(Long id) {
+    public boolean remove(Long id) {
         try {
             if (adminPostRepository.existsById(id)) {
                 adminPostRepository.deleteById(id);
                 return !adminPostRepository.existsById(id);
             }
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글이 존재하지 않습니다.");
+            return false;
         } catch (EmptyResultDataAccessException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글이 존재하지 않습니다.", e);
+            return false;
         }
     }
 
     // 마이페이지에서 리스트 조회
     @Override
-    public Page<AdminPostModel> getMyAPost(String nickname, Pageable pageable) {
+    public Page<AdminPostModel> findAllByNickname(String nickname, Pageable pageable) {
         return adminPostRepository.findAdminPostByNickname(nickname, pageable);
     }
 
 
     // 게시글 리스트 조회
     @Override
-    public Page<AdminPostModel> getAPost(Pageable pageable) {
+    public Page<AdminPostModel> findAll(Pageable pageable) {
         return adminPostRepository.findAllPost(pageable);
     }
 
     // 게시글 상세 조회
     @Override
-    public AdminPosts getAdminPostsById(Long id) {
+    public AdminPosts findByAdminPostId(Long id) {
         Optional<AdminPosts> postOptional = adminPostRepository.findById(id); // Optional로 게시물 조회
         if (postOptional.isPresent()){
             AdminPosts post = postOptional.get();
@@ -92,15 +89,15 @@ public class AdminPostServiceImpl implements AdminPostService {
             return post;
         }
         else{
-            throw new ResourceNotFoundException("게시물이 존재하지 않습니다."); // 사용자 정의 예외
+            return null;
         }
     }
 
     // 조회수 확인
     @Override
-    public Long getViewCount(Long id) {
+    public Long findViewCountById(Long id) {
         return adminPostRepository.findById(id)
                 .map(AdminPosts::getViewCount)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글이 존재하지 않습니다."));
+                .orElse(null);
     }
 }

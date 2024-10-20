@@ -23,8 +23,8 @@ public class FileController {
 
     @GetMapping("/list")
     @Operation(summary = "리스트 조회", description = "type의 refId인 파일 path 리스트를 조회합니다.", tags = {"01. File",})
-    public ResponseEntity<?> findByRefId(@RequestParam("refIds") List<Long> refIdList, @RequestParam("type") String type) {
-        return ResponseEntity.ok(fileService.findByRefIds(refIdList, type));
+    public ResponseEntity<?> findByRefId(@RequestParam("refIds") List<Long> refIds, @RequestParam("type") String type) {
+        return ResponseEntity.ok(fileService.findByRefIds(refIds, type));
     }
 
     @GetMapping("")

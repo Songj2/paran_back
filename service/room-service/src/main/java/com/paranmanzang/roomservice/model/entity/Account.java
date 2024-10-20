@@ -6,6 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Setter
@@ -29,7 +32,8 @@ public class Account {
     @ColumnDefault("false")
     private boolean canceled;
     private String reason;
-
+    @CreatedDate
+    private LocalDateTime createAt;
     @Column(nullable = false)
     private Long groupId;
     @Column(nullable = false)

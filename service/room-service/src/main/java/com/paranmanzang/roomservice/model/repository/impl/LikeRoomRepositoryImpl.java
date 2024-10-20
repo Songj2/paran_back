@@ -1,14 +1,11 @@
-package com.paranmanzang.userservice.model.repository.Impl;
+package com.paranmanzang.roomservice.model.repository.impl;
 
-import com.paranmanzang.userservice.model.domain.LikeRoomModel;
-import com.paranmanzang.userservice.model.entity.QLikeRooms;
-import com.paranmanzang.userservice.model.repository.custom.LikeRoomRepositoryCustom;
+import com.paranmanzang.roomservice.model.domain.LikeRoomModel;
+import com.paranmanzang.roomservice.model.entity.QLikeRooms;
+import com.paranmanzang.roomservice.model.repository.LikeRoomRepositoryCustom;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -18,7 +15,7 @@ public class LikeRoomRepositoryImpl implements LikeRoomRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<LikeRoomModel> findLikeRoomByNickname(String nickname) {
+    public List<LikeRoomModel> findLikeIdByNickname(String nickname) {
         QLikeRooms likeRooms = QLikeRooms.likeRooms;
         //id
         var likeRoomIds = jpaQueryFactory
@@ -29,12 +26,11 @@ public class LikeRoomRepositoryImpl implements LikeRoomRepositoryCustom {
         //리스트
         return likeRoomIds.isEmpty() ? List.of() :
                 jpaQueryFactory
-                        .select(Projections.constructor(
-                                LikeRoomModel.class,
+                        .select(Projections.constructor(LikeRoomModel.class,
                                 likeRooms.id,
                                 likeRooms.roomId,
                                 likeRooms.nickname
-                                ))
+                        ))
                         .from(likeRooms)
                         .where(likeRooms.id.in(likeRoomIds))
                         .fetch();

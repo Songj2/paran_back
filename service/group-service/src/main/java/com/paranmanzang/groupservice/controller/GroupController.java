@@ -40,8 +40,8 @@ public class GroupController {
 
     //#61. 참여중인 소모임 조회
     @GetMapping("/my-groups")
-    public ResponseEntity<?> findByNickname(@RequestParam("nickname") String nickname, @RequestParam int page, @RequestParam int size) {
-        return ResponseEntity.ok(groupService.groupsByUserNickname(nickname, PageRequest.of(page, size)));
+    public ResponseEntity<?> findByNickname(@RequestParam("nickname") String nickname) {
+        return ResponseEntity.ok(groupService.groupsByUserNickname(nickname));
     }
 
     //#63.소모임 등록

@@ -1,4 +1,4 @@
-package com.paranmanzang.userservice.model.entity;
+package com.paranmanzang.roomservice.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,15 +11,16 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="like_posts")
-public class LikePosts {
+@Table(name="like_rooms")
+public class LikeRooms {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private Long postId;
+    private Long roomId;
 
     @Column(nullable = false)
     private String nickname;
+
 }

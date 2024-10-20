@@ -79,21 +79,21 @@ public class UserServiceImpl implements UserService {
     }
 
     public Mono<Boolean> remove(String nickname){
-       return userRepository.findByNickname(nickname)
-               .switchIfEmpty(Mono.error(new IllegalArgumentException("사용자가 존재하지 않습니다.")))
-               .flatMap(user-> {
-                   if (!user.isState()) {
-                       return Mono.error(new IllegalArgumentException("사용자가 존재하지 않습니다."));
-                   }
-                   user.setState(false);
-                   return userRepository.save(user).then(Mono.just(true));
-               })
-               .onErrorResume(DataAccessException.class, e ->{
-                   return Mono.error(new RuntimeException("사용자 삭제 중 오류 발생: " + e.getMessage(), e));
-               })
-               .onErrorResume(IllegalArgumentException.class, e->{
-                   return Mono.error(new IllegalArgumentException(e.getMessage(), e));
-               });
+        return userRepository.findByNickname(nickname)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("사용자가 존재하지 않습니다.")))
+                .flatMap(user-> {
+                    if (!user.isState()) {
+                        return Mono.error(new IllegalArgumentException("사용자가 존재하지 않습니다."));
+                    }
+                    user.setState(false);
+                    return userRepository.save(user).then(Mono.just(true));
+                })
+                .onErrorResume(DataAccessException.class, e ->{
+                    return Mono.error(new RuntimeException("사용자 삭제 중 오류 발생: " + e.getMessage(), e));
+                })
+                .onErrorResume(IllegalArgumentException.class, e->{
+                    return Mono.error(new IllegalArgumentException(e.getMessage(), e));
+                });
     }
 
     public Mono<Boolean> updateLogoutTime(String nickname){
@@ -165,6 +165,14 @@ public class UserServiceImpl implements UserService {
     }
     public Mono<Boolean> checkNickname(RegisterModel registerModel){
         return userRepository.existsByNickname(registerModel.getNickname())
+                .map(exists -> !exists) // 존재하지 않으면 True
+                .onErrorResume(DataAccessException.class, e ->{
+                    return Mono.error(new RuntimeException("닉네임 중복 확인 중 데이터베이스 오류 발생: " + e.getMessage()));
+                });
+    }
+
+    public Mono<Boolean> checkUsername(RegisterModel registerModel){
+        return userRepository.existsByUsername(registerModel.getUsername())
                 .map(exists -> !exists) // 존재하지 않으면 True
                 .onErrorResume(DataAccessException.class, e ->{
                     return Mono.error(new RuntimeException("닉네임 중복 확인 중 데이터베이스 오류 발생: " + e.getMessage()));

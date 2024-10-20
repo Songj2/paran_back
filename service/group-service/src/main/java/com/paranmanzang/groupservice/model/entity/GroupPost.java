@@ -1,7 +1,6 @@
 package com.paranmanzang.groupservice.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.paranmanzang.groupservice.enums.GroupPostCategory;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -35,7 +34,7 @@ public class GroupPost {
     private LocalDate modifyAt;
 
     @Column(nullable = true)
-    private GroupPostCategory postCategory;
+    private String postCategory;
 
     @ColumnDefault("0")
     private int viewCount;

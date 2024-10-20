@@ -1,4 +1,4 @@
-package com.paranmanzang.fileservice.service.impl;
+package com.paranmanzang.fileservice;
 
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
@@ -93,6 +93,7 @@ public class FileServiceImpl implements FileService {
 
     public FileModel findByRefId(Long refId, String type) {
         return fileRepository.findByRefId(refId, FileType.fromType(type).getCode())
+                .defaultIfEmpty(File.builder().refId(refId).path("none").type( FileType.fromType(type).getCode()).id("none").uploadAt(LocalDateTime.now()).build())
                 .map(this::convertToFileModel)
                 .block();
     }

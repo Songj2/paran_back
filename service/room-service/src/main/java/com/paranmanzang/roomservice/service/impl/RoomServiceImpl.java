@@ -1,9 +1,6 @@
 package com.paranmanzang.roomservice.service.impl;
 
-import com.paranmanzang.roomservice.model.domain.RoomModel;
-import com.paranmanzang.roomservice.model.domain.RoomUpdateModel;
-import com.paranmanzang.roomservice.model.domain.RoomWTimeModel;
-import com.paranmanzang.roomservice.model.domain.TimeSaveModel;
+import com.paranmanzang.roomservice.model.domain.*;
 import com.paranmanzang.roomservice.model.entity.Room;
 import com.paranmanzang.roomservice.model.repository.RoomRepository;
 import com.paranmanzang.roomservice.service.RoomService;
@@ -21,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
+    private final LikeRoomServiceImpl likeRoomService;
     private final TimeServiceImpl timeService;
     private final Converter converter;
 
@@ -111,6 +109,28 @@ public class RoomServiceImpl implements RoomService {
                                 .map(converter::convertToTimeModel).toList()
                 )
         ).orElse(null);
+    }
+
+    @Override
+    public List<?> findByLikeRoom(String nickname) {
+        return likeRoomService.findAllByUserNickname(nickname).stream()
+                .map(LikeRoomModel::getRoomId)
+                .map(roomRepository::findById)
+                .filter(java.util.Optional::isPresent)
+                .map(java.util.Optional::get)
+                .map(converter::convertToRoomModel)
+                .toList();
+
+    }
+
+    @Override
+    public List<?> findAllByEnabled() {
+        return roomRepository.findAll().stream().filter(Room::isEnabled).map(converter::convertToRoomModel).toList();
+    }
+
+    @Override
+    public List<?> findAllByNickname(String nickname) {
+        return roomRepository.findAllByNickname(nickname).stream().map(converter::convertToRoomModel).toList();
     }
 
     @Override

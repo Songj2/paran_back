@@ -1,6 +1,5 @@
 package com.paranmanzang.groupservice.model.domain;
 
-import com.paranmanzang.groupservice.model.entity.Group;
 import com.paranmanzang.groupservice.model.entity.Joining;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,14 +25,7 @@ public class JoiningModel {
     private LocalDate requestAt;
     private LocalDate responseAt;
     private boolean enabled;
-    private Group grouptojoin;
 
-    public Joining toEntity() {
-        return Joining.builder()
-                .nickname(this.nickname)
-                .group(this.grouptojoin)
-                .build();
-    }
 
     public static JoiningModel fromEntity(Joining joining) {
         return JoiningModel.builder()

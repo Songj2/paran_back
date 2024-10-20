@@ -16,7 +16,7 @@ public class ChatUserHandler {
     // # 4
     public Mono<ServerResponse> insert(ServerRequest request) {
         return chatService.addUserToChatRoom(request.queryParam("roomId").orElse("defaultRoomId")
-                        , request.headers().firstHeader("nickname"))
+                        , request.queryParam("nickname").orElseThrow())
                 .flatMap(success ->
                         success
                                 ? ServerResponse.ok().bodyValue(true)
@@ -34,7 +34,7 @@ public class ChatUserHandler {
 
     // # 9
     public Mono<ServerResponse> delete(ServerRequest request) {
-        return chatService.exitRoom(request.pathVariable("roomId"), request.headers().firstHeader("nickname"))
+        return chatService.exitRoom(request.pathVariable("roomId"),  request.queryParam("nickname").orElseThrow())
                 .flatMap(success ->
                         success
                                 ? ServerResponse.ok().bodyValue(true)

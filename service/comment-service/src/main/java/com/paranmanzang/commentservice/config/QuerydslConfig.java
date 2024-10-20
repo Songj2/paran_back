@@ -1,4 +1,4 @@
-package com.paranmanzang.commentservice;
+package com.paranmanzang.commentservice.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

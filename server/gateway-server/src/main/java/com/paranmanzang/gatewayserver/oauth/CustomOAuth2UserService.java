@@ -1,10 +1,10 @@
 package com.paranmanzang.gatewayserver.oauth;
 
 import com.paranmanzang.gatewayserver.Enum.Role;
+import com.paranmanzang.gatewayserver.model.Domain.UserModel;
 import com.paranmanzang.gatewayserver.model.Domain.oauth.CustomOAuth2User;
 import com.paranmanzang.gatewayserver.model.Domain.oauth.NaverResponse;
 import com.paranmanzang.gatewayserver.model.Domain.oauth.OAuth2Response;
-import com.paranmanzang.gatewayserver.model.Domain.UserModel;
 import com.paranmanzang.gatewayserver.model.entity.User;
 import com.paranmanzang.gatewayserver.model.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -82,7 +82,7 @@ public class CustomOAuth2UserService extends DefaultReactiveOAuth2UserService {
     }
 
     public Mono<String> createRandomNickname() {
-        String randomNickname = "paran " + RandomStringUtils.randomAlphanumeric(10);
+        String randomNickname = "paran-" + RandomStringUtils.randomAlphanumeric(10);
 
         return userRepository.existsByNickname(randomNickname)
                 .flatMap(exists -> {

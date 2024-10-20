@@ -2,6 +2,7 @@ package com.paranmanzang.groupservice.service.impl;
 
 import com.paranmanzang.groupservice.model.domain.ErrorField;
 import com.paranmanzang.groupservice.model.domain.JoiningModel;
+import com.paranmanzang.groupservice.model.entity.Joining;
 import com.paranmanzang.groupservice.model.repository.GroupRepository;
 import com.paranmanzang.groupservice.model.repository.JoiningRepository;
 import com.paranmanzang.groupservice.service.JoiningService;
@@ -22,7 +23,10 @@ public class JoiningServiceImpl implements JoiningService {
         return joiningRepository.findJoiningByGroupIdAndNickname(joiningModel.getGroupId(), joiningModel.getNickname())
                 .map(joining -> (Object) new ErrorField(joiningModel.getNickname(), "이미 가입되어있는 멤버입니다."))
                 .orElseGet(() -> groupRepository.findById(joiningModel.getGroupId())
-                        .map(group -> (Object) JoiningModel.fromEntity(joiningRepository.save(joiningModel.toEntity())))
+                        .map(group -> (Object) JoiningModel.fromEntity(joiningRepository.save(Joining.builder()
+                                .nickname(joiningModel.getNickname())
+                                .group(groupRepository.findById(joiningModel.getGroupId()).get())
+                                .build())))
                         .orElseGet(() -> (Object) new ErrorField(joiningModel.getNickname(), "그룹을 찾을 수 없습니다.")));
     }
 

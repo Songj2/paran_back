@@ -1,10 +1,10 @@
 package com.paranmanzang.groupservice.model.repository;
 
-import com.paranmanzang.groupservice.model.domain.LikeBookModel;
+import com.paranmanzang.groupservice.model.domain.BookResponseModel;
 
 import java.util.List;
 
 public interface LikeBooksRepositoryCustom {
-    List<LikeBookModel> findLikeBooksByNickname(String nickname);
+    List<BookResponseModel> findLikeBooksByNickname(String nickname);
 
 }

@@ -58,21 +58,21 @@ public class AdminPostRepositoryImpl implements AdminPostRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
         List<AdminPostModel> adminPostModel = adminPostIds.isEmpty() ? List.of() :
-            jpaQueryFactory
-                    .select(Projections.constructor(
-                            AdminPostModel.class,
-                            adminPosts.id,
-                            adminPosts.nickname,
-                            adminPosts.category,
-                            adminPosts.title,
-                            adminPosts.content,
-                            adminPosts.createAt,
-                            adminPosts.viewCount,
-                            adminPosts.modifyAt
-                    ))
-                    .from(adminPosts)
-                    .where(adminPosts.id.in(adminPostIds))
-                    .fetch();
+                jpaQueryFactory
+                        .select(Projections.constructor(
+                                AdminPostModel.class,
+                                adminPosts.id,
+                                adminPosts.nickname,
+                                adminPosts.category,
+                                adminPosts.title,
+                                adminPosts.content,
+                                adminPosts.createAt,
+                                adminPosts.viewCount,
+                                adminPosts.modifyAt
+                        ))
+                        .from(adminPosts)
+                        .where(adminPosts.id.in(adminPostIds))
+                        .fetch();
         return new PageImpl<>(adminPostModel, pageable, adminPostIds.size());
 
     }

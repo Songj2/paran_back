@@ -1,7 +1,6 @@
 package com.paranmanzang.gatewayserver.model;
 
 import com.paranmanzang.gatewayserver.Enum.Role;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
@@ -11,7 +10,7 @@ import lombok.Setter;
 @Getter
 public class RegisterModel {
     @NotBlank
-    @Pattern(regexp = "^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$",
+    @Pattern(regexp = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$",
             message = "이메일 주소의 형식은 ~~@~~.~~입니다.")
     private String username;
 

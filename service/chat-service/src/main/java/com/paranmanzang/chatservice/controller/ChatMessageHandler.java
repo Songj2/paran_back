@@ -57,7 +57,7 @@ public class ChatMessageHandler {
                     if (ProfanityFilter.containsProfanity(messageModel.getMessage())) {
                         messageModel.setMessage(ProfanityFilter.filterProfanity(messageModel.getMessage()));
                     }
-                    return chatService.insertMessage(Mono.just(messageModel), request.headers().firstHeader("nickname"))
+                    return chatService.insertMessage(Mono.just(messageModel),  request.queryParam("nickname").orElseThrow())
                             .flatMap(isSuccess -> isSuccess
                                     ? ServerResponse.ok().bodyValue(true)
                                     : ServerResponse.ok().bodyValue(false));
@@ -67,7 +67,7 @@ public class ChatMessageHandler {
     // # 109
     public Mono<ServerResponse> findUnReadTotalCount(ServerRequest request) {
 
-        return chatService.totalUnReadMessageCount(request.headers().firstHeader("nickname"))
+        return chatService.totalUnReadMessageCount( request.queryParam("nickname").orElseThrow())
                 .flatMap(totalCount -> ServerResponse.ok().bodyValue(totalCount));
     }
 

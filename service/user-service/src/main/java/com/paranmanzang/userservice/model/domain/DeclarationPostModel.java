@@ -4,6 +4,8 @@ import com.paranmanzang.userservice.model.entity.DeclarationPosts;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
@@ -22,6 +24,8 @@ public class DeclarationPostModel {
     @Schema(title="신고자 닉네임")
     private String declarer;
 
+    private LocalDateTime createdAt;
+
     public static DeclarationPostModel fromEntity(DeclarationPosts declarationPosts) {
         return DeclarationPostModel.builder()
                 .id(declarationPosts.getId())
@@ -29,6 +33,7 @@ public class DeclarationPostModel {
                 .content(declarationPosts.getContent())
                 .target(declarationPosts.getTarget())
                 .declarer(declarationPosts.getDeclarer())
+                .createdAt(declarationPosts.getCreatedAt())
                 .build();
     }
 

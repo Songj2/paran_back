@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 import static com.paranmanzang.groupservice.model.entity.QGroup.group;
+import static com.paranmanzang.groupservice.model.entity.QJoining.joining;
 
 
 @RequiredArgsConstructor
@@ -40,7 +41,7 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
                                 group.detail,
                                 group.nickname,
                                 group.chatRoomId
-                                ))
+                        ))
                         .from(group)
                         .where(group.id.in(ids))
                         .fetch();
@@ -49,16 +50,15 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
     }
 
     @Override
-    public Page<GroupResponseModel> findByNickname(String nickname, Pageable pageable) {
+    public List<GroupResponseModel> findByNickname(String nickname) {
         var ids = queryFactory
                 .select(group.id)
                 .from(group)
-                .where(group.nickname.eq(nickname))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .join(group.joinings, joining)
+                .where(joining.nickname.eq(nickname).and(joining.enabled.eq(true)))
                 .fetch();
 
-        List<GroupResponseModel> books = ids.isEmpty() ? List.of() :
+        return ids.isEmpty() ? List.of() :
                 queryFactory
                         .select(Projections.constructor(
                                 GroupResponseModel.class,
@@ -68,14 +68,12 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
                                 group.createAt,
                                 group.enabled,
                                 group.detail,
-                                group.chatRoomId,
-                                group.nickname
+                                group.nickname,
+                                group.chatRoomId
                         ))
                         .from(group)
                         .where(group.id.in(ids))
                         .fetch();
-
-        return new PageImpl<>(books, pageable, ids.size());
     }
 
     @Override
@@ -98,8 +96,8 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
                                 group.createAt,
                                 group.enabled,
                                 group.detail,
-                                group.chatRoomId,
-                                group.nickname
+                                group.nickname,
+                                group.chatRoomId
                         ))
                         .from(group)
                         .where(group.id.in(ids))

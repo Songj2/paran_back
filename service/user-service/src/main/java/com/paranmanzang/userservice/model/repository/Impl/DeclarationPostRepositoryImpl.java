@@ -1,14 +1,11 @@
 package com.paranmanzang.userservice.model.repository.Impl;
 
 
-import com.paranmanzang.userservice.model.domain.AdminPostModel;
 import com.paranmanzang.userservice.model.domain.DeclarationPostModel;
-import com.paranmanzang.userservice.model.entity.DeclarationPosts;
 import com.paranmanzang.userservice.model.entity.QDeclarationPosts;
 import com.paranmanzang.userservice.model.repository.custom.DeclarationPostRepositoryCustom;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

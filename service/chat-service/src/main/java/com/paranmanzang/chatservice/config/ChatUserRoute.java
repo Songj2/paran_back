@@ -17,7 +17,7 @@ public class ChatUserRoute {
         return // # 4
                 route(POST("/api/chats/users").and(accept(MediaType.APPLICATION_JSON)), chatUserHandler::insert)
                         // # 8
-                        .andRoute(GET("/api/chats/users/people-list/{roomId}").and(accept(MediaType.APPLICATION_JSON)), chatUserHandler::findList)
+                        .andRoute(GET("/api/chats/users/list/{roomId}").and(accept(MediaType.APPLICATION_JSON)), chatUserHandler::findList)
                         // # 9
                         .andRoute(DELETE("/api/chats/users/{roomId}").and(accept(MediaType.APPLICATION_JSON)), chatUserHandler::delete);
     }

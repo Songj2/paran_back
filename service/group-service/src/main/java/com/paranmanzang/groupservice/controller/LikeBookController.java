@@ -5,7 +5,6 @@ import com.paranmanzang.groupservice.service.impl.LikeBookServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,9 +27,7 @@ public class LikeBookController {
 
     //좋아요 마이페이지 확인
     @GetMapping("/list/{nickname}")
-    public ResponseEntity<?> findByNickname(@PathVariable String nickname, BindingResult bindingResult)
-            throws BindException {
-        if (bindingResult.hasErrors()) throw new BindException(bindingResult);
+    public ResponseEntity<?> findByNickname(@PathVariable String nickname){
         return ResponseEntity.ok(likeBookService.findAllByNickname(nickname));
     }
 }

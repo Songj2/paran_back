@@ -6,4 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface GroupPostRepositoryCustom {
     Page<GroupPostResponseModel> findGroupPostsByGroupId(Long groupId, Pageable pageable, String postCategory);
+
+    GroupPostResponseModel findByPostId(Long postId);
 }

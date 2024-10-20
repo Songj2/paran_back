@@ -2,6 +2,7 @@ package com.paranmanzang.roomservice.model.repository.impl;
 
 import com.paranmanzang.roomservice.model.domain.RoomModel;
 import com.paranmanzang.roomservice.model.entity.QRoom;
+import com.paranmanzang.roomservice.model.entity.Room;
 import com.paranmanzang.roomservice.model.repository.RoomCustomRepository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 public class RoomRepositoryImpl implements RoomCustomRepository {
@@ -70,7 +73,14 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                                 .offset(pageable.getOffset())
                                 .fetch()
                 ))
-                .fetch().stream().filter(RoomModel::isEnabled).toList();
+                .fetch().stream().toList();
         return new PageImpl<>( result, pageable, result.size());
+    }
+
+    @Override
+    public List<Room> findAllByNickname(String nickname) {
+        return jpaQueryFactory.selectFrom(room)
+                .where(room.nickname.eq(nickname))
+                .fetch();
     }
 }

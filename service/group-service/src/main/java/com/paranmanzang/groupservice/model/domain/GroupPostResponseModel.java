@@ -1,6 +1,5 @@
 package com.paranmanzang.groupservice.model.domain;
 
-import com.paranmanzang.groupservice.enums.GroupPostCategory;
 import com.paranmanzang.groupservice.model.entity.GroupPost;
 import lombok.*;
 
@@ -19,7 +18,7 @@ public class GroupPostResponseModel {
     private String content;
     private LocalDateTime createAt;
     private LocalDate modifyAt;
-    private GroupPostCategory postCategory;
+    private String postCategory;
     private int viewCount;
     private String nickname;
     private Long groupId;      // 그룹 ID

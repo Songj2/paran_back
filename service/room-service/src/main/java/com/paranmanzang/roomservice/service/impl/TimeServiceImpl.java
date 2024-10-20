@@ -52,6 +52,7 @@ public class TimeServiceImpl implements TImeService {
 
     @Override
     public Boolean saveBooking(BookingModel model) {
+        System.out.println(model);
         return !timeRepository.saveAll(
                 timeRepository.findByBooking(model).stream()
                         .peek(time -> time.setEnabled(!time.isEnabled()))
@@ -68,15 +69,14 @@ public class TimeServiceImpl implements TImeService {
     @Override
     public List<?> findByRoom(long roomId) {
         return timeRepository.findByRoomId(roomId).parallelStream()
-                .filter(time -> time.getDate().isAfter(LocalDate.now()))
+                .filter(time -> time.getDate().isAfter(LocalDate.now().minusDays(1)))
                 .filter(time -> !time.isEnabled())
                 .map(converter::convertToTimeModel).toList();
     }
 
     @Override
-    public List<?> findByBooking(long bookingId) {
-        return timeRepository.findByBookingId(bookingId).parallelStream()
-                .map(converter::convertToTimeModel)
+    public List<LocalTime> findByBooking(long bookingId) {
+        return timeRepository.findByBookingId(bookingId).stream().map(Time::getTime)
                 .toList();
     }
 

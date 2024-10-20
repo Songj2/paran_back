@@ -37,7 +37,7 @@ public class ChatRoomHandler {
                     }
                 })
                 .flatMap(roomModel -> {
-                    return chatService.createRoom(Mono.just(roomModel), request.headers().firstHeader("nickname"))
+                    return chatService.createRoom(Mono.just(roomModel),  request.queryParam("nickname").orElseThrow())
                             .flatMap(roomId ->
                                     ServerResponse.ok().bodyValue(roomId)
                             );
@@ -47,7 +47,7 @@ public class ChatRoomHandler {
 
     // #7
     public Mono<ServerResponse> findList(ServerRequest request) {
-        return Mono.justOrEmpty(request.headers().firstHeader("nickname"))
+        return Mono.justOrEmpty( request.queryParam("nickname").orElseThrow())
                 .flatMap(nickname ->
                         chatService.getChatListByNickname(nickname)
                                 .collectList()
@@ -76,7 +76,7 @@ public class ChatRoomHandler {
                     if (errors.hasErrors()) {
                         return Mono.error(new IllegalArgumentException(errors.getAllErrors().get(0).getDefaultMessage()));
                     }
-                    return chatService.updateRoomName(nameModel.getName(), jsonNode.get(1).get("roomId").asText(), request.headers().firstHeader("nickname"))
+                    return chatService.updateRoomName(nameModel.getName(), jsonNode.get(1).get("roomId").asText(),  request.queryParam("nickname").orElseThrow())
                             .flatMap(success ->
                                     success
                                             ? ServerResponse.ok().bodyValue(true)
@@ -99,7 +99,7 @@ public class ChatRoomHandler {
                                 .collect(Collectors.joining(", "));
                         return ServerResponse.badRequest().bodyValue(errorMessage);
                     }
-                    return chatService.updateRoomPassword(passwordModel.getPassword(), jsonNode.get(1).get("roomId").asText(), request.headers().firstHeader("nickname"))
+                    return chatService.updateRoomPassword(passwordModel.getPassword(), jsonNode.get(1).get("roomId").asText(),  request.queryParam("nickname").orElseThrow())
                             .flatMap(success ->
                                     success
                                             ? ServerResponse.ok().bodyValue(true)
@@ -121,7 +121,7 @@ public class ChatRoomHandler {
 
     // # 109
     public Mono<ServerResponse> insertLastReadMessageTime(ServerRequest request) {
-        return chatService.insertReadLastTime(request.pathVariable("roomId"), request.headers().firstHeader("nickname"))
+        return chatService.insertReadLastTime(request.pathVariable("roomId"), request.queryParam("nickname").orElseThrow())
                 .flatMap(success ->
                         success
                                 ? ServerResponse.ok().bodyValue(true)

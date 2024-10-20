@@ -32,7 +32,7 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
         // Step 2: 필요한 필드 조회 및 BookResponseModel 변환
         List<BookResponseModel> books = ids.isEmpty() ? List.of() :
                 queryFactory
-                        .select(Projections.constructor(
+                        .selectDistinct(Projections.constructor(
                                 BookResponseModel.class,
                                 book.id.as("id"),
                                 book.title.as("title"),

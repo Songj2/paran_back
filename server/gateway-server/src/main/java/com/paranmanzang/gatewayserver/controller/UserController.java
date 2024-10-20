@@ -6,7 +6,6 @@ import com.paranmanzang.gatewayserver.service.Impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Validator;
@@ -24,21 +23,36 @@ public class UserController {
     public Mono<ServerResponse> insert(ServerRequest request) {
         return request.bodyToMono(RegisterModel.class)
                 .doOnNext(userModel -> {
+                    // 수신한 모델 로그
+                    System.out.println("Received RegisterModel: " + userModel);
+
                     var errors = new BeanPropertyBindingResult(userModel, RegisterModel.class.getName());
                     validator.validate(userModel, errors);
 
                     if (errors.hasErrors()) {
-                        throw new IllegalArgumentException(errors.getAllErrors().get(0).getDefaultMessage());
+                        String errorMessage = errors.getAllErrors().get(0).getDefaultMessage();
+                        System.out.println("Validation error: " + errorMessage); // 검증 오류 로그
+                        throw new IllegalArgumentException(errorMessage);
                     }
                 })
-                .flatMap(model -> userService.insert(model)
-                        .flatMap(result -> ServerResponse.ok().bodyValue("회원가입 성공")))
-                .onErrorResume(IllegalArgumentException.class, e ->
-                        ServerResponse.badRequest().bodyValue("회원가입 실패: " + e.getMessage()))
-                .onErrorResume(e ->
-                        ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).bodyValue("회원가입 처리 중 오류 발생"));
-
+                .flatMap(model -> {
+                    System.out.println("Inserting user: " + model); // 사용자 삽입 로그
+                    return userService.insert(model)
+                            .then(Mono.defer(() -> {
+                                System.out.println("User inserted successfully."); // 성공 로그
+                                return ServerResponse.ok().bodyValue(true);
+                            }));
+                })
+                .onErrorResume(IllegalArgumentException.class, e -> {
+                    System.out.println("Error during insertion: " + e.getMessage()); // 오류 로그
+                    return ServerResponse.ok().bodyValue(false);
+                })
+                .onErrorResume(e -> {
+                    System.out.println("Unexpected error: " + e.getMessage()); // 예기치 않은 오류 로그
+                    return ServerResponse.ok().bodyValue(false);
+                });
     }
+
     public Mono<ServerResponse> remove(ServerRequest request) {
         String nickname = request.queryParam("nickname")
                 .orElseThrow(() -> new IllegalArgumentException("닉네임이 필요합니다"));
@@ -46,17 +60,14 @@ public class UserController {
         return userService.remove(nickname)
                 .flatMap(success -> {
                     if (success) {
-                        // 삭제 성공 시 200 OK 응답 반환
-                        return ServerResponse.ok().bodyValue("사용자가 성공적으로 삭제되었습니다.");
+                        return ServerResponse.ok().bodyValue(true);
                     } else {
-                        // 삭제 실패 시 404 Not Found 응답 반환
-                        return ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue("사용자를 찾을 수 없습니다.");
+                        return ServerResponse.ok().bodyValue(false);
                     }
                 })
                 .onErrorResume(e -> {
                     // 예외 발생 시 500 Internal Server Error 응답 반환
-                    return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                            .bodyValue("삭제 처리 중 오류 발생: " + e.getMessage());
+                    return ServerResponse.ok().bodyValue(false);
                 });
     }
 
@@ -67,11 +78,11 @@ public class UserController {
                 .orElseThrow(() -> new IllegalArgumentException("새 비밀번호가 필요합니다"));
 
         return userService.updatePassword(nickname, newPassword)
-                .flatMap(success -> ServerResponse.ok().bodyValue("비밀번호가 성공적으로 업데이트되었습니다."))
-                .onErrorResume(IllegalArgumentException.class, e ->
-                        ServerResponse.badRequest().bodyValue("비밀번호 업데이트 실패: " + e.getMessage()))
-                .onErrorResume(e ->
-                        ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).bodyValue("비밀번호 업데이트 중 오류 발생"));
+                .flatMap(success -> ServerResponse.ok().bodyValue(true)
+                        .onErrorResume(IllegalArgumentException.class, e ->
+                                ServerResponse.ok().bodyValue(false))
+                        .onErrorResume(e ->
+                                ServerResponse.ok().bodyValue(false)));
     }
 
 
@@ -79,11 +90,11 @@ public class UserController {
         String nickname = request.queryParam("nickname")
                 .orElseThrow(() -> new IllegalArgumentException("닉네임이 필요합니다"));
         return userService.updateDeclaration(nickname)
-                .flatMap(success -> ServerResponse.ok().bodyValue("신고횟수가 성공적으로 업데이트되었습니다."))
+                .flatMap(success -> ServerResponse.ok().bodyValue(true))
                 .onErrorResume(IllegalArgumentException.class, e ->
-                        ServerResponse.badRequest().bodyValue("신고횟수 업데이트 실패: " + e.getMessage()))
+                        ServerResponse.ok().bodyValue(false))
                 .onErrorResume(e ->
-                        ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).bodyValue("신고 횟수 업데이트 중 오류 발생"));
+                        ServerResponse.ok().bodyValue(false));
     }
 
 
@@ -94,9 +105,9 @@ public class UserController {
         return userService.findAllByNickname(nickname)
                 .flatMap(users -> ServerResponse.ok().bodyValue(users))
                 .onErrorResume(IllegalArgumentException.class, e ->
-                        ServerResponse.status(HttpStatus.FORBIDDEN).bodyValue("사용자 목록 조회 실패: " + e.getMessage()))
+                        ServerResponse.ok().bodyValue(false))
                 .onErrorResume(e ->
-                        ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).bodyValue("사용자 목록 조회 중 오류 발생"));
+                        ServerResponse.ok().bodyValue(false));
     }
 
     public Mono<ServerResponse> findByNickname(ServerRequest request) {
@@ -108,24 +119,39 @@ public class UserController {
                 .onErrorResume(IllegalArgumentException.class, e ->
                         ServerResponse.notFound().build())
                 .onErrorResume(e ->
-                        ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).bodyValue("사용자 상세 조회 중 오류 발생"));
+                        ServerResponse.ok().bodyValue(false));
     }
     public Mono<ServerResponse> checkNickname(ServerRequest request) {
         return request.bodyToMono(RegisterModel.class)
                 .flatMap(registerModel -> userService.checkNickname(registerModel)
                         .flatMap(isAvailable -> {
                             if (isAvailable) {
-                                return ServerResponse.ok().bodyValue("닉네임 사용 가능");
+                                return ServerResponse.ok().bodyValue(true);
                             } else {
-                                return ServerResponse.badRequest().bodyValue("닉네임이 이미 존재합니다.");
+                                return ServerResponse.ok().bodyValue(false);
                             }
                         })
                 )
                 .onErrorResume(DataAccessException.class, e ->
-                        ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                .bodyValue("닉네임 중복 확인 중 오류 발생: " + e.getMessage()))
+                        ServerResponse.ok().bodyValue(false))
                 .onErrorResume(IllegalArgumentException.class, e ->
-                        ServerResponse.badRequest().bodyValue("닉네임 중복 확인 실패: " + e.getMessage()));
+                        ServerResponse.ok().bodyValue(false));
+    }
+    public Mono<ServerResponse> checkUsername(ServerRequest request) {
+        return request.bodyToMono(RegisterModel.class)
+                .flatMap(registerModel -> userService.checkUsername(registerModel)
+                        .flatMap(isAvailable -> {
+                            if (isAvailable) {
+                                return ServerResponse.ok().bodyValue(true);
+                            } else {
+                                return ServerResponse.ok().bodyValue(false);
+                            }
+                        })
+                )
+                .onErrorResume(DataAccessException.class, e ->
+                        ServerResponse.ok().bodyValue(false))
+                .onErrorResume(IllegalArgumentException.class, e ->
+                        ServerResponse.ok().bodyValue(false));
     }
 
     public Mono<ServerResponse> checkPassword(ServerRequest request) {
@@ -133,13 +159,13 @@ public class UserController {
                 .flatMap(registerModel -> {
                     boolean isPasswordValid = userService.checkPassword(registerModel).block(); // 비밀번호 체크
                     if (isPasswordValid) {
-                        return ServerResponse.ok().bodyValue("비밀번호가 일치합니다.");
+                        return ServerResponse.ok().bodyValue(true);
                     } else {
-                        return ServerResponse.badRequest().bodyValue("비밀번호가 일치하지 않습니다.");
+                        return ServerResponse.ok().bodyValue(false);
                     }
                 })
                 .onErrorResume(IllegalArgumentException.class, e ->
-                        ServerResponse.badRequest().bodyValue("비밀번호 체크 실패: " + e.getMessage()));
+                        ServerResponse.ok().bodyValue(false));
     }
     public Mono<ServerResponse> updateLogoutUserTime(ServerRequest request) {
         String nickname = request.queryParam("nickname")
@@ -150,17 +176,18 @@ public class UserController {
         return userService.updateLogoutTime(nickname)
                 .flatMap(success -> {
                     if (success) {
-                        return ServerResponse.ok().bodyValue("사용자의 로그아웃 시간이 업데이트되었습니다.");
+                        return ServerResponse.ok().bodyValue(true);
                     } else {
-                        return ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue("사용자를 찾을 수 없습니다.");
+                        return ServerResponse.ok().bodyValue(false);
                     }
                 })
                 .onErrorResume(IllegalArgumentException.class, e ->
-                        ServerResponse.badRequest().bodyValue("로그아웃 처리 중 오류 발생: " + e.getMessage()))
+                        ServerResponse.badRequest().bodyValue(true))
                 .onErrorResume(e ->
-                        ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).bodyValue("로그아웃 처리 중 예기치 않은 오류 발생: " + e.getMessage()));
+                        ServerResponse.ok().bodyValue(false));
     }
 
+    //닉네임 필요합니다.
     public Mono<ServerResponse> updateRole(ServerRequest request) {
         String nickname = request.queryParam("nickname")
                 .orElseThrow(() -> new IllegalArgumentException("닉네임이 필요합니다"));
@@ -170,25 +197,25 @@ public class UserController {
         return userService.updateRole(nickname, newRole)
                 .flatMap(success -> {
                     if (success) {
-                        return ServerResponse.ok().bodyValue("사용자의 권한이 성공적으로 업데이트되었습니다.");
+                        return ServerResponse.ok().bodyValue(true);
                     } else {
-                        return ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue("사용자를 찾을 수 없습니다.");
+                        return ServerResponse.ok().bodyValue(false);
                     }
                 })
                 .onErrorResume(IllegalArgumentException.class, e ->
-                        ServerResponse.badRequest().bodyValue("권한 업데이트 실패: " + e.getMessage()))
+                        ServerResponse.ok().bodyValue(false))
                 .onErrorResume(e ->
-                        ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).bodyValue("권한 업데이트 중 오류 발생"));
+                        ServerResponse.ok().bodyValue(false));
     }
 
     public Mono<ServerResponse> checkRole(ServerRequest request){
         String nickname = request.queryParam("nickname")
                 .orElseThrow(() -> new IllegalArgumentException("닉네임이 필요합니다"));
         return userService.checkRole(nickname)
-                .flatMap(role -> ServerResponse.ok().bodyValue("사용자의 권한: " + role))
+                .flatMap(role -> ServerResponse.ok().bodyValue(role))
                 .onErrorResume(IllegalArgumentException.class, e ->
-                        ServerResponse.badRequest().bodyValue("권한 조회 실패: " + e.getMessage())) // 잘못된 요청(닉네임이 잘못되거나 사용자 없음)
+                        ServerResponse.ok().bodyValue(false)) // 잘못된 요청(닉네임이 잘못되거나 사용자 없음)
                 .onErrorResume(e ->
-                        ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).bodyValue("권한 조회 중 오류 발생: " + e.getMessage())); // 그 외 오류
+                        ServerResponse.ok().bodyValue(false)); // 그 외 오류
     }
 }
