@@ -16,6 +16,13 @@ spec:
       containers:
         - name: gateway-server
           image: songjih452/paran:gateway-latest
+          env:
+            - name: REDIS_HOST
+              value: "redis"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: MONGODB_URI
+              value: "mongodb://root:1234@mongodb:27017/parandb"
           ports:
             - containerPort: 8000
           resources:
@@ -57,6 +64,13 @@ spec:
       containers:
         - name: chat-service
           image: songjih452/paran:chat-latest
+          env:
+            - name: REDIS_HOST
+              value: "redis"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: MONGODB_URI
+              value: "mongodb://root:1234@mongodb:27017/parandb"
           ports:
             - containerPort: 8081
           resources:
@@ -98,6 +112,13 @@ spec:
       containers:
         - name: comment-service
           image: songjih452/paran:comment-latest
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql:3306/parandb
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "1234"
           ports:
             - containerPort: 8084
           resources:
@@ -139,6 +160,9 @@ spec:
       containers:
         - name: file-service
           image: songjih452/paran:file-latest
+          env:
+            - name: MONGODB_URI
+              value: "mongodb://root:1234@mongodb:27017/parandb"
           ports:
             - containerPort: 8090
           resources:
@@ -180,6 +204,13 @@ spec:
       containers:
         - name: group-service
           image: songjih452/paran:group-latest
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql:3306/parandb
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "1234"
           ports:
             - containerPort: 8085
           resources:
@@ -221,6 +252,13 @@ spec:
       containers:
         - name: room-service
           image: songjih452/paran:room-latest
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql:3306/parandb
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "1234"
           ports:
             - containerPort: 8083
           resources:
@@ -262,6 +300,13 @@ spec:
       containers:
         - name: user-service
           image: songjih452/paran:user-latest
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql:3306/parandb
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "1234"
           ports:
             - containerPort: 8082
           resources:
