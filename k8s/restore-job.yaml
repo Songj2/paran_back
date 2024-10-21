@@ -13,7 +13,7 @@ spec:
             - /bin/bash
             - -c
             - |
-              mysql -h mysql -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < /backup1021.sql
+              mysql -h mysql -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < /dbDump/backup1021.sql
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: "1234"
@@ -44,7 +44,7 @@ spec:
             - /bin/bash
             - -c
             - |
-              mongorestore --host mongodb --username root --password password /backupMongo
+              mongorestore --host mongodb --username root --password password /dbDump/backupMongo
           volumeMounts:
             - name: backup-volume
               mountPath: /backup

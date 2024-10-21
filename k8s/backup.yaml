@@ -1,0 +1,30 @@
+# backup-pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backup-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi  # 필요한 용량에 맞게 조정
+
+---
+# backup-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backup-pod
+spec:
+  containers:
+    - name: backup-container
+      image: busybox
+      command: ['sh', '-c', 'sleep 3600']  # Pod가 1시간동안 실행됨
+      volumeMounts:
+        - name: backup-storage
+          mountPath: /backup
+  volumes:
+    - name: backup-storage
+      persistentVolumeClaim:
+        claimName: backup-pvc
