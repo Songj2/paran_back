@@ -19,7 +19,6 @@ jar {
 }
 bootJar {
 	enabled = true
-	mainClass = 'com.paranmanzang.eurekaserver'
 }
 
 repositories {

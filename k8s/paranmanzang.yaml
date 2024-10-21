@@ -55,7 +55,7 @@ spec:
     spec:
       containers:
         - name: eureka-server
-          image: songjih452/eureka:config-latest
+          image: songjih452/paran:eureka-latest
           ports:
             - containerPort: 8761
           resources:

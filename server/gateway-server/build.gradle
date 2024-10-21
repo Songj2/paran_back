@@ -18,7 +18,6 @@ jar {
 }
 bootJar {
 	enabled = true
-	mainClass = 'com.paranmanzang.gatewayserver'
 }
 
 repositories {
