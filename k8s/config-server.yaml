@@ -17,13 +17,7 @@ spec:
           image: songjih452/paran:config-latest
           ports:
             - containerPort: 8888
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "100m"
-            limits:
-              memory: "512Mi"
-              cpu: "200m"
+
 ---
 apiVersion: v1
 kind: Service
