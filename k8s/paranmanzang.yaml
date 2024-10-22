@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: gateway-server
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: gateway-server
@@ -28,10 +28,10 @@ spec:
           resources:
             requests:
               memory: "256Mi"
-              cpu: "200m"
+              cpu: "100m"
             limits:
               memory: "512Mi"
-              cpu: "500m"
+              cpu: "200m"
 ---
 apiVersion: v1
 kind: Service
@@ -52,7 +52,7 @@ kind: Deployment
 metadata:
   name: chat-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: chat-service
@@ -76,10 +76,10 @@ spec:
           resources:
             requests:
               memory: "256Mi"
-              cpu: "200m"
+              cpu: "100m"
             limits:
               memory: "512Mi"
-              cpu: "500m"
+              cpu: "200m"
 ---
 apiVersion: v1
 kind: Service
@@ -100,7 +100,7 @@ kind: Deployment
 metadata:
   name: comment-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: comment-service
@@ -124,10 +124,10 @@ spec:
           resources:
             requests:
               memory: "256Mi"
-              cpu: "200m"
+              cpu: "100m"
             limits:
               memory: "512Mi"
-              cpu: "500m"
+              cpu: "200m"
 ---
 apiVersion: v1
 kind: Service
@@ -148,7 +148,7 @@ kind: Deployment
 metadata:
   name: file-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: file-service
@@ -168,10 +168,10 @@ spec:
           resources:
             requests:
               memory: "256Mi"
-              cpu: "200m"
+              cpu: "100m"
             limits:
               memory: "512Mi"
-              cpu: "500m"
+              cpu: "200m"
 ---
 apiVersion: v1
 kind: Service
@@ -192,7 +192,7 @@ kind: Deployment
 metadata:
   name: group-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: group-service
@@ -216,10 +216,10 @@ spec:
           resources:
             requests:
               memory: "256Mi"
-              cpu: "200m"
+              cpu: "100m"
             limits:
               memory: "512Mi"
-              cpu: "500m"
+              cpu: "200m"
 ---
 apiVersion: v1
 kind: Service
@@ -240,7 +240,7 @@ kind: Deployment
 metadata:
   name: room-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: room-service
@@ -264,10 +264,10 @@ spec:
           resources:
             requests:
               memory: "256Mi"
-              cpu: "200m"
+              cpu: "100m"
             limits:
               memory: "512Mi"
-              cpu: "500m"
+              cpu: "200m"
 ---
 apiVersion: v1
 kind: Service
@@ -288,7 +288,7 @@ kind: Deployment
 metadata:
   name: user-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: user-service
@@ -312,10 +312,10 @@ spec:
           resources:
             requests:
               memory: "256Mi"
-              cpu: "200m"
+              cpu: "100m"
             limits:
               memory: "512Mi"
-              cpu: "500m"
+              cpu: "200m"
 ---
 apiVersion: v1
 kind: Service
