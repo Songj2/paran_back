@@ -18,7 +18,7 @@ jar {
 }
 bootJar {
 	enabled = true
-	mainClass = 'com.paranmanzang.roomservice'
+	mainClass = 'com.paranmanzang.roomservice.RoomServiceApplication'
 }
 
 repositories {
