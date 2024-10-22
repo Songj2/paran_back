@@ -25,7 +25,7 @@ spec:
       volumes:
         - name: backup-volume
           hostPath:
-            path: /path/to/backup  # 백업 파일이 있는 호스트 경로
+            path: /backup/dbDump  # 백업 파일이 있는 호스트 경로
       restartPolicy: Never
 
 ---
@@ -51,5 +51,5 @@ spec:
       volumes:
         - name: backup-volume
           hostPath:
-            path: /path/to/backup
+            path: /backup/dbDump
       restartPolicy: Never
