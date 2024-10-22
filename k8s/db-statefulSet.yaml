@@ -43,6 +43,7 @@ metadata:
 spec:
   ports:
     - port: 3306
+      targetPort: 3306  # DB 파드 포트
   selector:
     app: mysql
 
@@ -87,6 +88,7 @@ metadata:
 spec:
   ports:
     - port: 6379
+      targetPort: 6379
   selector:
     app: redis
 
@@ -136,5 +138,6 @@ metadata:
 spec:
   ports:
     - port: 27017
+      targetPort: 27017
   selector:
     app: mongodb
