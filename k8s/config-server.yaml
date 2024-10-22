@@ -15,8 +15,6 @@ spec:
       containers:
         - name: config-server
           image: songjih452/paran:config-latest
-          command: [ "java" ]  # 필요한 경우 command와 args 지정
-          args: [ "-jar", "/app/app.jar" ]
           ports:
             - containerPort: 8888
           resources:
