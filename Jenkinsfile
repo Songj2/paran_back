@@ -41,6 +41,8 @@ pipeline {
                       echo "Building BootJar for $module"
                       ./gradlew :$module:bootJar
                     done
+
+                    unzip -p server/config-server/build/libs/config-server-0.0.1-SNAPSHOT.jar META-INF/MANIFEST.MF
                     '''
                 }
             }
