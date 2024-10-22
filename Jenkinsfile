@@ -9,6 +9,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                cleanWs() // 워크스페이스 전체 정리
+                checkout scm
                 git branch: 'main', credentialsId: 'git-token', url: 'git@github.com:Songj2/paran_back.git'
                 sh 'git submodule update --init --recursive'
             }
