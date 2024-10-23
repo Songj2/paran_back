@@ -15,6 +15,7 @@ spec:
       containers:
         - name: config-server
           image: songjih452/paran:config-latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8888
 
