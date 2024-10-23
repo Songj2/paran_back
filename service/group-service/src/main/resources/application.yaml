@@ -1,6 +1,6 @@
 spring:
   application:
-    name: comment-service
+    name: group-service
   profiles:
     active: prod
   config:
