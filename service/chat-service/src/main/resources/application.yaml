@@ -4,7 +4,7 @@ spring:
   profiles:
     active: prod
   config:
-    import: "configserver:http://config-server.default.svc.cluster.local:8888"
+    import: "configserver:http://config-server:8888"
   cloud:
     config:
       fail-fast: true
@@ -14,3 +14,4 @@ logging:
     org.springframework.web: DEBUG
     org.springframework.cloud.config: DEBUG
     org.springframework.cloud.config.server: DEBUG
+    com.netflix.discovery: DEBUG
