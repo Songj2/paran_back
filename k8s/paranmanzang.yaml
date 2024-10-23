@@ -17,6 +17,8 @@ spec:
         - name: gateway-server
           image: songjih452/paran:gateway-latest
           env:
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: "http://config-server:8888"
             - name: REDIS_HOST
               value: "redis"
             - name: REDIS_PORT
@@ -69,6 +71,8 @@ spec:
         - name: chat-service
           image: songjih452/paran:chat-latest
           env:
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: "http://config-server:8888"
             - name: REDIS_HOST
               value: "redis"
             - name: REDIS_PORT
@@ -121,6 +125,8 @@ spec:
         - name: comment-service
           image: songjih452/paran:comment-latest
           env:
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: "http://config-server:8888"
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://mysql:3306/parandb
             - name: SPRING_DATASOURCE_USERNAME
@@ -173,6 +179,8 @@ spec:
         - name: file-service
           image: songjih452/paran:file-latest
           env:
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: "http://config-server:8888"
             - name: MONGODB_URI
               value: "mongodb://root:1234@mongodb:27017/parandb"
             - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
@@ -221,6 +229,8 @@ spec:
         - name: group-service
           image: songjih452/paran:group-latest
           env:
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: "http://config-server:8888"
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://mysql:3306/parandb
             - name: SPRING_DATASOURCE_USERNAME
@@ -273,6 +283,8 @@ spec:
         - name: room-service
           image: songjih452/paran:room-latest
           env:
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: "http://config-server:8888"
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://mysql:3306/parandb
             - name: SPRING_DATASOURCE_USERNAME
@@ -325,6 +337,8 @@ spec:
         - name: user-service
           image: songjih452/paran:user-latest
           env:
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: "http://config-server:8888"
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://mysql:3306/parandb
             - name: SPRING_DATASOURCE_USERNAME
@@ -335,6 +349,7 @@ spec:
               value: "http://eureka-server:8761/eureka/"
             - name: SPRING_APPLICATION_NAME
               value: "user-service"
+
           ports:
             - containerPort: 8082
           resources:
