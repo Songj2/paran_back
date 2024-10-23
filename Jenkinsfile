@@ -122,9 +122,9 @@ pipeline {
                 script {
                     sh "echo $KUBECONFIG"
                     sh "kubectl apply -f /var/lib/jenkins/workspace/paranmanzang/k8s/config-server.yaml"
-                    sh "kubectl wait for=condition=ready pod/config-server"
+                    sh "kubectl wait --for=condition=ready pod/config-server"
                     sh "kubectl apply -f /var/lib/jenkins/workspace/paranmanzang/k8s/eureka-server.yaml"
-                    sh "kubectl wait for=condition=ready pod/eureka-server"
+                    sh "kubectl wait --for=condition=ready pod/eureka-server"
                     sh "kubectl apply -f /var/lib/jenkins/workspace/paranmanzang/k8s/paranmanzang.yaml"
                 }
             }
