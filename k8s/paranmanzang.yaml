@@ -23,6 +23,10 @@ spec:
               value: "6379"
             - name: MONGODB_URI
               value: "mongodb://root:1234@mongodb:27017/parandb"
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: "http://eureka-server:8761/eureka/"
+            - name: SPRING_APPLICATION_NAME
+              value: "gateway-server"
           ports:
             - containerPort: 8000
           resources:
@@ -71,6 +75,10 @@ spec:
               value: "6379"
             - name: MONGODB_URI
               value: "mongodb://root:1234@mongodb:27017/parandb"
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: "http://eureka-server:8761/eureka/"
+            - name: SPRING_APPLICATION_NAME
+              value: "chat-service"
           ports:
             - containerPort: 8081
           resources:
@@ -119,6 +127,10 @@ spec:
               value: root
             - name: SPRING_DATASOURCE_PASSWORD
               value: "1234"
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: "http://eureka-server:8761/eureka/"
+            - name: SPRING_APPLICATION_NAME
+              value: "comment-service"
           ports:
             - containerPort: 8084
           resources:
@@ -163,6 +175,10 @@ spec:
           env:
             - name: MONGODB_URI
               value: "mongodb://root:1234@mongodb:27017/parandb"
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: "http://eureka-server:8761/eureka/"
+            - name: SPRING_APPLICATION_NAME
+              value: "file-service"
           ports:
             - containerPort: 8090
           resources:
@@ -211,6 +227,10 @@ spec:
               value: root
             - name: SPRING_DATASOURCE_PASSWORD
               value: "1234"
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: "http://eureka-server:8761/eureka/"
+            - name: SPRING_APPLICATION_NAME
+              value: "group-service"
           ports:
             - containerPort: 8085
           resources:
@@ -259,6 +279,10 @@ spec:
               value: root
             - name: SPRING_DATASOURCE_PASSWORD
               value: "1234"
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: "http://eureka-server:8761/eureka/"
+            - name: SPRING_APPLICATION_NAME
+              value: "room-service"
           ports:
             - containerPort: 8083
           resources:
@@ -307,6 +331,10 @@ spec:
               value: root
             - name: SPRING_DATASOURCE_PASSWORD
               value: "1234"
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: "http://eureka-server:8761/eureka/"
+            - name: SPRING_APPLICATION_NAME
+              value: "user-service"
           ports:
             - containerPort: 8082
           resources:
