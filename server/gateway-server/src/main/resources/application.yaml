@@ -4,8 +4,7 @@ spring:
   profiles:
     active: prod
   config:
-    import: optional:configserver:http://config-server:8888
-    use-legacy-processing: true #unable to load config data~ 오류 발생시 사용
+    import: configserver:http://config-server:8888
 
 logging:
   level:
