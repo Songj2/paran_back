@@ -6,6 +6,7 @@ spring:
   config:
     import: optional:configserver:http://config-server:8888
     use-legacy-processing: true #unable to load config data~ 오류 발생시 사용
+
 logging:
   level:
     org.springframework.web: DEBUG
