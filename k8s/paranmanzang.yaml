@@ -31,13 +31,7 @@ spec:
               value: "gateway-server"
           ports:
             - containerPort: 8000
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "100m"
-            limits:
-              memory: "512Mi"
-              cpu: "200m"
+
 ---
 apiVersion: v1
 kind: Service
@@ -85,13 +79,7 @@ spec:
               value: "chat-service"
           ports:
             - containerPort: 8081
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "100m"
-            limits:
-              memory: "512Mi"
-              cpu: "200m"
+
 ---
 apiVersion: v1
 kind: Service
@@ -139,13 +127,7 @@ spec:
               value: "comment-service"
           ports:
             - containerPort: 8084
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "100m"
-            limits:
-              memory: "512Mi"
-              cpu: "200m"
+
 ---
 apiVersion: v1
 kind: Service
@@ -189,13 +171,7 @@ spec:
               value: "file-service"
           ports:
             - containerPort: 8090
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "100m"
-            limits:
-              memory: "512Mi"
-              cpu: "200m"
+
 ---
 apiVersion: v1
 kind: Service
@@ -243,13 +219,7 @@ spec:
               value: "group-service"
           ports:
             - containerPort: 8085
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "100m"
-            limits:
-              memory: "512Mi"
-              cpu: "200m"
+
 ---
 apiVersion: v1
 kind: Service
@@ -297,13 +267,7 @@ spec:
               value: "room-service"
           ports:
             - containerPort: 8083
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "100m"
-            limits:
-              memory: "512Mi"
-              cpu: "200m"
+
 ---
 apiVersion: v1
 kind: Service
@@ -352,13 +316,7 @@ spec:
 
           ports:
             - containerPort: 8082
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "100m"
-            limits:
-              memory: "512Mi"
-              cpu: "200m"
+
 ---
 apiVersion: v1
 kind: Service
