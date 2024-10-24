@@ -1,0 +1,38 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: gateway-server-monitor
+  namespace: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: gateway-server
+  endpoints:
+    - port: 8000
+      interval: 30s  # 수집 주기
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: eureka-server-monitor
+  namespace: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: eureka-server
+  endpoints:
+    - port: 8761
+      interval: 30s  # 수집 주기
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: comment-service-monitor
+  namespace: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: comment-service
+  endpoints:
+    - port: 8084
+      interval: 30s  # 수집 주기
