@@ -16,3 +16,14 @@ logging:
     org.springframework.cloud.config: DEBUG
     org.springframework.cloud.config.server: DEBUG
     org.springframework.boot.context.logging: DEBUG
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
+
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    preferIpAddress: true
