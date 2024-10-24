@@ -24,6 +24,7 @@ eureka:
     serviceUrl:
       defaultZone: http://eureka-server:8761/eureka/
   instance:
+    appname: GROUP-SERVICE
     preferIpAddress: true
 
 logging:

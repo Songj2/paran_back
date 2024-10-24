@@ -16,6 +16,7 @@ eureka:
     serviceUrl:
       defaultZone: http://eureka-server:8761/eureka/
   instance:
+    appname: FILE-SERVICE
     preferIpAddress: true
 logging:
   level:
