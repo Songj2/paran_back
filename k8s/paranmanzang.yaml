@@ -26,7 +26,16 @@ spec:
             - name: SPRING_APPLICATION_NAME
               value: "gateway-server"
 ---
-
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-server
+spec:
+  selector:
+    app: gateway-server
+  ports:
+    - port: 8000
+  type: LoadBalancer
 ---
 
 #chat-service
