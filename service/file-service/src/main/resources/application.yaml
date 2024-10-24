@@ -1,25 +1,22 @@
 spring:
   application:
     name: file-service
+  profiles:
+    active: prod
+  config:
+    import: configserver:http://config-server:8888,kubernetes:configmap:config
   cloud:
     kubernetes:
       discovery:
         enabled: true
       config:
         enabled: true
-    config:
-      fail-fast: true
-      retry:
-        initial-interval: 1000
-        max-interval: 2000
-        max-attempts: 6
 eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka-server:8761/eureka/
   instance:
     preferIpAddress: true
-
 logging:
   level:
     com.netflix.discovery: DEBUG
@@ -27,3 +24,4 @@ logging:
     org.springframework.cloud.config: DEBUG
     org.springframework.cloud.config.server: DEBUG
     org.springframework.boot.context.logging: DEBUG
+

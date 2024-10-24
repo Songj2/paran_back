@@ -1,12 +1,18 @@
 spring:
   application:
     name: group-service
+  profiles:
+    active: prod
+  config:
+    import: configserver:http://config-server:8888
   cloud:
     kubernetes:
       discovery:
         enabled: true
       config:
         enabled: true
+        name: group-service
+
     config:
       fail-fast: true
       retry:
