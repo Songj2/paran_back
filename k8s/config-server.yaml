@@ -15,9 +15,11 @@ spec:
       containers:
         - name: config-server
           image: songjih452/paran:config-latest
-          imagePullPolicy: Always
           ports:
             - containerPort: 8888
+          env:
+            - name: SPRING_CLOUD_KUBERNETES_ENABLED
+              value: "true"
 
 ---
 apiVersion: v1
@@ -28,7 +30,4 @@ spec:
   selector:
     app: config-server
   ports:
-    - protocol: TCP
-      port: 8888
-      targetPort: 8888
-  type: ClusterIP
+    - port: 8888

@@ -11,3 +11,6 @@ eureka:
 spring:
   application:
     name: eureka-server
+  kubernetes:
+    discovery:
+      enabled: true

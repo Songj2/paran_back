@@ -1,19 +1,24 @@
 spring:
   application:
     name: user-service
-  config:
-    import: configserver:http://config-server.default.svc.cluster.local:8888
   cloud:
+    kubernetes:
+      discovery:
+        enabled: true
+      config:
+        enabled: true
     config:
       fail-fast: true
       retry:
-        enabled: true
         initial-interval: 1000
         max-interval: 2000
         max-attempts: 6
-      discovery:
-        enabled: true
-
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
+  instance:
+    preferIpAddress: true
 logging:
   level:
     com.netflix.discovery: DEBUG

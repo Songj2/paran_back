@@ -1,13 +1,24 @@
 spring:
   application:
     name: group-service
-  profiles:
-    active: prod
-  config:
-    import: configserver:http://config-server:8888
   cloud:
+    kubernetes:
+      discovery:
+        enabled: true
+      config:
+        enabled: true
     config:
       fail-fast: true
+      retry:
+        initial-interval: 1000
+        max-interval: 2000
+        max-attempts: 6
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
+  instance:
+    preferIpAddress: true
 
 logging:
   level:

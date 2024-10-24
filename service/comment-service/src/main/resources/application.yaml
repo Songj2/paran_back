@@ -1,13 +1,24 @@
 spring:
   application:
     name: comment-service
-  profiles:
-    active: prod
-  config:
-    import: configserver:http://config-server:8888
   cloud:
+    kubernetes:
+      discovery:
+        enabled: true
+      config:
+        enabled: true
     config:
       fail-fast: true
+      retry:
+        initial-interval: 1000
+        max-interval: 2000
+        max-attempts: 6
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
+  instance:
+    preferIpAddress: true
 
 logging:
   level:
@@ -16,14 +27,3 @@ logging:
     org.springframework.cloud.config: DEBUG
     org.springframework.cloud.config.server: DEBUG
     org.springframework.boot.context.logging: DEBUG
-
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eureka-server:8761/eureka/}
-
-  instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-    preferIpAddress: true
