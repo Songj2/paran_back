@@ -13,6 +13,7 @@ spec:
       labels:
         app: gateway-server
     spec:
+      dnsPolicy: ClusterFirst
       containers:
         - name: gateway-server
           image: songjih452/paran:gateway-latest
@@ -109,6 +110,13 @@ spec:
       labels:
         app: comment-service
     spec:
+
+      dnsPolicy: ClusterFirst
+      initContainers:
+        - name: wait-for-config-server
+          image: busybox
+          command: [ 'sh', '-c', 'until nslookup config-server.default.svc.cluster.local; do echo waiting for config-server; sleep 2; done;' ]
+
       containers:
         - name: comment-service
           image: songjih452/paran:comment-latest
