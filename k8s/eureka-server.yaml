@@ -17,7 +17,7 @@ spec:
         - name: eureka-server
           image: songjih452/paran:eureka-latest
           env:
-            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE
               value: "http://eureka-server:8761/eureka/"
 
           ports:
