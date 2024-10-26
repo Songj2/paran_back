@@ -83,7 +83,7 @@ services:
 
   group:
     build:
-      context: service/group-service
+      context: ./service/group-service
       dockerfile: Dockerfile
     image: songjih452/paran:group-latest
     container_name: group
