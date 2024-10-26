@@ -36,7 +36,7 @@ pipeline {
                     for module in "${all_modules[@]}"
                     do
                       echo "Building BootJar for $module"
-                      ./gradlew $module:clean :$module:bootJar .
+                      ./gradlew $module:clean :$module:bootJar
                     done
 
                     '''
