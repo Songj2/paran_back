@@ -19,7 +19,7 @@ eureka:
 logging:
   level:
     com.netflix.discovery: DEBUG
-    org.springframework.web: D  gEBUG
+    org.springframework.web: DEBUG
     org.springframework.cloud.config: DEBUG
     org.springframework.cloud.config.server: DEBUG
     org.springframework.boot.context.logging: DEBUG
