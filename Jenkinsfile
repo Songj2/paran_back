@@ -33,16 +33,12 @@ pipeline {
                                  "service:user-service" "service:group-service" "service:chat-service"
                                  "service:file-service" "service:room-service" "service:comment-service")
 
-                    echo "Cleaning..."
-                    ./gradlew clean
-
                     for module in "${all_modules[@]}"
                     do
                       echo "Building BootJar for $module"
-                      ./gradlew :$module:bootJar
+                      ./gradlew $module:clean :$module:bootJar .
                     done
 
-                    unzip -p server/config-server/build/libs/config-server-0.0.1-SNAPSHOT.jar META-INF/MANIFEST.MF
                     '''
                 }
             }

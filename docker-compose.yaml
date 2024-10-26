@@ -6,120 +6,150 @@ services:
       context: server/config-server
       dockerfile: Dockerfile
     image: songjih452/paran:config-latest
-    container_name: config
+    container_name: config-server
     ports:
       - 8888:8888
     networks:
       - paran-net
-    hostname: config
+    hostname: config-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
   eureka:
     build:
       context: server/eureka-server
       dockerfile: Dockerfile
     image: songjih452/paran:eureka-latest
-    container_name: eureka
+    container_name: eureka-server
     ports:
       - 8761:8761
     networks:
       - paran-net
-    hostname: eureka
+    hostname: eureka-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
   gateway:
     build:
       context: server/gateway-server
       dockerfile: Dockerfile
     image: songjih452/paran:gateway-latest
-    container_name: gateway
+    container_name: gateway-server
     ports:
       - 8000:8000
     networks:
       - paran-net
     depends_on:
-      - eureka
-    hostname: gateway
+      - eureka-server
+      - config-server
+    hostname: gateway-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
   user:
     build:
       context: service/user-service
       dockerfile: Dockerfile
     image: songjih452/paran:user-latest
-    container_name: user
+    container_name: user-service
     ports:
       - 8082:8082
     networks:
       - paran-net
     depends_on:
-      - eureka
-    hostname: user
+      - eureka-server
+      - config-server
+    hostname: user-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
   chat:
     build:
       context: service/chat-service
       dockerfile: Dockerfile
     image: songjih452/paran:chat-latest
-    container_name: chat
+    container_name: chat-service
     ports:
       - 8081:8081
     networks:
       - paran-net
     depends_on:
-      - eureka
-    hostname: chat
+      - eureka-server
+      - config-server
+    hostname: chat-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
   comment:
     build:
       context: service/comment-service
       dockerfile: Dockerfile
     image: songjih452/paran:comment-latest
-    container_name: comment
+    container_name: comment-service
     ports:
       - 8084:8084
     networks:
       - paran-net
     depends_on:
-      - user
-    hostname: comment
+      - config-server
+      - eureka-server
+      - user-service
+    hostname: comment-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
   group:
     build:
       context: service/group-service
       dockerfile: Dockerfile
     image: songjih452/paran:group-latest
-    container_name: group
+    container_name: group-service
     ports:
       - 8085:8085
     networks:
       - paran-net
     depends_on:
-      - user
-    hostname: group
+      - config-server
+      - eureka-server
+      - user-service
+    hostname: group-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
   file:
     build:
       context: service/file-service
       dockerfile: Dockerfile
     image: songjih452/paran:file-latest
-    container_name: file
+    container_name: file-service
     ports:
       - 8090:8090
     networks:
       - paran-net
-    hostname: file
+    depends_on:
+      - config-server
+      - eureka-server
+    hostname: file-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
   room:
     build:
       context: service/room-service
       dockerfile: Dockerfile
     image: songjih452/paran:room-latest
-    container_name: room
+    container_name: room-service
     ports:
       - 8083:8083
     networks:
       - paran-net
     depends_on:
-      - user
-    hostname: room
+      - config-server
+      - eureka-server
+      - user-service
+    hostname: room-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
 
 
 networks:
