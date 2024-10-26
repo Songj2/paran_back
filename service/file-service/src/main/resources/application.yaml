@@ -4,7 +4,7 @@ spring:
   profiles:
     active: prod
   config:
-    import: configserver:http://config-server:8888,kubernetes:configmap:config
+    import: configserver:http://config-server:8888
   cloud:
     kubernetes:
       discovery:
