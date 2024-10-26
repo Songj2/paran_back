@@ -1,5 +1,5 @@
 services:
-  config:
+  config-server:
     build:
       context: server/config-server
       dockerfile: Dockerfile
@@ -13,7 +13,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=prod
 
-  eureka:
+  eureka-server:
     build:
       context: server/eureka-server
       dockerfile: Dockerfile
@@ -27,7 +27,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=prod
 
-  gateway:
+  gateway-server:
     build:
       context: server/gateway-server
       dockerfile: Dockerfile
@@ -44,7 +44,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=prod
 
-  user:
+  user-service:
     build:
       context: service/user-service
       dockerfile: Dockerfile
@@ -61,7 +61,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=prod
 
-  chat:
+  chat-service:
     build:
       context: service/chat-service
       dockerfile: Dockerfile
@@ -78,7 +78,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=prod
 
-  comment:
+  comment-service:
     build:
       context: service/comment-service
       dockerfile: Dockerfile
@@ -95,7 +95,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=prod
 
-  group:
+  group-service:
     build:
       context: service/group-service
       dockerfile: Dockerfile
@@ -112,7 +112,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=prod
 
-  file:
+  file-service:
     build:
       context: service/file-service
       dockerfile: Dockerfile
@@ -129,7 +129,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=prod
 
-  room:
+  room-service:
     build:
       context: service/room-service
       dockerfile: Dockerfile
