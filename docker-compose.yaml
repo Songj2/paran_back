@@ -91,7 +91,6 @@ services:
     depends_on:
       - config-server
       - eureka-server
-      - user-service
     hostname: comment-service
     environment:
       - SPRING_PROFILES_ACTIVE=prod
@@ -109,7 +108,6 @@ services:
     depends_on:
       - config-server
       - eureka-server
-      - user-service
     hostname: group-service
     environment:
       - SPRING_PROFILES_ACTIVE=prod
@@ -144,7 +142,6 @@ services:
     depends_on:
       - config-server
       - eureka-server
-      - user-service
     hostname: room-service
     environment:
       - SPRING_PROFILES_ACTIVE=prod
