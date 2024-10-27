@@ -22,8 +22,8 @@ spring:
   # DB 설정 추가 (Config Server 연결 실패 시 fallback으로 사용)
   datasource:
     url: jdbc:mysql://mysql:3306/parandb
-    username: [ USERNAME ]
-    password: [ PASSWORD ]
+    username: [ MYSQL-USERNAME]
+    password: [ MYSQL-PASSWORD]
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
