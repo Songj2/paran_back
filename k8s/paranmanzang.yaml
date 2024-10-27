@@ -18,6 +18,7 @@ spec:
       containers:
         - name: gateway-server
           image: songjih452/paran:gateway-latest
+          imagePullPolicy: Always
           env:
             - name: SPRING_CLOUD_KUBERNETES_ENABLED
               value: "true"
@@ -57,6 +58,7 @@ spec:
       containers:
         - name: chat-service
           image: songjih452/paran:chat-latest
+          imagePullPolicy: Always
           env:
             - name: SPRING_CLOUD_KUBERNETES_ENABLED
               value: "true"
@@ -90,6 +92,7 @@ spec:
       containers:
         - name: comment-service
           image: songjih452/paran:comment-latest
+          imagePullPolicy: Always
           env:
             - name: SPRING_CLOUD_KUBERNETES_ENABLED
               value: "true"
@@ -121,6 +124,7 @@ spec:
       containers:
         - name: file-service
           image: songjih452/paran:file-latest
+          imagePullPolicy: Always
           env:
             - name: SPRING_CLOUD_KUBERNETES_ENABLED
               value: "true"
@@ -152,6 +156,7 @@ spec:
       containers:
         - name: group-service
           image: songjih452/paran:group-latest
+          imagePullPolicy: Always
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "prod"
@@ -206,6 +211,7 @@ spec:
       containers:
         - name: room-service
           image: songjih452/paran:room-latest
+          imagePullPolicy: Always
           env:
             - name: SPRING_CLOUD_KUBERNETES_ENABLED
               value: "true"
@@ -239,6 +245,7 @@ spec:
       containers:
         - name: user-service
           image: songjih452/paran:user-latest
+          imagePullPolicy: Always
           env:
             - name: SPRING_CLOUD_KUBERNETES_ENABLED
               value: "true"
