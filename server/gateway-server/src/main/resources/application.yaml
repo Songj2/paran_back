@@ -7,14 +7,21 @@ spring:
     import: configserver:http://config-server:8888
   cloud:
     config:
-      enabled: true
-      uri: http://config-server:8888
+#      enabled: true
+#      uri: http://config-server:8888
+      fail-fast: true
+      retry:
+        initial-interval: 1000
+        max-interval: 2000
+        max-attempts: 6
     gateway:
       discovery:
         locator:
           enabled: true
     kubernetes:
       discovery:
+        enabled: true
+      config:
         enabled: true
 eureka:
   client:
@@ -23,6 +30,7 @@ eureka:
   instance:
     appname: gateway-server
     preferIpAddress: true
+
 logging:
   level:
     com.netflix.discovery: DEBUG
