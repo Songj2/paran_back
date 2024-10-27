@@ -6,6 +6,9 @@ spring:
   config:
     import: configserver:http://config-server:8888
   cloud:
+    config:
+      enabled: true
+      uri: http://config-server:8888
     gateway:
       discovery:
         locator:
