@@ -19,6 +19,20 @@ spring:
         initial-interval: 1000
         max-interval: 2000
         max-attempts: 6
+  # DB 설정 추가 (Config Server 연결 실패 시 fallback으로 사용)
+  datasource:
+    url: jdbc:mysql://mysql:3306/parandb
+    username: [ USERNAME ]
+    password: [ PASSWORD ]
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
 eureka:
   client:
     serviceUrl:
