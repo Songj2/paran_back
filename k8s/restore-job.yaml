@@ -24,8 +24,8 @@ spec:
               mountPath: /backup
       volumes:
         - name: backup-volume
-          hostPath:
-            path: /backup/dbDump  # 백업 파일이 있는 호스트 경로
+          persistentVolumeClaim:
+            claimName: backup-pvc
       restartPolicy: Never
 
 ---
@@ -44,12 +44,12 @@ spec:
             - /bin/bash
             - -c
             - |
-              mongorestore --host mongodb --username root --password 1234  --authenticationDatabase admin /backup/dbDump/backupMongo/parandb
+              mongorestore --host mongodb --username root --password 1234  --authenticationDatabase admin --db parandb /backup/dbDump/backupMongo/parandb
           volumeMounts:
             - name: backup-volume
               mountPath: /backup
       volumes:
         - name: backup-volume
-          hostPath:
-            path: /backup/dbDump
+          persistentVolumeClaim:
+            claimName: backup-pvc
       restartPolicy: Never
