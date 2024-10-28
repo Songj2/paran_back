@@ -7,8 +7,6 @@ spring:
     import: configserver:http://config-server:8888
   cloud:
     config:
-#      enabled: true
-#      uri: http://config-server:8888
       fail-fast: true
       retry:
         initial-interval: 1000

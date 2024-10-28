@@ -21,7 +21,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: "local"
+              value: "prod"
             - name: SPRING_CLOUD_CONFIG_URI
               value: "http://config-server:8888"
             - name: SPRING_CLOUD_CONFIG_FAIL_FAST
@@ -63,7 +63,7 @@ spec:
             - name: SPRING_CLOUD_KUBERNETES_ENABLED
               value: "true"
             - name: SPRING_CONFIG_IMPORT
-              value: "optional:configserver:http://config-server:8888"
+              value: "configserver:http://config-server:8888"
             - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
               value: "http://eureka-server:8761/eureka/"
             - name: SPRING_APPLICATION_NAME
@@ -158,42 +158,18 @@ spec:
           image: songjih452/paran:group-latest
           imagePullPolicy: Always
           env:
+            - name: SPRING_CLOUD_KUBERNETES_ENABLED
+              value: "true"
             - name: SPRING_PROFILES_ACTIVE
               value: "prod"
             - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
               value: "http://eureka-server:8761/eureka/"
             - name: SPRING_CLOUD_CONFIG_URI
-              value: "http://config-server:8888"
-            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
-              value: "update"
-            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
-              value: "org.hibernate.dialect.MySQLDialect"
-            - name: SPRING_DATASOURCE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: db-secret
-                  key: mysql-url
-            - name: SPRING_DATASOURCE_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: db-secret
-                  key: mysql-username
-            - name: SPRING_DATASOURCE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: db-secret
-                  key: mysql-password
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: group-service
-spec:
-  selector:
-    app: group-service
-  ports:
-    - port: 8085
-      targetPort: 8085
+              value: "optional:http://config-server:8888"
+            - name: SPRING_APPLICATION_NAME
+              value: "group-service"
+
+
 ---
 
 #room-service
@@ -259,5 +235,7 @@ spec:
               value: "http://eureka-server:8761/eureka/"
             - name: SPRING_APPLICATION_NAME
               value: "user-service"
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
 
 ---
