@@ -2,7 +2,7 @@ spring:
   application:
     name: gateway-server
   profiles:
-    active: local
+    active: prod
   config:
     import: configserver:http://config-server:8888
   cloud:
@@ -23,12 +23,13 @@ spring:
         enabled: true
       config:
         enabled: true
+
 eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka-server:8761/eureka/
   instance:
-    appname: gateway-server
+    appname: GATEWAY-SERVER
     preferIpAddress: true
 
 logging:
