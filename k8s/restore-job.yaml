@@ -44,7 +44,7 @@ spec:
             - /bin/bash
             - -c
             - |
-              mongorestore --host mongodb --username root --password 1234  --authenticationDatabase admin /backup/dbDump/backupMongo
+              mongorestore --host mongodb --username root --password 1234  --authenticationDatabase admin /backup/dbDump/backupMongo/parandb
           volumeMounts:
             - name: backup-volume
               mountPath: /backup
