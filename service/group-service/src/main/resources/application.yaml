@@ -11,15 +11,12 @@ spring:
         enabled: true
       config:
         enabled: true
-        name: group-service
-
     config:
       fail-fast: true
       retry:
         initial-interval: 1000
         max-interval: 2000
         max-attempts: 6
-
 eureka:
   client:
     serviceUrl:
