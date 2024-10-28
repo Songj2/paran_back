@@ -9,6 +9,6 @@ spec:
   ports:
     - port: 443
       targetPort: 8443
-      nodePort: 8443  # ACG 허용 범위 내 포트 사용
+      nodePort: 30020  # ACG 허용 범위 내 포트 사용
   selector:
     k8s-app: kubernetes-dashboard
