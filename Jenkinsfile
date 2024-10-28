@@ -7,9 +7,17 @@ pipeline {
     }
 
     stages {
+        stage('Cleanup') {
+            steps {
+                cleanWs()
+                sh '''
+                    docker system prune -af --volumes
+                    find /var/lib/jenkins/workspace -type d -mtime +7 -exec rm -rf {} +
+                '''
+            }
+        }
         stage('Checkout') {
             steps {
-                cleanWs() // 워크스페이스 전체 정리
                 checkout scm
                 git branch: 'main', credentialsId: 'git-token', url: 'git@github.com:Songj2/paran_back.git'
                 sh 'git submodule update --init --recursive'
