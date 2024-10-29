@@ -1,4 +1,4 @@
-package com.paranmanzang.groupservice.model.entity;
+package com.paranmanzang.commentservice.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

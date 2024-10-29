@@ -1,4 +1,4 @@
-package com.paranmanzang.groupservice.service;
+package com.paranmanzang.commentservice.service;
 
 
 import com.paranmanzang.groupservice.model.domain.GroupPostResponseModel;

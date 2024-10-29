@@ -1,4 +1,4 @@
-package com.paranmanzang.groupservice.service;
+package com.paranmanzang.commentservice.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,4 +1,4 @@
-package com.paranmanzang.groupservice.model.repository.impl;
+package com.paranmanzang.commentservice.model.repository.impl;
 
 import com.paranmanzang.groupservice.model.domain.GroupPostResponseModel;
 import com.paranmanzang.groupservice.model.repository.LikePostRepositoryCustom;

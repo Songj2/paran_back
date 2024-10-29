@@ -1,6 +1,8 @@
-package com.paranmanzang.groupservice.model.entity;
+package com.paranmanzang.commentservice.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.paranmanzang.groupservice.model.entity.GroupPost;
+import com.paranmanzang.groupservice.model.entity.Joining;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;

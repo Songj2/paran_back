@@ -1,5 +1,6 @@
-package com.paranmanzang.groupservice.model.entity;
+package com.paranmanzang.commentservice.model.entity;
 
+import com.paranmanzang.groupservice.model.entity.LikeBooks;
 import jakarta.persistence.*;
 import lombok.*;
 

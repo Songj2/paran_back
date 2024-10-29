@@ -1,4 +1,4 @@
-package com.paranmanzang.groupservice.model.entity;
+package com.paranmanzang.commentservice.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;

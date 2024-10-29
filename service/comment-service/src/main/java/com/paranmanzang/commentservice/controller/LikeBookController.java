@@ -1,4 +1,4 @@
-package com.paranmanzang.groupservice.controller;
+package com.paranmanzang.commentservice.controller;
 
 import com.paranmanzang.groupservice.model.domain.LikeBookModel;
 import com.paranmanzang.groupservice.service.impl.LikeBookServiceImpl;

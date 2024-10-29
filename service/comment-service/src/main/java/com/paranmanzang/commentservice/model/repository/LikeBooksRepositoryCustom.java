@@ -1,4 +1,4 @@
-package com.paranmanzang.groupservice.model.repository;
+package com.paranmanzang.commentservice.model.repository;
 
 import com.paranmanzang.groupservice.model.domain.BookResponseModel;
 

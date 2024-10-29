@@ -1,4 +1,4 @@
-package com.paranmanzang.groupservice.model.domain;
+package com.paranmanzang.commentservice.model.domain;
 
 import com.paranmanzang.groupservice.model.entity.LikeBooks;
 import jakarta.validation.constraints.NotBlank;
