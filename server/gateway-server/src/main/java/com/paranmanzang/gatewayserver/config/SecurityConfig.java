@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .cors(corsCustomizer -> corsCustomizer
                         .configurationSource(request -> {
                             CorsConfiguration configuration = new CorsConfiguration();
-                            configuration.setAllowedOriginPatterns(Collections.singletonList("http://localhost:3000"));
+                            configuration.setAllowedOriginPatterns(Collections.singletonList("https://paranmanzang.com"));
                             configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                             configuration.setAllowCredentials(true);
                             configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "nickname"));
