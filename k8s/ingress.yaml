@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  tls:
+    - hosts:
+        - paranmanzang.com    # 프론트엔드에서 사용하는 실제 도메인
+      secretName: tls-secret
+  rules:
+    - host: paranmanzang.com    # 여기도 동일한 도메인
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-server
+                port:
+                  number: 443
