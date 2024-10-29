@@ -35,8 +35,7 @@ spec:
   selector:
     app: gateway-server
   ports:
-    - port: 443
-      targetPort: 8000
+    - port: 8000
   type: LoadBalancer
 ---
 
