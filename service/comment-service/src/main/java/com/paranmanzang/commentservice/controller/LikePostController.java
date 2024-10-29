@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/api/groups/like-post")
+@RequestMapping("/api/comments/like-post")
 public class LikePostController {
 
     private final LikePostServiceImpl likePostService;

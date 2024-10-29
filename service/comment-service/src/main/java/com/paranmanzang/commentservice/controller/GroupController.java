@@ -13,7 +13,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 @RestController
-@RequestMapping("/api/groups/groups")
+@RequestMapping("/api/comments/groups")
 @RequiredArgsConstructor
 public class GroupController {
     private final GroupServiceImpl groupService;

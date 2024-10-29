@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/groups/posts")
+@RequestMapping("/api/comments/posts")
 @RequiredArgsConstructor
 public class GroupPostController {
     private final GroupPostServiceImpl groupPostService;

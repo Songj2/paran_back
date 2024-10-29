@@ -8,7 +8,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/groups/like-book")
+@RequestMapping("/api/comments/like-book")
 @RequiredArgsConstructor
 public class LikeBookController {
     private final LikeBookServiceImpl likeBookService;
