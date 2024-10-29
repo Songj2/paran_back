@@ -1,6 +1,6 @@
 package com.paranmanzang.commentservice.model.repository;
 
-import com.paranmanzang.groupservice.model.entity.LikePosts;
+import com.paranmanzang.commentservice.model.entity.LikePosts;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

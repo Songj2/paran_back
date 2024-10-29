@@ -1,7 +1,7 @@
 package com.paranmanzang.commentservice.controller;
 
-import com.paranmanzang.groupservice.model.domain.GroupPostModel;
-import com.paranmanzang.groupservice.service.impl.GroupPostServiceImpl;
+import com.paranmanzang.commentservice.model.domain.GroupPostModel;
+import com.paranmanzang.commentservice.service.impl.GroupPostServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;

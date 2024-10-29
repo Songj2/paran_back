@@ -1,8 +1,8 @@
 package com.paranmanzang.commentservice.service.impl;
 
-import com.paranmanzang.groupservice.model.domain.BookResponseModel;
-import com.paranmanzang.groupservice.model.repository.BookRepository;
-import com.paranmanzang.groupservice.service.BookService;
+import com.paranmanzang.commentservice.model.domain.BookResponseModel;
+import com.paranmanzang.commentservice.model.repository.BookRepository;
+import com.paranmanzang.commentservice.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

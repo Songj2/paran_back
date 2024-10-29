@@ -1,10 +1,10 @@
 package com.paranmanzang.commentservice.service.impl;
 
 
-import com.paranmanzang.groupservice.model.domain.GroupPostModel;
-import com.paranmanzang.groupservice.model.domain.GroupPostResponseModel;
-import com.paranmanzang.groupservice.model.repository.GroupPostRepository;
-import com.paranmanzang.groupservice.service.GroupPostService;
+import com.paranmanzang.commentservice.model.domain.GroupPostModel;
+import com.paranmanzang.commentservice.model.domain.GroupPostResponseModel;
+import com.paranmanzang.commentservice.model.repository.GroupPostRepository;
+import com.paranmanzang.commentservice.service.GroupPostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,12 +1,12 @@
 package com.paranmanzang.commentservice.service.impl;
 
 
-import com.paranmanzang.groupservice.model.domain.GroupPostResponseModel;
-import com.paranmanzang.groupservice.model.domain.LikePostModel;
-import com.paranmanzang.groupservice.model.entity.LikePosts;
-import com.paranmanzang.groupservice.model.repository.GroupPostRepository;
-import com.paranmanzang.groupservice.model.repository.LikePostRepository;
-import com.paranmanzang.groupservice.service.LikePostService;
+import com.paranmanzang.commentservice.model.domain.GroupPostResponseModel;
+import com.paranmanzang.commentservice.model.domain.LikePostModel;
+import com.paranmanzang.commentservice.model.entity.LikePosts;
+import com.paranmanzang.commentservice.model.repository.GroupPostRepository;
+import com.paranmanzang.commentservice.model.repository.LikePostRepository;
+import com.paranmanzang.commentservice.service.LikePostService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;

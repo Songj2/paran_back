@@ -1,7 +1,7 @@
 package com.paranmanzang.commentservice.controller;
 
-import com.paranmanzang.groupservice.model.domain.LikeBookModel;
-import com.paranmanzang.groupservice.service.impl.LikeBookServiceImpl;
+import com.paranmanzang.commentservice.model.domain.LikeBookModel;
+import com.paranmanzang.commentservice.service.impl.LikeBookServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;

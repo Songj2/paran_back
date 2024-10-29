@@ -1,6 +1,6 @@
 package com.paranmanzang.commentservice.service;
 
-import com.paranmanzang.groupservice.model.domain.JoiningModel;
+import com.paranmanzang.commentservice.model.domain.JoiningModel;
 
 public interface JoiningService {
     Object addMember(JoiningModel joiningModel);

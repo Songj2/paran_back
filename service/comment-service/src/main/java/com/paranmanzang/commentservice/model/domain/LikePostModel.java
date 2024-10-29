@@ -1,6 +1,6 @@
 package com.paranmanzang.commentservice.model.domain;
 
-import com.paranmanzang.groupservice.model.entity.LikePosts;
+import com.paranmanzang.commentservice.model.entity.LikePosts;
 import lombok.*;
 
 @Setter

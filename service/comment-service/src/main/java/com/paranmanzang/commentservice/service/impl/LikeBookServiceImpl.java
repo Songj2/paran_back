@@ -1,11 +1,11 @@
 package com.paranmanzang.commentservice.service.impl;
 
-import com.paranmanzang.groupservice.model.domain.BookResponseModel;
-import com.paranmanzang.groupservice.model.domain.LikeBookModel;
-import com.paranmanzang.groupservice.model.entity.LikeBooks;
-import com.paranmanzang.groupservice.model.repository.BookRepository;
-import com.paranmanzang.groupservice.model.repository.LikeBooksRepository;
-import com.paranmanzang.groupservice.service.LikeBookService;
+import com.paranmanzang.commentservice.model.domain.BookResponseModel;
+import com.paranmanzang.commentservice.model.domain.LikeBookModel;
+import com.paranmanzang.commentservice.model.entity.LikeBooks;
+import com.paranmanzang.commentservice.model.repository.BookRepository;
+import com.paranmanzang.commentservice.model.repository.LikeBooksRepository;
+import com.paranmanzang.commentservice.service.LikeBookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindException;

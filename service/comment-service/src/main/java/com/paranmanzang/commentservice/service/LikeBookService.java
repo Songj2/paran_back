@@ -1,7 +1,7 @@
 package com.paranmanzang.commentservice.service;
 
-import com.paranmanzang.groupservice.model.domain.BookResponseModel;
-import com.paranmanzang.groupservice.model.domain.LikeBookModel;
+import com.paranmanzang.commentservice.model.domain.BookResponseModel;
+import com.paranmanzang.commentservice.model.domain.LikeBookModel;
 import org.springframework.validation.BindException;
 
 import java.util.List;

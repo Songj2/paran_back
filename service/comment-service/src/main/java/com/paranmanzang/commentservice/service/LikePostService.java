@@ -1,8 +1,8 @@
 package com.paranmanzang.commentservice.service;
 
 
-import com.paranmanzang.groupservice.model.domain.GroupPostResponseModel;
-import com.paranmanzang.groupservice.model.domain.LikePostModel;
+import com.paranmanzang.commentservice.model.domain.GroupPostResponseModel;
+import com.paranmanzang.commentservice.model.domain.LikePostModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

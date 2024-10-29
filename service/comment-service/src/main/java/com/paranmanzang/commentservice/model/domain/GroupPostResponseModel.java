@@ -1,6 +1,6 @@
 package com.paranmanzang.commentservice.model.domain;
 
-import com.paranmanzang.groupservice.model.entity.GroupPost;
+import com.paranmanzang.commentservice.model.entity.GroupPost;
 import lombok.*;
 
 import java.time.LocalDate;

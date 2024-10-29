@@ -1,7 +1,7 @@
 package com.paranmanzang.commentservice.controller;
 
 
-import com.paranmanzang.groupservice.service.impl.BookServiceImpl;
+import com.paranmanzang.commentservice.service.impl.BookServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;

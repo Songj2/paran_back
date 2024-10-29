@@ -1,7 +1,7 @@
 package com.paranmanzang.commentservice.model.repository.impl;
 
-import com.paranmanzang.groupservice.model.domain.BookResponseModel;
-import com.paranmanzang.groupservice.model.repository.BookRepositoryCustom;
+import com.paranmanzang.commentservice.model.domain.BookResponseModel;
+import com.paranmanzang.commentservice.model.repository.BookRepositoryCustom;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +11,8 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-import static com.paranmanzang.groupservice.model.entity.QBook.book;
-import static com.paranmanzang.groupservice.model.entity.QLikeBooks.likeBooks;
+import static com.paranmanzang.commentservice.model.entity.QBook.book;
+import static com.paranmanzang.commentservice.model.entity.QLikeBooks.likeBooks;
 
 @RequiredArgsConstructor
 public class BookRepositoryCustomImpl implements BookRepositoryCustom {

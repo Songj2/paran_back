@@ -1,9 +1,9 @@
 package com.paranmanzang.commentservice.controller;
 
-import com.paranmanzang.groupservice.model.domain.GroupModel;
-import com.paranmanzang.groupservice.model.domain.JoiningModel;
-import com.paranmanzang.groupservice.service.impl.GroupServiceImpl;
-import com.paranmanzang.groupservice.service.impl.JoiningServiceImpl;
+import com.paranmanzang.commentservice.model.domain.GroupModel;
+import com.paranmanzang.commentservice.model.domain.JoiningModel;
+import com.paranmanzang.commentservice.service.impl.GroupServiceImpl;
+import com.paranmanzang.commentservice.service.impl.JoiningServiceImpl;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 @RestController
 @RequestMapping("/api/groups/groups")
 @RequiredArgsConstructor
@@ -47,7 +46,7 @@ public class GroupController {
     //#63.소모임 등록
     @PostMapping //request: groupname, groupconcept
     public ResponseEntity<?> insert(@Valid @RequestBody GroupModel groupModel,
-                                      BindingResult bindingResult) throws BindException {
+                                    BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
@@ -64,7 +63,7 @@ public class GroupController {
     //#66.소모임 멤버 추가
     @PostMapping("/user")//request: userNickname, groupId
     public ResponseEntity<?> insertUser(@Valid @RequestBody JoiningModel joiningModel,
-                                       BindingResult bindingResult) throws BindException {
+                                        BindingResult bindingResult) throws BindException {
         if (bindingResult.hasErrors()) {
             throw new BindException(bindingResult);
         }
@@ -77,7 +76,7 @@ public class GroupController {
     @Transactional
     @PutMapping("/able-user")
     public ResponseEntity<?> ableUser(@RequestParam("groupId") Long groupId,
-                                               @RequestParam("nickname") String userNickname) {
+                                      @RequestParam("nickname") String userNickname) {
         return ResponseEntity.ok(joiningService.enableMember(groupId, userNickname));
     }
     //#66-2.소모임 멤버승인 취소
@@ -85,7 +84,7 @@ public class GroupController {
     @Transactional
     @PutMapping("/enable-user")
     public ResponseEntity<?> enableUser(@RequestParam("groupId") Long groupId,
-                                                @RequestParam("nickname") String userNickname) {
+                                        @RequestParam("nickname") String userNickname) {
         return ResponseEntity.ok(joiningService.disableMember(groupId, userNickname));
     }
     //#64-1.소모임 삭제

@@ -1,6 +1,6 @@
 package com.paranmanzang.commentservice.model.repository;
 
-import com.paranmanzang.groupservice.model.domain.GroupPostResponseModel;
+import com.paranmanzang.commentservice.model.domain.GroupPostResponseModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

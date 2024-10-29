@@ -1,8 +1,8 @@
 package com.paranmanzang.commentservice.controller;
 
 
-import com.paranmanzang.groupservice.model.domain.LikePostModel;
-import com.paranmanzang.groupservice.service.impl.LikePostServiceImpl;
+import com.paranmanzang.commentservice.model.domain.LikePostModel;
+import com.paranmanzang.commentservice.service.impl.LikePostServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

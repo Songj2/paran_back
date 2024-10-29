@@ -1,11 +1,11 @@
 package com.paranmanzang.commentservice.service.impl;
 
-import com.paranmanzang.groupservice.model.domain.ErrorField;
-import com.paranmanzang.groupservice.model.domain.JoiningModel;
-import com.paranmanzang.groupservice.model.entity.Joining;
-import com.paranmanzang.groupservice.model.repository.GroupRepository;
-import com.paranmanzang.groupservice.model.repository.JoiningRepository;
-import com.paranmanzang.groupservice.service.JoiningService;
+import com.paranmanzang.commentservice.model.domain.ErrorField;
+import com.paranmanzang.commentservice.model.domain.JoiningModel;
+import com.paranmanzang.commentservice.model.entity.Joining;
+import com.paranmanzang.commentservice.model.repository.GroupRepository;
+import com.paranmanzang.commentservice.model.repository.JoiningRepository;
+import com.paranmanzang.commentservice.service.JoiningService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

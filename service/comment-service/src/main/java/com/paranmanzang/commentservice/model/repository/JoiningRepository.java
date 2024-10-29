@@ -1,6 +1,6 @@
 package com.paranmanzang.commentservice.model.repository;
 
-import com.paranmanzang.groupservice.model.entity.Joining;
+import com.paranmanzang.commentservice.model.entity.Joining;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

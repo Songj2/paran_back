@@ -1,6 +1,6 @@
 package com.paranmanzang.commentservice.model.domain;
 
-import com.paranmanzang.groupservice.model.entity.Group;
+import com.paranmanzang.commentservice.model.entity.Group;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;

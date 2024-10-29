@@ -1,12 +1,12 @@
 package com.paranmanzang.commentservice.service.impl;
 
-import com.paranmanzang.groupservice.model.domain.ErrorField;
-import com.paranmanzang.groupservice.model.domain.GroupModel;
-import com.paranmanzang.groupservice.model.domain.GroupResponseModel;
-import com.paranmanzang.groupservice.model.entity.Joining;
-import com.paranmanzang.groupservice.model.repository.GroupRepository;
-import com.paranmanzang.groupservice.model.repository.JoiningRepository;
-import com.paranmanzang.groupservice.service.GroupService;
+import com.paranmanzang.commentservice.model.domain.ErrorField;
+import com.paranmanzang.commentservice.model.domain.GroupModel;
+import com.paranmanzang.commentservice.model.domain.GroupResponseModel;
+import com.paranmanzang.commentservice.model.entity.Joining;
+import com.paranmanzang.commentservice.model.repository.GroupRepository;
+import com.paranmanzang.commentservice.model.repository.JoiningRepository;
+import com.paranmanzang.commentservice.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

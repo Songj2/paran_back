@@ -1,7 +1,7 @@
 package com.paranmanzang.commentservice.model.domain;
 
-import com.paranmanzang.groupservice.model.entity.Group;
-import com.paranmanzang.groupservice.model.entity.GroupPost;
+import com.paranmanzang.commentservice.model.entity.Group;
+import com.paranmanzang.commentservice.model.entity.GroupPost;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,7 @@
 package com.paranmanzang.commentservice.model.repository.impl;
 
-import com.paranmanzang.groupservice.model.domain.GroupPostResponseModel;
-import com.paranmanzang.groupservice.model.repository.GroupPostRepositoryCustom;
+import com.paranmanzang.commentservice.model.domain.GroupPostResponseModel;
+import com.paranmanzang.commentservice.model.repository.GroupPostRepositoryCustom;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +11,9 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-import static com.paranmanzang.groupservice.model.entity.QBook.book;
-import static com.paranmanzang.groupservice.model.entity.QGroup.group;
-import static com.paranmanzang.groupservice.model.entity.QGroupPost.groupPost;
+import static com.paranmanzang.commentservice.model.entity.QBook.book;
+import static com.paranmanzang.commentservice.model.entity.QGroup.group;
+import static com.paranmanzang.commentservice.model.entity.QGroupPost.groupPost;
 
 @RequiredArgsConstructor
 public class GroupPostRepositoryCustomImpl implements GroupPostRepositoryCustom {

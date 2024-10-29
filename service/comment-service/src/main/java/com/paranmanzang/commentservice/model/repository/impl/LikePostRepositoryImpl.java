@@ -1,17 +1,17 @@
 package com.paranmanzang.commentservice.model.repository.impl;
 
-import com.paranmanzang.groupservice.model.domain.GroupPostResponseModel;
-import com.paranmanzang.groupservice.model.repository.LikePostRepositoryCustom;
+import com.paranmanzang.commentservice.model.domain.GroupPostResponseModel;
+import com.paranmanzang.commentservice.model.repository.LikePostRepositoryCustom;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-import static com.paranmanzang.groupservice.model.entity.QBook.book;
-import static com.paranmanzang.groupservice.model.entity.QGroup.group;
-import static com.paranmanzang.groupservice.model.entity.QGroupPost.groupPost;
-import static com.paranmanzang.groupservice.model.entity.QLikePosts.likePosts;
+import static com.paranmanzang.commentservice.model.entity.QBook.book;
+import static com.paranmanzang.commentservice.model.entity.QGroup.group;
+import static com.paranmanzang.commentservice.model.entity.QGroupPost.groupPost;
+import static com.paranmanzang.commentservice.model.entity.QLikePosts.likePosts;
 
 @RequiredArgsConstructor
 public class LikePostRepositoryImpl implements LikePostRepositoryCustom {
