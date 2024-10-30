@@ -32,7 +32,7 @@ kind: Service
 metadata:
   name: gateway-server
   annotations:
-    service.beta.kubernetes.io/ncloud-load-balancer-ssl-certificate-no: "33279"
+    service.beta.kubernetes.io/ncloud-load-balancer-ssl-certificate-no: ""
     service.beta.kubernetes.io/ncloud-load-balancer-tls-ports: "443"
 spec:
   selector:
