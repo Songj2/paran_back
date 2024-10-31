@@ -84,7 +84,8 @@ public class ChatServiceImpl implements ChatService {
                                                 .build()
                                         )
 
-                                ).then(Mono.just(true))
+                                ).flatMap(insertedMessage -> insertReadLastTime(roomId,nickname))
+                                        .then(Mono.just(true))
                         )
                 ).onErrorResume(e -> Mono.just(false));
     }

@@ -27,7 +27,7 @@ public class ChatUserHandler {
     // # 8
     public Mono<ServerResponse> findList(ServerRequest request) {
         return chatService.findNicknamesByRoomId(request.pathVariable("roomId"))
-                .collectList().log()
+                .collectList()
                 .flatMap(chatUsers -> ServerResponse.ok().bodyValue(chatUsers))
                 .switchIfEmpty(ServerResponse.ok().bodyValue(false));
     }
