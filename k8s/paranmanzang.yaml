@@ -5,7 +5,7 @@ metadata:
   name: gateway-server
 
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
       app: gateway-server
@@ -50,7 +50,7 @@ metadata:
   name: chat-service
   
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
       app: chat-service
@@ -82,7 +82,7 @@ metadata:
   name: comment-service
   
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
       app: comment-service
@@ -116,7 +116,7 @@ metadata:
   name: file-service
   
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
       app: file-service
@@ -148,7 +148,7 @@ metadata:
   name: group-service
 
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
       app: group-service
@@ -183,7 +183,7 @@ metadata:
   name: room-service
   
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
       app: room-service
@@ -217,7 +217,7 @@ metadata:
   name: user-service
   
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
       app: user-service
