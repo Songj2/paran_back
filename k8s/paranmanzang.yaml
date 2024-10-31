@@ -159,7 +159,7 @@ spec:
     spec:
       containers:
         - name: group-service
-          image: songjih452/paran:room-latest
+          image: songjih452/paran:group-latest
           imagePullPolicy: Always
           env:
             - name: SPRING_CLOUD_KUBERNETES_ENABLED
