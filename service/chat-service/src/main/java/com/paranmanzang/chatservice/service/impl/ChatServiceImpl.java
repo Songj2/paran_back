@@ -135,7 +135,7 @@ public class ChatServiceImpl implements ChatService {
                                                         .password(chatRoom.getPassword())
                                                         .userCount(userCount)
                                                         .unReadMessageCount(unReadMessageCount)
-                                                        .build())))));
+                                                        .build()))))).log();
     }
 
     @Override
