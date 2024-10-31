@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +46,7 @@ public class GroupServiceImpl implements GroupService {
                             .enabled(true)
                             .group(savedGroup)
                             .nickname(savedGroup.getNickname())
+                                    .requestAt(LocalDate.now())
                             .build());
 
                     return GroupResponseModel.fromEntity(savedGroup);
