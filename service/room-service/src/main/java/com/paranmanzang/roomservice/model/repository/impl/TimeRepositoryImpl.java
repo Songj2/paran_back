@@ -7,7 +7,9 @@ import com.paranmanzang.roomservice.model.repository.TimeCustomRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class TimeRepositoryImpl implements TimeCustomRepository {
@@ -23,10 +25,10 @@ public class TimeRepositoryImpl implements TimeCustomRepository {
 
     @Override
     public Time findLastByRoomId(Long roomId) {
-        return jpaQueryFactory.selectFrom(time)
+        return Optional.ofNullable(jpaQueryFactory.selectFrom(time)
                 .where(time.room.id.eq(roomId))
                 .orderBy(time.id.desc())
-                .fetchFirst();
+                .fetchFirst()).orElse(Time.builder().date(LocalDate.now()).build());
     }
 
     @Override
