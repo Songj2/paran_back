@@ -8,11 +8,13 @@ import com.paranmanzang.commentservice.model.repository.JoiningRepository;
 import com.paranmanzang.commentservice.service.JoiningService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class JoiningServiceImpl implements JoiningService {
@@ -70,7 +72,7 @@ public class JoiningServiceImpl implements JoiningService {
     @Override
     public Object deleteUser(String nickname, Long groupId) {
         try{
-            joiningRepository.findByNicknameAndGroupId(nickname,groupId)
+            System.out.println("target: "+ joiningRepository.findByNicknameAndGroupId(nickname,groupId));
             joiningRepository.delete(joiningRepository.findByNicknameAndGroupId(nickname,groupId));
             return true;
         }catch (Error e){
