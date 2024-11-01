@@ -43,7 +43,8 @@ public class LogoutFilter implements WebFilter {
 
                 // refreshToken 삭제
                 jwtTokenService.deleteToken(refreshToken);
-                exchange.getResponse().addCookie(createCookie("refresh", null));
+                exchange.getResponse().getHeaders().add(HttpHeaders.SET_COOKIE,createCookie("refresh", null).toString());
+
                 log.info("Refresh cookie cleared");
             } else {
                 log.warn("Refresh cookie not found");
