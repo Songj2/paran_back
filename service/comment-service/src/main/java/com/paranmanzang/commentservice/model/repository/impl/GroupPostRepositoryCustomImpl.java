@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.paranmanzang.commentservice.model.entity.QBook.book;
 import static com.paranmanzang.commentservice.model.entity.QGroup.group;
@@ -56,8 +57,18 @@ public class GroupPostRepositoryCustomImpl implements GroupPostRepositoryCustom 
                         .leftJoin(groupPost.group, group)  // left join to handle null groups
                         .leftJoin(groupPost.book, book)    // left join to handle null books
                         .where(groupPost.id.in(ids))
+                        .orderBy(groupPost.id.desc())
                         .fetch();
-        return new PageImpl<>(content, pageable, ids.size());
+
+        long totalCount = Optional.ofNullable(queryFactory
+                .select(groupPost.id.count())
+                .from(groupPost)
+                .where(
+                        groupPost.group.id.eq(groupId)
+                                .and(groupPost.postCategory.eq(postCategory))
+                )
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>(content, pageable, totalCount);
     }
 
     @Override

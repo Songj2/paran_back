@@ -14,13 +14,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final RoomRepository roomRepository;
     private final BookingRepository bookingRepository;
-private final Converter converter;
+    private final Converter converter;
+
     @Override
     public ReviewModel insert(ReviewModel model) {
         return converter.convertToReviewModel(reviewRepository.save(Review.builder()
@@ -29,6 +32,7 @@ private final Converter converter;
                 .nickname(model.getNickname())
                 .room(roomRepository.findById(model.getRoomId()).get())
                 .booking(bookingRepository.findById(model.getBookingId()).get())
+                .createAt(LocalDateTime.now())
                 .build()));
     }
 

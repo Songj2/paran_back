@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 public class ReviewRepositoryImpl implements ReviewCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
@@ -39,7 +41,11 @@ public class ReviewRepositoryImpl implements ReviewCustomRepository {
                                 .offset(pageable.getOffset())
                                 .fetch()
                 )).fetch();
-        return new PageImpl<>( result, pageable, result.size());
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(review.id.count())
+                .from(review)
+                .where(review.room.id.eq(roomId)).fetchOne()).orElse(0L);
+        return new PageImpl<>( result, pageable, totalCount);
     }
 
     @Override
@@ -65,7 +71,12 @@ public class ReviewRepositoryImpl implements ReviewCustomRepository {
                                 .offset(pageable.getOffset())
                                 .fetch()
                 )).fetch();
-        return new PageImpl<>( result, pageable, result.size());
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(review.id.count())
+                .from(review)
+                .where(review.room.nickname.eq(nickname))
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>( result, pageable, totalCount);
     }
 
     @Override
@@ -90,6 +101,10 @@ public class ReviewRepositoryImpl implements ReviewCustomRepository {
                                 .offset(pageable.getOffset())
                                 .fetch()
                 )).fetch();
-        return new PageImpl<>( result, pageable, result.size());
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(review.id.count())
+                .from(review)
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>( result, pageable, totalCount);
     }
 }

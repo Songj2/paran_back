@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class AdminPostRepositoryImpl implements AdminPostRepositoryCustom {
@@ -46,7 +47,13 @@ public class AdminPostRepositoryImpl implements AdminPostRepositoryCustom {
                         .where(adminPosts.id.in(adminPostIdsN))
                         .fetch();
 
-        return new PageImpl<>(adminPostModelsn, pageable, adminPostIdsN.size());
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(adminPosts.id.count())
+                .from(adminPosts)
+                .where(adminPosts.nickname.eq(nickname))
+                .fetchOne()).orElse(0L);
+
+        return new PageImpl<>(adminPostModelsn, pageable, totalCount);
     }
 
     @Override
@@ -73,7 +80,13 @@ public class AdminPostRepositoryImpl implements AdminPostRepositoryCustom {
                         .from(adminPosts)
                         .where(adminPosts.id.in(adminPostIds))
                         .fetch();
-        return new PageImpl<>(adminPostModel, pageable, adminPostIds.size());
+
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(adminPosts.id.count())
+                .from(adminPosts)
+                .fetchOne()).orElse(0L);
+
+        return new PageImpl<>(adminPostModel, pageable, totalCount);
 
     }
 

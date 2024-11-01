@@ -25,6 +25,7 @@ public class LikePostRepositoryImpl implements LikePostRepositoryCustom {
                 .where(
                         likePosts.nickname.eq(nickname)
                 )
+                .orderBy(groupPost.id.desc())
                 .fetch();
 
         // Step 2: 필요한 필드 조회 및 GroupPostResponseModel 변환
@@ -49,6 +50,7 @@ public class LikePostRepositoryImpl implements LikePostRepositoryCustom {
                         .leftJoin(groupPost.group, group)
                         .leftJoin(groupPost.book, book)
                         .where(groupPost.id.in(ids))
+                        .orderBy(groupPost.id.desc())
                         .fetch();
     }
 }

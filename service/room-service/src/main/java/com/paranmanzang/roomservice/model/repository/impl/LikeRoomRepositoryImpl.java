@@ -33,6 +33,7 @@ public class LikeRoomRepositoryImpl implements LikeRoomRepositoryCustom {
                         ))
                         .from(likeRooms)
                         .where(likeRooms.id.in(likeRoomIds))
+                        .orderBy(likeRooms.id.desc())
                         .fetch();
 
 

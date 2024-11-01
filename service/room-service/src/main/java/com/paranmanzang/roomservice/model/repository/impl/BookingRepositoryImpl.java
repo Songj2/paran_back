@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class BookingRepositoryImpl implements BookingCustomRepository {
@@ -28,7 +29,12 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                                 .offset(pageable.getOffset())
                                 .fetch()
                 )).fetch();
-        return new PageImpl<>( result, pageable, result.size());
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(booking.id.count())
+                .from(booking)
+                .where(booking.groupId.eq(id))
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>( result, pageable, totalCount);
     }
 
     @Override
@@ -42,7 +48,12 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                                 .offset(pageable.getOffset())
                                 .fetch()
                 )).fetch();
-        return new PageImpl<>( result, pageable, result.size());
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(booking.id.count())
+                .from(booking)
+                .where(booking.room.id.eq(id))
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>( result, pageable,totalCount);
     }
 
     @Override
@@ -56,7 +67,11 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                                 .offset(pageable.getOffset())
                                 .fetch()
                 )).fetch();
-        return new PageImpl<>( result, pageable, result.size());
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(booking.id.count())
+                .from(booking)
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>( result, pageable,totalCount);
     }
 
     @Override

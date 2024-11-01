@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class RoomRepositoryImpl implements RoomCustomRepository {
@@ -20,7 +21,7 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
 
     @Override
     public Page<RoomModel> findByEnabled(Pageable pageable) {
-        var result= jpaQueryFactory.select(
+        var result = jpaQueryFactory.select(
                         Projections.constructor(
                                 RoomModel.class,
                                 room.id.as("id"),
@@ -41,15 +42,22 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                                 .from(room)
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
+                                .where(room.enabled.eq(true))
                                 .fetch()
-                ).and(room.enabled.eq(true)))
+                ))
                 .fetch().stream().toList();
-        return new PageImpl<>( result, pageable, result.size());
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(room.id.count())
+                .from(room)
+                .where(room.enabled.eq(true))
+                .fetchOne()).orElse(0L);
+
+        return new PageImpl<>(result, pageable, totalCount);
     }
 
     @Override
     public Page<RoomModel> findByDisabled(Pageable pageable) {
-        var result= jpaQueryFactory.select(
+        var result = jpaQueryFactory.select(
                         Projections.constructor(
                                 RoomModel.class,
                                 room.id.as("id"),
@@ -70,10 +78,17 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                                 .from(room)
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
+                                .where(room.enabled.eq(false))
                                 .fetch()
-                ).and(room.enabled.eq(false)))
+                ))
                 .fetch().stream().toList();
-        return new PageImpl<>( result, pageable, result.size());
+
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(room.id.count())
+                .from(room)
+                .where(room.enabled.eq(false))
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>(result, pageable, totalCount);
     }
 
     @Override
@@ -85,7 +100,7 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
 
     @Override
     public Page<?> findEnabledByNickname(String nickname, Pageable pageable) {
-        var result= jpaQueryFactory.select(
+        var result = jpaQueryFactory.select(
                         Projections.constructor(
                                 RoomModel.class,
                                 room.id.as("id"),
@@ -110,12 +125,18 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                         )
                 )
                 .fetch();
-        return new PageImpl<>( result, pageable, result.size());
+
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(room.id.count())
+                .from(room)
+                .where(room.nickname.eq(nickname).and(room.enabled.eq(true)))
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>(result, pageable, totalCount);
     }
 
     @Override
     public Page<RoomModel> findDisabledByNickname(String nickname, Pageable pageable) {
-        var result= jpaQueryFactory.select(
+        var result = jpaQueryFactory.select(
                         Projections.constructor(
                                 RoomModel.class,
                                 room.id.as("id"),
@@ -140,6 +161,12 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                         )
                 )
                 .fetch();
-        return new PageImpl<>( result, pageable, result.size());
+
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(room.id.count())
+                .from(room)
+                .where(room.nickname.eq(nickname).and(room.enabled.eq(false)))
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>(result, pageable, totalCount);
     }
 }

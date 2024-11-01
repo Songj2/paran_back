@@ -64,8 +64,12 @@ public class AccountRepositoryImpl implements AccountCustomRepository {
                                 .offset(pageable.getOffset())
                                 .fetch()
                 )).fetch();
-        log.info("result: "+ result);
-        return new PageImpl<>( result, pageable, result.size());
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(account.orderId.count())
+                .from(account)
+                .where(account.groupId.eq(groupId))
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>( result, pageable, totalCount);
 
     }
 
@@ -96,6 +100,11 @@ public class AccountRepositoryImpl implements AccountCustomRepository {
                                 .offset(pageable.getOffset())
                                 .fetch()
                 )).fetch();
-        return new PageImpl<>( result, pageable, result.size());
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(account.orderId.count())
+                .from(account)
+                .where(account.roomId.eq(roomId))
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>( result, pageable,totalCount);
     }
 }

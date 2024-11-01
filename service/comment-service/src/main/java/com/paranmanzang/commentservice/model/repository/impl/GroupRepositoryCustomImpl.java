@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.paranmanzang.commentservice.model.entity.QGroup.group;
 import static com.paranmanzang.commentservice.model.entity.QJoining.joining;
@@ -45,8 +46,12 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
                         .from(group)
                         .where(group.id.in(ids))
                         .fetch();
-
-        return new PageImpl<>(books, pageable, ids.size());
+        long totalCount = Optional.ofNullable(queryFactory
+                .select(group.id.count())
+                .from(group)
+                .where(group.enabled.eq(true))
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>(books, pageable, totalCount);
     }
 
     @Override
@@ -56,6 +61,7 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
                 .from(group)
                 .join(group.joinings, joining)
                 .where(joining.nickname.eq(nickname).and(joining.enabled.eq(true)))
+                .orderBy(group.id.desc())
                 .fetch();
 
         return ids.isEmpty() ? List.of() :
@@ -73,6 +79,7 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
                         ))
                         .from(group)
                         .where(group.id.in(ids))
+                        .orderBy(group.id.desc())
                         .fetch();
     }
 
@@ -102,6 +109,12 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
                         .from(group)
                         .where(group.id.in(ids))
                         .fetch();
-        return new PageImpl<>(books, pageable, ids.size());
+
+        long totalCount = Optional.ofNullable(queryFactory
+                .select(group.id.count())
+                .from(group)
+                .where(group.enabled.eq(false))
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>(books, pageable,totalCount);
     }
 }

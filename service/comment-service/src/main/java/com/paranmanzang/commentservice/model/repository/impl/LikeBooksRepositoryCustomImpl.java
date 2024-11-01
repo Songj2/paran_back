@@ -21,6 +21,7 @@ public class LikeBooksRepositoryCustomImpl implements LikeBooksRepositoryCustom 
                 .select(likeBooks.book.id)
                 .from(likeBooks)
                 .where(likeBooks.nickname.eq(nickname))
+                .orderBy(likeBooks.id.desc())
                 .fetch();
 
         return ids.isEmpty() ? List.of() :
@@ -36,6 +37,7 @@ public class LikeBooksRepositoryCustomImpl implements LikeBooksRepositoryCustom 
                         .from(book)
                         .leftJoin(book.like_books, likeBooks)
                         .where(book.id.in(ids))
+                        .orderBy(likeBooks.id.desc())
                         .fetch();
     }
 }

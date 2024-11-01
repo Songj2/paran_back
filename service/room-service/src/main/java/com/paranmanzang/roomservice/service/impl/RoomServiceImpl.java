@@ -32,6 +32,7 @@ public class RoomServiceImpl implements RoomService {
                 .openTime(model.getOpenTime())
                 .closeTime(model.getCloseTime())
                 .nickname(model.getNickname())
+                .createdAt(LocalDateTime.now())
                 .build()));
     }
 
@@ -77,10 +78,12 @@ public class RoomServiceImpl implements RoomService {
                 })
                 .orElse(null);
     }
+
     @Override
     public List<?> findAllByEnabled() {
         return roomRepository.findAll().stream().filter(Room::isEnabled).map(converter::convertToRoomModel).toList();
     }
+
     @Override
     public Page<RoomModel> findByEnabled(Pageable pageable) {
         return roomRepository.findByEnabled(pageable);

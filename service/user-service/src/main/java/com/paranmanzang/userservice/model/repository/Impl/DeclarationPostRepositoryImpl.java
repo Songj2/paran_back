@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -49,8 +50,13 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
                         .where(declarationPosts.id.in(declarationpostsIdsn))  // ID 리스트 사용
                         .fetch();
 
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(declarationPosts.id.count())
+                .where(declarationPosts.declarer.eq(nickname))
+                .fetchOne()).orElse(0L);
+
         // 결과를 Page 객체로 반환
-        return new PageImpl<>(declarationPostModeln, pageable, declarationpostsIdsn.size());
+        return new PageImpl<>(declarationPostModeln, pageable, totalCount);
     }
 
     // 모든 게시물을 찾는 메서드
@@ -80,7 +86,10 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
                         .where(declarationPosts.id.in(declarationpostsIds))  // ID 리스트 사용
                         .fetch();
 
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(declarationPosts.id.count())
+                .fetchOne()).orElse(0L);
         // 결과를 Page 객체로 반환
-        return new PageImpl<>(declarationPostModelList, pageable, declarationpostsIds.size());
+        return new PageImpl<>(declarationPostModelList, pageable, totalCount);
     }
 }
