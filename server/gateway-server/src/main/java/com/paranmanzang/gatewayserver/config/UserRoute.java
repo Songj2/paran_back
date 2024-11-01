@@ -21,7 +21,7 @@ public class UserRoute {
                 route(POST("/api/users").and(accept(MediaType.APPLICATION_JSON)), userController::insert)
                         .andRoute(POST("/api/users/checkNickname").and(accept(MediaType.APPLICATION_JSON)), userController::checkNickname)
                         .andRoute(POST("/api/users/checkPassword").and(accept(MediaType.APPLICATION_JSON)), userController::checkPassword)
-                        .andRoute(DELETE("/api/users").and(accept(MediaType.APPLICATION_JSON)), userController::remove)
+                        .andRoute(PUT("/api/users").and(accept(MediaType.APPLICATION_JSON)), userController::remove)
                         .andRoute(PUT("/api/users/updatePassword").and(accept(MediaType.APPLICATION_JSON)), userController::updatePassword)
                         .andRoute(PUT("/api/users/updateLogoutUserTime").and(accept(MediaType.APPLICATION_JSON)), userController::updateLogoutUserTime)
                         .andRoute(PUT("/api/users/updateDeclaration").and(accept(MediaType.APPLICATION_JSON)), userController::updateDeclaration)

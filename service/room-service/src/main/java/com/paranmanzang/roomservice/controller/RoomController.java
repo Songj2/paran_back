@@ -61,7 +61,7 @@ public class RoomController {
     }
 
     @GetMapping("/disabled")
-    @Operation(summary = "승인된 공간 조회", description = "승인된 공간정보를 조회합니다. '페이지네이션'")
+    @Operation(summary = "승인된 공간 조회", description = "미승인된 공간정보를 조회합니다. '페이지네이션'")
     public ResponseEntity<?> findByDisabled(Pageable pageable) {
         return ResponseEntity.ok(roomService.findByDisabled(pageable));
     }

@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "02. Booking")
@@ -46,11 +48,13 @@ public class BookingController {
     @GetMapping("/group/enabled")
     @Operation(summary = "소모임 승인된 예약 조회", description = "해당 소모임에 대한 승인된 예약정보를 조회합니다. pagination")
     public ResponseEntity<?> findEnabledByGroups(@RequestParam("groupIds") List<Long> groupIds, Pageable pageable) {
+        log.info("GROUP) {}, page: {}", groupIds,pageable);
         return ResponseEntity.ok(bookingService.findEnabledByGroups(groupIds, pageable));
     }
     @GetMapping("/group/disabled")
     @Operation(summary = "소모임 승인 대기인 예약 조회", description = "해당 소모임에 대한 모든 예약정보를 조회합니다. pagination")
     public ResponseEntity<?> findDisabledByGroups(@RequestParam("groupIds") List<Long> groupIds, Pageable pageable) {
+        log.info("GROUP) {}, page: {}", groupIds,pageable);
         return ResponseEntity.ok(bookingService.findDisabledByGroups(groupIds, pageable));
     }
     @GetMapping("/group/{groupId}")
