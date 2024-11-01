@@ -69,10 +69,11 @@ public class JoiningServiceImpl implements JoiningService {
 
     @Override
     public Object deleteUser(String nickname, Long groupId) {
-        joiningRepository.findByGroupId(groupId).stream()
-                .filter(joining -> joining.getNickname().equals(nickname))
-                .forEach(joining -> joiningRepository.deleteById(joining.getId()));
-
-        return true;
+        try{
+            joiningRepository.deleteByNicknameAndGroupId(nickname,groupId);
+            return true;
+        }catch (Error e){
+            return false;
+        }
     }
 }
