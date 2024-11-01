@@ -3,6 +3,7 @@ package com.paranmanzang.gatewayserver.oauth;
 import com.paranmanzang.gatewayserver.jwt.JWTUtil;
 import com.paranmanzang.gatewayserver.jwt.JwtTokenServiceImpl;
 import com.paranmanzang.gatewayserver.model.Domain.oauth.CustomOAuth2User;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -44,15 +45,15 @@ public class CustomSuccessHandler implements ServerAuthenticationSuccessHandler 
         String refresh = jwtUtil.createRefreshJwt(username, role, nickname, 86400000L);
         response.getHeaders().set("Authorization", "Bearer " + access);
         response.getHeaders().set("nickname", nickname);
-        response.addCookie(createCookie("Authorization", access));
-        response.addCookie(createCookie("nickname", nickname));
-        response.addCookie(createCookie("refresh", refresh));
+        response.getHeaders().add(HttpHeaders.SET_COOKIE, createCookie("Authorization", access).toString());
+        response.getHeaders().add(HttpHeaders.SET_COOKIE, createCookie("nickname", nickname).toString());
+        response.getHeaders().add(HttpHeaders.SET_COOKIE,createCookie("refresh", refresh).toString());
         jwtTokenService.storeToken(refresh, nickname, 86400000L);
 
 
         response.getHeaders().setLocation(URI.create("https://paranmanzang.com/users/oauth")); // 기본값
 
-        response.setStatusCode(HttpStatus.FOUND); // 302 Found로 변경
+        response.setStatusCode(HttpStatus.OK); // 302 Found로 변경
         return response.setComplete();
     }
 
@@ -63,6 +64,7 @@ public class CustomSuccessHandler implements ServerAuthenticationSuccessHandler 
                 .secure(true)
                 .httpOnly(false)
                 .sameSite("None")
+                .domain("paranmanzang.com")
                 .build();
     }
 }
