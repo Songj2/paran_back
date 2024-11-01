@@ -38,7 +38,10 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
                 .fetch();
 
         // ID 리스트가 비어 있지 않으면 데이터를 조회
-        List<DeclarationPostModel> declarationPostModeln = declarationpostsIdsn.isEmpty() ? List.of() :
+        if (declarationpostsIdsn.isEmpty()) {
+            return new PageImpl<>(List.of(), pageable, 0L);
+        }
+        List<DeclarationPostModel> declarationPostModeln =
                 jpaQueryFactory
                         .select(Projections.constructor(
                                 DeclarationPostModel.class,
