@@ -32,7 +32,6 @@ public class GroupPostRepositoryCustomImpl implements GroupPostRepositoryCustom 
                 .orderBy(groupPost.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(groupPost.id.desc())
                 .fetch();
 
         // Step 2: 필요한 필드 조회 및 GroupPostResponseModel 변환

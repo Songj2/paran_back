@@ -27,7 +27,6 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
                 .where(group.enabled.eq(true))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(group.id.desc())
                 .fetch();
 
         List<GroupResponseModel> books = ids.isEmpty() ? List.of() :
@@ -57,7 +56,6 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
                 .from(group)
                 .join(group.joinings, joining)
                 .where(joining.nickname.eq(nickname).and(joining.enabled.eq(true)))
-                .orderBy(group.id.desc())
                 .fetch();
 
         return ids.isEmpty() ? List.of() :
@@ -86,7 +84,6 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
                 .where(group.enabled.eq(false))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(group.id.desc())
                 .fetch();
 
         List<GroupResponseModel> books = ids.isEmpty() ? List.of() :
