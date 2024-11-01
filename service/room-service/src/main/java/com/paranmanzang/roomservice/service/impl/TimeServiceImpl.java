@@ -48,6 +48,16 @@ public class TimeServiceImpl implements TImeService {
                                 .closeTime(room.getCloseTime().getHour())
                                 .build())
                 );
+
+        roomRepository.findAll().parallelStream()
+                .filter(Room::isEnabled)
+//                아직 수정해야 함. 날짜 기준 time max date
+                .forEach(room -> timeRepository.saveAll(LocalDate.now().datesUntil(LocalDate.now().plusWeeks(1))
+                                .flatMap(date -> IntStream.rangeClosed(room.getOpenTime().getHour(), room.getCloseTime().getHour())
+                                        .mapToObj(hour ->
+                                                Time.builder().date(date).time(LocalTime.of(hour, 0)).room(roomRepository.findById(room.getId()).get()).build()
+                                        )).collect(Collectors.toList()))
+                );
     }
 
     @Override

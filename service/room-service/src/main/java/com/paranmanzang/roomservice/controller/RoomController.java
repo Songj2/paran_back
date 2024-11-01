@@ -60,6 +60,12 @@ public class RoomController {
         return ResponseEntity.ok(roomService.findByEnabled(pageable));
     }
 
+    @GetMapping("/disabled")
+    @Operation(summary = "승인된 공간 조회", description = "승인된 공간정보를 조회합니다. '페이지네이션'")
+    public ResponseEntity<?> findByDisabled(Pageable pageable) {
+        return ResponseEntity.ok(roomService.findByDisabled(pageable));
+    }
+
     @GetMapping("/user/enabled/{nickname}")
     @Operation(summary = "등록자의 승인된 공간 조회", description = "nickname인 유저가 등록한 모든 공간정보를 조회합니다.")
     public ResponseEntity<?> findAllByUser(@PathVariable("nickname") String nickname, Pageable pageable) {
