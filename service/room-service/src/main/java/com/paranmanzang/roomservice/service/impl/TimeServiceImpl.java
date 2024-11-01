@@ -40,17 +40,7 @@ public class TimeServiceImpl implements TImeService {
     @Scheduled(fixedDelay = 604800016)
     @Override
     public void saveListScheduled() {
-        roomRepository.findAll().parallelStream()
-                .filter(Room::isEnabled)
-                .forEach(room -> saveList(
-                        TimeSaveModel.builder()
-                                .roomId(room.getId())
-                                .openTime(room.getOpenTime().getHour())
-                                .closeTime(room.getCloseTime().getHour())
-                                .build())
-                );
-
-        roomRepository.findAll().parallelStream()
+          roomRepository.findAll().parallelStream()
                 .filter(Room::isEnabled)
                 .forEach(room ->
                         timeRepository.saveAll(LocalDate.now().datesUntil(
