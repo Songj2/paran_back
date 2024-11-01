@@ -78,7 +78,7 @@ public class SecurityConfig {
                 // 권한 설정
                 .authorizeExchange(auth -> auth
                         // 인증이 필요 없는 경로 (모든 사용자 접근 가능)
-                        .pathMatchers("/login", "/oauth2/**", "/api/users", "/api/users/checkPassword", "/api/users/checkNickname", "/api/users/checkRole", "/api/users/updateDeclaration", "/api/users/updateLogoutUserTime", "/reissue", "/logout").permitAll()  // /login과 /oauth2/** 경로는 인증 없이 접근 가능
+                        .pathMatchers("/login", "/login/**","/oauth2/**", "/api/users", "/api/users/checkPassword", "/api/users/checkNickname", "/api/users/checkRole", "/api/users/updateDeclaration", "/api/users/updateLogoutUserTime", "/reissue", "/logout").permitAll()  // /login과 /oauth2/** 경로는 인증 없이 접근 가능
                         .pathMatchers("/api/comments/{postId}").permitAll()
                         .pathMatchers("/api/rooms/enabled", "/api/rooms/enabled-all").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/files/*").permitAll()
