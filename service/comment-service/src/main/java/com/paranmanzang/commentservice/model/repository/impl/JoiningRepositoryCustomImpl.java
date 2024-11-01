@@ -11,7 +11,7 @@ public class JoiningRepositoryCustomImpl implements JoiningRepositoryCustom {
     private final JPAQueryFactory queryFactory;
     @Override
     public Joining findByNicknameAndGroupId(String nickname, Long groupId) {
-        queryFactory.selectFrom(joining)
+        return queryFactory.selectFrom(joining)
                 .where(joining.nickname.eq(nickname).and(joining.group.id.eq(groupId)))
                 .fetchOne();
     }
