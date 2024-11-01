@@ -72,7 +72,8 @@ public class JoiningServiceImpl implements JoiningService {
     @Override
     public Object deleteUser(String nickname, Long groupId) {
         try{
-            System.out.println("target: "+ joiningRepository.findByNicknameAndGroupId(nickname,groupId));
+            System.out.println("target: "+ nickname+", "+ groupId);
+            System.out.println("result: "+ joiningRepository.findByNicknameAndGroupId(nickname,groupId));
             joiningRepository.delete(joiningRepository.findByNicknameAndGroupId(nickname,groupId));
             return true;
         }catch (Error e){
