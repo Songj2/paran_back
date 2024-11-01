@@ -59,7 +59,7 @@ public class CustomSuccessHandler implements ServerAuthenticationSuccessHandler 
     private ResponseCookie createCookie(String key, String value) {
         return ResponseCookie.fromClientResponse(key, value)
                 .maxAge(86400)  // 쿠키의 만료 시간을 초 단위로 설정
-                .path("/")
+                .path("/user/oauth/success")
                 .httpOnly(false)
                 .sameSite("None")
                 .build();
