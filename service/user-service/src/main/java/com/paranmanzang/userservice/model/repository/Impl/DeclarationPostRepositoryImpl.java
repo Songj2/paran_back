@@ -7,6 +7,7 @@ import com.paranmanzang.userservice.model.repository.custom.DeclarationPostRepos
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+@Slf4j
 @RequiredArgsConstructor
 public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryCustom {
 
@@ -25,6 +27,7 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
     // declarer에 따라 게시물을 찾는 메서드
     @Override
     public Page<DeclarationPostModel> findByNickname(String nickname, Pageable pageable) {
+        log.info("Repository Impl) {}, {}", nickname, pageable);
         // DeclarationPosts의 ID만 선택하여 리스트로 저장
         List<Long> declarationpostsIdsn = jpaQueryFactory
                 .select(declarationPosts.id)  // ID만 선택

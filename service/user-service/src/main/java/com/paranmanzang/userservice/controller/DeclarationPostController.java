@@ -4,12 +4,14 @@ import com.paranmanzang.userservice.model.domain.DeclarationPostModel;
 import com.paranmanzang.userservice.service.impl.DeclarationPostServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+@Slf4j
 @RestController
 @Tag(name = "02. DeclarationPost")
 @RequestMapping("/api/users/depost")
@@ -43,6 +45,7 @@ public class DeclarationPostController {
     @GetMapping("/{nickname}")
     @Operation(summary = "신고 게시글 조회", description = "신고 게시글을 조회합니다. 관리자는 모든 게시물을 조회할 수 있으며, 글을 쓴 작성자는 본인의 게시물만을 확인할 수 있습니다.")
     public ResponseEntity<?> findAllByNickname(@PathVariable("nickname") String nickname, @RequestParam int page, @RequestParam int size) {
+        log.info("param) {}, {}, {}", nickname,page,size);
         return ResponseEntity.ok(declarationPostService.findAllByNickname(nickname, PageRequest.of(page,size)));
     }
 
