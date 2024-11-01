@@ -10,6 +10,7 @@ import com.paranmanzang.roomservice.model.repository.TimeRepository;
 import com.paranmanzang.roomservice.service.TImeService;
 import com.paranmanzang.roomservice.util.Converter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -36,7 +37,7 @@ public class TimeServiceImpl implements TImeService {
                 .isEmpty();
     }
 
-    //    @Scheduled(fixedDelay = 3000000)
+    @Scheduled(fixedDelay = 604800016)
     @Override
     public void saveListScheduled() {
         roomRepository.findAll().parallelStream()
@@ -51,11 +52,17 @@ public class TimeServiceImpl implements TImeService {
 
         roomRepository.findAll().parallelStream()
                 .filter(Room::isEnabled)
-//                아직 수정해야 함. 날짜 기준 time max date
-                .forEach(room -> timeRepository.saveAll(LocalDate.now().datesUntil(LocalDate.now().plusWeeks(1))
-                                .flatMap(date -> IntStream.rangeClosed(room.getOpenTime().getHour(), room.getCloseTime().getHour())
+                .forEach(room ->
+                        timeRepository.saveAll(LocalDate.now().datesUntil(
+                                timeRepository.findByRoomId(room.getId()).get(-1).getDate().plusWeeks(1)
+                        ).flatMap(date ->
+                                IntStream.rangeClosed(room.getOpenTime().getHour(), room.getCloseTime().getHour())
                                         .mapToObj(hour ->
-                                                Time.builder().date(date).time(LocalTime.of(hour, 0)).room(roomRepository.findById(room.getId()).get()).build()
+                                                Time.builder()
+                                                        .date(date)
+                                                        .time(LocalTime.of(hour, 0))
+                                                        .room(roomRepository.findById(room.getId()).get())
+                                                        .build()
                                         )).collect(Collectors.toList()))
                 );
     }
