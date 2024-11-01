@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface TimeCustomRepository {
     List<Time> findByRoomId( Long roomId);
+    Time findLastByRoomId( Long roomId);
     List<Time> findByBookingId(Long bookingId);
     List<Time> findByBooking(BookingModel model);
     void deleteByRoom( Long id);

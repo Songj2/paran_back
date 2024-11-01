@@ -22,6 +22,14 @@ public class TimeRepositoryImpl implements TimeCustomRepository {
     }
 
     @Override
+    public Time findLastByRoomId(Long roomId) {
+        return jpaQueryFactory.selectFrom(time)
+                .where(time.room.id.eq(roomId))
+                .orderBy(time.id.desc())
+                .fetchFirst();
+    }
+
+    @Override
     public List<Time> findByBookingId(Long bookingId) {
         return jpaQueryFactory.selectFrom(time)
                 .where(time.booking.id.eq(bookingId))
