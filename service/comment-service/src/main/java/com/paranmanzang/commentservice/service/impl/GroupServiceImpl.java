@@ -8,6 +8,7 @@ import com.paranmanzang.commentservice.model.repository.GroupRepository;
 import com.paranmanzang.commentservice.model.repository.JoiningRepository;
 import com.paranmanzang.commentservice.service.GroupService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class GroupServiceImpl implements GroupService {
@@ -37,11 +39,12 @@ public class GroupServiceImpl implements GroupService {
 
     @Transactional
     public Object addGroup(GroupModel groupModel) {
+        log.info("GROUP] model Info: {}", groupModel);
         return Optional.ofNullable(groupModel)
                 .filter(group -> !duplicatename(group.getName()))
                 .map(group -> {
                     var savedGroup = groupRepository.save(group.toEntity());
-
+                    log.info("GROUP] save Info: {}", groupRepository.findById(savedGroup.getId()));
                     joiningRepository.save(Joining.builder()
                             .enabled(true)
                             .group(savedGroup)
