@@ -37,9 +37,8 @@ public class Group {
     @Column(nullable = false, columnDefinition = "TINYINT")
     private boolean enabled;
 
-    @Builder.Default
     @Column(nullable = false)
-    private String detail = "'Empty detail'";
+    private String detail;
 
     @Column(nullable = false)
     private String nickname;//관리자 nickname

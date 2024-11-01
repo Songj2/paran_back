@@ -18,6 +18,7 @@ public class GroupModel {
     @NotBlank(message = "카테고리명은 필수값입니다.")
     private String categoryName;
     private String nickname;
+    @NotBlank(message = "소모임에 대한 설명은 필수값입니다.")
     private String detail;
 
 
