@@ -29,7 +29,7 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
     public Page<DeclarationPostModel> findByNickname(String nickname, Pageable pageable) {
         log.info("Repository Impl) {}, {}", nickname, pageable);
         // DeclarationPosts의 ID만 선택하여 리스트로 저장
-        List<Long> declarationpostsIdsn = jpaQueryFactory
+        List<Long> declarationpostsIds = jpaQueryFactory
                 .select(declarationPosts.id)  // ID만 선택
                 .from(declarationPosts)
                 .where(declarationPosts.declarer.eq(nickname))
@@ -38,10 +38,10 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
                 .fetch();
 
         // ID 리스트가 비어 있지 않으면 데이터를 조회
-        if (declarationpostsIdsn.isEmpty()) {
+        if (declarationpostsIds.isEmpty()) {
             return new PageImpl<>(List.of(), pageable, 0L);
         }
-        List<DeclarationPostModel> declarationPostModeln =
+        List<DeclarationPostModel> declarationPostModel =
                 jpaQueryFactory
                         .select(Projections.constructor(
                                 DeclarationPostModel.class,
@@ -53,16 +53,17 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
                                 declarationPosts.createdAt
                         ))
                         .from(declarationPosts)
-                        .where(declarationPosts.id.in(declarationpostsIdsn))  // ID 리스트 사용
+                        .where(declarationPosts.id.in(declarationpostsIds))  // ID 리스트 사용
                         .fetch();
 
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(declarationPosts.id.count())
+                .from(declarationPosts)
                 .where(declarationPosts.declarer.eq(nickname))
                 .fetchOne()).orElse(0L);
 
         // 결과를 Page 객체로 반환
-        return new PageImpl<>(declarationPostModeln, pageable, totalCount);
+        return new PageImpl<>(declarationPostModel, pageable, totalCount);
     }
 
     // 모든 게시물을 찾는 메서드
@@ -94,6 +95,7 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
 
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(declarationPosts.id.count())
+                .from(declarationPosts)
                 .fetchOne()).orElse(0L);
         // 결과를 Page 객체로 반환
         return new PageImpl<>(declarationPostModelList, pageable, totalCount);
