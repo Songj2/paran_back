@@ -18,6 +18,7 @@ public class GroupModel {
     @NotBlank(message = "카테고리명은 필수값입니다.")
     private String categoryName;
     private String nickname;
+    private String detail;
 
 
 
@@ -26,6 +27,7 @@ public class GroupModel {
                 .name(this.name)
                 .categoryName(this.categoryName)
                 .nickname(this.nickname)
+                .detail(this.detail)
                 .build();
     }
 }

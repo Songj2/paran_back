@@ -39,12 +39,10 @@ public class GroupServiceImpl implements GroupService {
 
     @Transactional
     public Object addGroup(GroupModel groupModel) {
-        log.info("GROUP] model Info: {}", groupModel);
         return Optional.ofNullable(groupModel)
                 .filter(group -> !duplicatename(group.getName()))
                 .map(group -> {
                     var savedGroup = groupRepository.save(group.toEntity());
-                    log.info("GROUP] save Info: {}", groupRepository.findById(savedGroup.getId()));
                     joiningRepository.save(Joining.builder()
                             .enabled(true)
                             .group(savedGroup)
@@ -63,6 +61,7 @@ public class GroupServiceImpl implements GroupService {
                     if (groupToEnable.isEnabled()) {
                         return (Object) new ErrorField(groupId, "이미 관리자 승인된 group입니다.");
                     } else {
+                        groupToEnable.setEnabled(true);
                         return GroupResponseModel.fromEntity(groupRepository.save(groupToEnable));
                     }
                 })
