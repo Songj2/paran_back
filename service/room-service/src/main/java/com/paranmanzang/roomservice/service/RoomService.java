@@ -16,17 +16,16 @@ public interface RoomService {
     Boolean delete(Long id);
 
     RoomModel confirm(Long id);
-    Page<?> findAll(Pageable pageable);
     Page<?> findByEnabled(Pageable pageable);
     List<?> getIdAllEnabled();
-    Page<?> findByNickname(String nickname, Pageable pageable);
-
     RoomModel findById(Long id);
+    List<?> findAllByEnabled();
     RoomWTimeModel findByIdWithTime(Long id);
-
     List<?> findByLikeRoom(String nickname);
 
-    List<?> findAllByEnabled();
+    Page<?> findEnabledByNickname(String nickname, Pageable pageable);
 
-    List<?> findAllByNickname(String nickname);
+    Page<?> findDisabledByNickname(String nickname, Pageable pageable);
+
+    Page<?> findByDisabled(Pageable pageable);
 }

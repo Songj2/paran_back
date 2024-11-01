@@ -51,7 +51,7 @@ public class CustomSuccessHandler implements ServerAuthenticationSuccessHandler 
         jwtTokenService.storeToken(refresh, nickname, 86400000L);
 
 
-        response.getHeaders().setLocation(URI.create("https://paranmanzang.com/users/oauth")); // 기본값
+        response.getHeaders().setLocation(URI.create("https://www.paranmanzang.com/users/oauth")); // 기본값
 
         response.setStatusCode(HttpStatus.OK); // 302 Found로 변경
         return response.setComplete();

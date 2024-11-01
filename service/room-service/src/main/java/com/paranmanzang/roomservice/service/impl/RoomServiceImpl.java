@@ -77,26 +77,18 @@ public class RoomServiceImpl implements RoomService {
                 })
                 .orElse(null);
     }
-
-
     @Override
-    public Page<?> findAll(Pageable pageable) {
-        return roomRepository.findByPagination(pageable);
+    public List<?> findAllByEnabled() {
+        return roomRepository.findAll().stream().filter(Room::isEnabled).map(converter::convertToRoomModel).toList();
     }
-
     @Override
     public Page<RoomModel> findByEnabled(Pageable pageable) {
-        return roomRepository.findByPagination(pageable);
+        return roomRepository.findByEnabled(pageable);
     }
 
     @Override
     public List<Long> getIdAllEnabled() {
         return roomRepository.findAll().stream().filter(Room::isEnabled).map(Room::getId).toList();
-    }
-
-    @Override
-    public Page<?> findByNickname(String nickname, Pageable pageable) {
-        return roomRepository.findByNickname(nickname, pageable);
     }
 
     @Override
@@ -124,13 +116,18 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<?> findAllByEnabled() {
-        return roomRepository.findAll().stream().filter(Room::isEnabled).map(converter::convertToRoomModel).toList();
+    public Page<?> findEnabledByNickname(String nickname, Pageable pageable) {
+        return roomRepository.findEnabledByNickname(nickname, pageable);
     }
 
     @Override
-    public List<?> findAllByNickname(String nickname) {
-        return roomRepository.findAllByNickname(nickname).stream().map(converter::convertToRoomModel).toList();
+    public Page<?> findDisabledByNickname(String nickname, Pageable pageable) {
+        return roomRepository.findDisabledByNickname(nickname, pageable);
+    }
+
+    @Override
+    public Page<?> findByDisabled(Pageable pageable) {
+        return roomRepository.findByDisabled(pageable);
     }
 
     @Override

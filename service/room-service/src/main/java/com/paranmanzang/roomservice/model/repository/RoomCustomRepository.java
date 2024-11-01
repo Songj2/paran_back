@@ -9,7 +9,9 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface RoomCustomRepository {
-    Page<?> findByNickname( String nickname, Pageable pageable);
-    Page<RoomModel> findByPagination(Pageable pageable);
+    Page<RoomModel> findByEnabled(Pageable pageable);
+    Page<RoomModel> findByDisabled(Pageable pageable);
     List<Room> findAllByNickname(String nickname);
+    Page<?> findEnabledByNickname(String nickname, Pageable pageable);
+    Page<?> findDisabledByNickname( String nickname, Pageable pageable);
 }
