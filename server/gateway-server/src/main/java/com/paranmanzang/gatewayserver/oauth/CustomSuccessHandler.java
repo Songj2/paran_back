@@ -61,6 +61,7 @@ public class CustomSuccessHandler implements ServerAuthenticationSuccessHandler 
                 .maxAge(86400)  // 쿠키의 만료 시간을 초 단위로 설정
                 .path("/")
                 .httpOnly(false)
+                .sameSite("None")
                 .build();
     }
 }
