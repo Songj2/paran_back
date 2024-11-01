@@ -106,7 +106,9 @@ public class FileServiceImpl implements FileService {
     }
 
     public byte[] findFileByRefId(Long refId, String type) throws IOException {
-        return IOUtils.toByteArray(amazonS3.getObject(s3bucket, findByRefId(refId, type).getPath()).getObjectContent());
+        var file= findByRefId(refId, type);
+        if (file.getPath().equals("none")) return null;
+        return IOUtils.toByteArray(amazonS3.getObject(s3bucket, file.getPath()).getObjectContent());
     }
 
     @Override
