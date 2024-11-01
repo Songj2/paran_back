@@ -85,7 +85,10 @@ public class LogoutFilter implements WebFilter {
         return ResponseCookie.fromClientResponse(key, value)
                 .maxAge(0)  // 쿠키의 만료 시간을 초 단위로 설정
                 .path("/")
+                .secure(true)
                 .httpOnly(false)
+                .sameSite("None")
+                .domain("paranmanzang.com")
                 .build();
     }
 }
