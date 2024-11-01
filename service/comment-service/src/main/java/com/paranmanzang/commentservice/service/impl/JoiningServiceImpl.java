@@ -70,7 +70,8 @@ public class JoiningServiceImpl implements JoiningService {
     @Override
     public Object deleteUser(String nickname, Long groupId) {
         try{
-            joiningRepository.deleteByNicknameAndGroupId(nickname,groupId);
+            joiningRepository.findByNicknameAndGroupId(nickname,groupId)
+            joiningRepository.delete(joiningRepository.findByNicknameAndGroupId(nickname,groupId));
             return true;
         }catch (Error e){
             return false;
