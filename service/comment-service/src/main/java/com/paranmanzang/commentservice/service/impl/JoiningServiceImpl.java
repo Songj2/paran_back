@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +27,7 @@ public class JoiningServiceImpl implements JoiningService {
                         .map(group -> (Object) JoiningModel.fromEntity(joiningRepository.save(Joining.builder()
                                 .nickname(joiningModel.getNickname())
                                 .group(groupRepository.findById(joiningModel.getGroupId()).get())
+                                        .requestAt(LocalDate.now())
                                 .build())))
                         .orElseGet(() -> (Object) new ErrorField(joiningModel.getNickname(), "그룹을 찾을 수 없습니다.")));
     }
