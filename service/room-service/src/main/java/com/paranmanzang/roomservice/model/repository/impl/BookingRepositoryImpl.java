@@ -57,12 +57,12 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
     }
 
     @Override
-    public Page<Booking> findByGroupIds(List<Long> groupIds, Pageable pageable) {
+    public Page<Booking> findEnabledByGroupIds(List<Long> groupIds, Pageable pageable) {
         var result= jpaQueryFactory.selectFrom(booking)
                 .where(booking.id.in(
                         jpaQueryFactory.select(booking.id)
                                 .from(booking)
-                                .where(booking.groupId.in(groupIds))
+                                .where(booking.groupId.in(groupIds).and(booking.enabled.eq(true)))
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
@@ -70,21 +70,65 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(booking.id.count())
                 .from(booking)
+                .where(booking.groupId.in(groupIds).and(booking.enabled.eq(true)))
                 .fetchOne()).orElse(0L);
-        return new PageImpl<>( result, pageable,totalCount);
+        return new PageImpl<>( result, pageable, totalCount);
     }
 
     @Override
-    public Page<Booking> findByRoomIds(List<Long> roomIds, Pageable pageable) {
+    public Page<Booking> findDisabledByGroupIds(List<Long> groupIds, Pageable pageable) {
         var result= jpaQueryFactory.selectFrom(booking)
                 .where(booking.id.in(
                         jpaQueryFactory.select(booking.id)
                                 .from(booking)
-                                .where(booking.room.id.in(roomIds))
+                                .where(booking.groupId.in(groupIds).and(booking.enabled.eq(false)))
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
                 )).fetch();
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(booking.id.count())
+                .from(booking)
+                .where(booking.groupId.in(groupIds).and(booking.enabled.eq(false)))
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>( result, pageable, totalCount );
+    }
+
+    @Override
+    public Page<Booking> findEnabledByRoomIds(List<Long> roomIds, Pageable pageable) {
+        var result= jpaQueryFactory.selectFrom(booking)
+                .where(booking.id.in(
+                        jpaQueryFactory.select(booking.id)
+                                .from(booking)
+                                .where(booking.room.id.in(roomIds).and(booking.enabled.eq(true)))
+                                .limit(pageable.getPageSize())
+                                .offset(pageable.getOffset())
+                                .fetch()
+                )).fetch();
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(booking.id.count())
+                .from(booking)
+                .where(booking.room.id.in(roomIds).and(booking.enabled.eq(true)))
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>( result, pageable, result.size());
+    }
+
+    @Override
+    public Page<Booking> findDisabledByRoomIds(List<Long> roomIds, Pageable pageable) {
+        var result= jpaQueryFactory.selectFrom(booking)
+                .where(booking.id.in(
+                        jpaQueryFactory.select(booking.id)
+                                .from(booking)
+                                .where(booking.room.id.in(roomIds).and(booking.enabled.eq(false)))
+                                .limit(pageable.getPageSize())
+                                .offset(pageable.getOffset())
+                                .fetch()
+                )).fetch();
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(booking.id.count())
+                .from(booking)
+                .where(booking.room.id.in(roomIds).and(booking.enabled.eq(false)))
+                .fetchOne()).orElse(0L);
         return new PageImpl<>( result, pageable, result.size());
     }
 }

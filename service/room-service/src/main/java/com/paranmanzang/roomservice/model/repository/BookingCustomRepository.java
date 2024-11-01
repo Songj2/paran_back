@@ -10,7 +10,9 @@ public interface BookingCustomRepository {
     Page<Booking> findByGroupId(Long id, Pageable pageable);
     Page<Booking> findByRoomId( Long id, Pageable pageable);
 
-    Page<Booking> findByGroupIds(List<Long> groupIds, Pageable pageable);
+    Page<Booking> findEnabledByGroupIds(List<Long> groupIds, Pageable pageable);
+    Page<Booking> findDisabledByGroupIds(List<Long> groupIds, Pageable pageable);
 
-    Page<Booking> findByRoomIds(List<Long> roomIds, Pageable pageable);
+    Page<Booking> findEnabledByRoomIds(List<Long> roomIds, Pageable pageable);
+    Page<Booking> findDisabledByRoomIds(List<Long> roomIds, Pageable pageable);
 }

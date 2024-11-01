@@ -29,7 +29,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingModel insert(BookingModel model) {
-       return Optional.of(bookingRepository.save(Booking.builder()
+        return Optional.of(bookingRepository.save(Booking.builder()
                         .date(model.getDate())
                         .groupId(model.getGroupId())
                         .createAt(LocalDateTime.now())
@@ -40,9 +40,9 @@ public class BookingServiceImpl implements BookingService {
                     timeService.saveBooking(model);
                     return booking;
                 }).map(converter::convertToBookingModel).map(bookingModel -> {
-                   if(bookingModel.getUsingTime().isEmpty()) bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
-                   return bookingModel;
-               }).get();
+                    if(bookingModel.getUsingTime().isEmpty()) bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+                    return bookingModel;
+                }).get();
     }
 
     @Override
@@ -82,14 +82,25 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Page<?> findByGroups(List<Long> groupIds, Pageable pageable) {
-        Page<Booking> bookings = bookingRepository.findByGroupIds(groupIds, pageable);
+    public Page<?> findEnabledByGroups(List<Long> groupIds, Pageable pageable) {
+        Page<Booking> bookings = bookingRepository.findEnabledByGroupIds(groupIds, pageable);
+        return new PageImpl<>(bookings.stream().map(converter::convertToBookingModel).toList(), pageable, bookings.getTotalElements());
+    }
+    @Override
+    public Page<?> findDisabledByGroups(List<Long> groupIds, Pageable pageable) {
+        Page<Booking> bookings = bookingRepository.findDisabledByGroupIds(groupIds, pageable);
         return new PageImpl<>(bookings.stream().map(converter::convertToBookingModel).toList(), pageable, bookings.getTotalElements());
     }
 
     @Override
-    public Page<?> findByRooms(String nickname, Pageable pageable) {
-        Page<Booking> bookings= bookingRepository.findByRoomIds(roomRepository.findAllByNickname(nickname).stream().map(Room::getId).toList(), pageable);
+    public Page<?> findEnabledByRooms(String nickname, Pageable pageable) {
+        Page<Booking> bookings= bookingRepository.findEnabledByRoomIds(roomRepository.findAllByNickname(nickname).stream().map(Room::getId).toList(), pageable);
+
+        return new PageImpl<>(bookings.stream().map(converter::convertToBookingModel).toList(), pageable, bookings.getTotalElements());
+    }
+    @Override
+    public Page<?> findDisabledByRooms(String nickname, Pageable pageable) {
+        Page<Booking> bookings= bookingRepository.findDisabledByRoomIds(roomRepository.findAllByNickname(nickname).stream().map(Room::getId).toList(), pageable);
 
         return new PageImpl<>(bookings.stream().map(converter::convertToBookingModel).toList(), pageable, bookings.getTotalElements());
     }

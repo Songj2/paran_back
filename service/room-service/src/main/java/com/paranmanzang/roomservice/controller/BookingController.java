@@ -43,10 +43,15 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.delete(id));
     }
 
-    @GetMapping("/group")
-    @Operation(summary = "소모임 예약 조회", description = "해당 소모임에 대한 모든 예약정보를 조회합니다")
-    public ResponseEntity<?> findByGroups(@RequestParam("groupIds") List<Long> groupIds, Pageable pageable) {
-        return ResponseEntity.ok(bookingService.findByGroups(groupIds, pageable));
+    @GetMapping("/group/enabled")
+    @Operation(summary = "소모임 승인된 예약 조회", description = "해당 소모임에 대한 승인된 예약정보를 조회합니다. pagination")
+    public ResponseEntity<?> findEnabledByGroups(@RequestParam("groupIds") List<Long> groupIds, Pageable pageable) {
+        return ResponseEntity.ok(bookingService.findEnabledByGroups(groupIds, pageable));
+    }
+    @GetMapping("/group/disabled")
+    @Operation(summary = "소모임 승인 대기인 예약 조회", description = "해당 소모임에 대한 모든 예약정보를 조회합니다. pagination")
+    public ResponseEntity<?> findDisabledByGroups(@RequestParam("groupIds") List<Long> groupIds, Pageable pageable) {
+        return ResponseEntity.ok(bookingService.findDisabledByGroups(groupIds, pageable));
     }
     @GetMapping("/group/{groupId}")
     @Operation(summary = "소모임 예약 조회", description = "해당 소모임에 대한 모든 예약정보를 조회합니다")
@@ -54,14 +59,15 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.findByGroup(groupId, pageable));
     }
 
-    @GetMapping("/room")
+    @GetMapping("/room/enabled")
     @Operation(summary = "공간 예약 조회", description = "해당 공간에 대한 모든 예약정보를 조회합니다.")
-    public ResponseEntity<?> findByRoom(@RequestParam("nickname") String nickname, Pageable pageable) {
-        return ResponseEntity.ok(bookingService.findByRooms(nickname, pageable));
+    public ResponseEntity<?> findEnabledByRoom(@RequestParam("nickname") String nickname, Pageable pageable) {
+        return ResponseEntity.ok(bookingService.findEnabledByRooms(nickname, pageable));
     }
-    @GetMapping("/room/{roomId}")
+    @GetMapping("/room/disabled")
     @Operation(summary = "공간 예약 조회", description = "해당 공간에 대한 모든 예약정보를 조회합니다.")
-    public ResponseEntity<?> findByRoom(@PathVariable("roomId") long roomId, Pageable pageable) {
-        return ResponseEntity.ok(bookingService.findByRoom(roomId, pageable));
+    public ResponseEntity<?> findDisabledByRoom(@RequestParam("nickname") String nickname, Pageable pageable) {
+        return ResponseEntity.ok(bookingService.findDisabledByRooms(nickname, pageable));
     }
+
 }

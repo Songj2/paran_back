@@ -17,7 +17,10 @@ public interface BookingService {
 
     BookingModel findOne(long id);
 
-    Page<?> findByGroups(List<Long> groupIds, Pageable pageable);
+    Page<?> findEnabledByGroups(List<Long> groupIds, Pageable pageable);
+    Page<?> findDisabledByGroups(List<Long> groupIds, Pageable pageable);
 
-    Page<?> findByRooms(String nickname, Pageable pageable);
+    Page<?> findEnabledByRooms(String nickname, Pageable pageable);
+
+    Page<?> findDisabledByRooms(String nickname, Pageable pageable);
 }
