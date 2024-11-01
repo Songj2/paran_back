@@ -32,6 +32,7 @@ public class GroupPostRepositoryCustomImpl implements GroupPostRepositoryCustom 
                 .orderBy(groupPost.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(groupPost.id.desc())
                 .fetch();
 
         // Step 2: 필요한 필드 조회 및 GroupPostResponseModel 변환
@@ -56,8 +57,8 @@ public class GroupPostRepositoryCustomImpl implements GroupPostRepositoryCustom 
                         .leftJoin(groupPost.group, group)  // left join to handle null groups
                         .leftJoin(groupPost.book, book)    // left join to handle null books
                         .where(groupPost.id.in(ids))
+                        .orderBy(groupPost.id.desc())
                         .fetch();
-        System.out.println(content);
         return new PageImpl<>(content, pageable, ids.size());
     }
 
@@ -83,6 +84,7 @@ public class GroupPostRepositoryCustomImpl implements GroupPostRepositoryCustom 
                 .leftJoin(groupPost.group, group)
                 .leftJoin(groupPost.book, book)
                 .where(groupPost.id.eq(postId))
+                .orderBy(groupPost.id.desc())
                 .fetchOne();
     }
 }

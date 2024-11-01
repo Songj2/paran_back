@@ -37,6 +37,7 @@ public class ReviewRepositoryImpl implements ReviewCustomRepository {
                                 .where(review.room.id.eq(roomId))
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
+                                .orderBy(review.id.desc())
                                 .fetch()
                 )).fetch();
         return new PageImpl<>( result, pageable, result.size());
@@ -63,6 +64,7 @@ public class ReviewRepositoryImpl implements ReviewCustomRepository {
                                 .where(review.room.nickname.eq(nickname))
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
+                                .orderBy(review.id.desc())
                                 .fetch()
                 )).fetch();
         return new PageImpl<>( result, pageable, result.size());
@@ -88,6 +90,7 @@ public class ReviewRepositoryImpl implements ReviewCustomRepository {
                                 .from(review)
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
+                                .orderBy(review.id.desc())
                                 .fetch()
                 )).fetch();
         return new PageImpl<>( result, pageable, result.size());

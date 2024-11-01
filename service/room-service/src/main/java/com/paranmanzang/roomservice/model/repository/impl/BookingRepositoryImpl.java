@@ -26,6 +26,7 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                                 .where(booking.groupId.eq(id))
                                 .limit( pageable.getPageSize())
                                 .offset(pageable.getOffset())
+                                .orderBy(booking.id.desc())
                                 .fetch()
                 )).fetch();
         return new PageImpl<>( result, pageable, result.size());
@@ -40,6 +41,7 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                                 .where(booking.room.id.eq(id))
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
+                                .orderBy(booking.id.desc())
                                 .fetch()
                 )).fetch();
         return new PageImpl<>( result, pageable, result.size());
@@ -54,6 +56,7 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                                 .where(booking.groupId.in(groupIds))
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
+                                .orderBy(booking.id.desc())
                                 .fetch()
                 )).fetch();
         return new PageImpl<>( result, pageable, result.size());
@@ -68,6 +71,7 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                                 .where(booking.room.id.in(roomIds))
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
+                                .orderBy(booking.id.desc())
                                 .fetch()
                 )).fetch();
         return new PageImpl<>( result, pageable, result.size());

@@ -27,6 +27,7 @@ public class AdminPostRepositoryImpl implements AdminPostRepositoryCustom {
                 .where(adminPosts.nickname.eq(nickname))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(adminPosts.id.desc())
                 .fetch();
 
         List<AdminPostModel> adminPostModelsn = adminPostIdsN.isEmpty() ? List.of() :
@@ -56,6 +57,7 @@ public class AdminPostRepositoryImpl implements AdminPostRepositoryCustom {
                 .from(adminPosts)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(adminPosts.id.desc())
                 .fetch();
         List<AdminPostModel> adminPostModel = adminPostIds.isEmpty() ? List.of() :
                 jpaQueryFactory

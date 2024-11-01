@@ -22,6 +22,7 @@ public class LikeRoomRepositoryImpl implements LikeRoomRepositoryCustom {
                 .select(likeRooms.id)
                 .from(likeRooms)
                 .where(likeRooms.nickname.eq(nickname))
+                .orderBy(likeRooms.id.desc())
                 .fetch();
         //리스트
         return likeRoomIds.isEmpty() ? List.of() :

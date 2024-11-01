@@ -31,6 +31,7 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
                 .where(declarationPosts.declarer.eq(nickname))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(declarationPosts.id.desc())
                 .fetch();
 
         // ID 리스트가 비어 있지 않으면 데이터를 조회
@@ -62,6 +63,7 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
                 .from(declarationPosts)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(declarationPosts.id.desc())
                 .fetch();
 
         // ID 리스트가 비어 있지 않으면 데이터를 조회

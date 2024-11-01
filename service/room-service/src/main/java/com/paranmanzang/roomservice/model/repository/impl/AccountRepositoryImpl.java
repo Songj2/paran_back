@@ -62,9 +62,9 @@ public class AccountRepositoryImpl implements AccountCustomRepository {
                                 .where(account.groupId.eq(groupId))
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
+                                .orderBy(account.createAt.desc())
                                 .fetch()
                 )).fetch();
-        log.info("result: "+ result);
         return new PageImpl<>( result, pageable, result.size());
 
     }
@@ -94,6 +94,7 @@ public class AccountRepositoryImpl implements AccountCustomRepository {
                                 .where(account.roomId.eq(roomId))
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
+                                .orderBy(account.createAt.desc())
                                 .fetch()
                 )).fetch();
         return new PageImpl<>( result, pageable, result.size());

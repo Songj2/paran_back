@@ -41,6 +41,7 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                                 .from(room)
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
+                                .orderBy(room.id.desc())
                                 .fetch()
                 ).and(room.enabled.eq(true)))
                 .fetch().stream().toList();
@@ -70,6 +71,7 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                                 .from(room)
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
+                                .orderBy(room.id.desc())
                                 .fetch()
                 ).and(room.enabled.eq(false)))
                 .fetch().stream().toList();
@@ -80,6 +82,7 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
     public List<Room> findAllByNickname(String nickname) {
         return jpaQueryFactory.selectFrom(room)
                 .where(room.nickname.eq(nickname))
+                .orderBy(room.id.desc())
                 .fetch();
     }
 
@@ -106,6 +109,7 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                                         .where(room.nickname.eq(nickname).and(room.enabled.eq(true)))
                                         .limit(pageable.getPageSize())
                                         .offset(pageable.getOffset())
+                                        .orderBy(room.id.desc())
                                         .fetch()
                         )
                 )
@@ -136,6 +140,7 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                                         .where(room.nickname.eq(nickname).and(room.enabled.eq(false)))
                                         .limit(pageable.getPageSize())
                                         .offset(pageable.getOffset())
+                                        .orderBy(room.id.desc())
                                         .fetch()
                         )
                 )
