@@ -25,7 +25,7 @@ public class LikePostRepositoryImpl implements LikePostRepositoryCustom {
                 .where(
                         likePosts.nickname.eq(nickname)
                 )
-                .orderBy(groupPost.id.desc())
+                .orderBy(likePosts.id.desc())
                 .fetch();
 
         // Step 2: 필요한 필드 조회 및 GroupPostResponseModel 변환
