@@ -30,13 +30,13 @@ public class AdminPostController {
     // 게시글 수정
     @PutMapping("/{id}")
     @Operation(summary = "게시물 수정", description = "입력된 게시물 정보로 입력받은 게시물 번호의 게시물을 수정합니다")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody AdminPostModel adminPostModel) {
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody AdminPostModel adminPostModel) {
         return ResponseEntity.ok(adminPostService.update(id, adminPostModel));
     }
     // 게시글 삭제
     @DeleteMapping("/{id}")
     @Operation(summary = "게시물 삭제", description = "게시물 번호를 받고 해당 게시물을 삭제합니다.")
-    public ResponseEntity<?> remove(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable("id") Long id) {
         return ResponseEntity.ok(adminPostService.remove(id));
     }
     // 게시글 조회
@@ -48,21 +48,21 @@ public class AdminPostController {
     //게시글 마이페이지 조회
     @GetMapping("/{nickname}")
     @Operation(summary = "관리자 본인 게시물 조회", description = "게시물 리스트를 조회합니다.")
-    public ResponseEntity<?> findAllByNickname(@PathVariable String nickname, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<?> findAllByNickname(@PathVariable("nickname") String nickname, @RequestParam int page, @RequestParam int size) {
         return ResponseEntity.ok(adminPostService.findAllByNickname(nickname, PageRequest.of(page,size)));
     }
 
     // 게시글 상세 조회
     @GetMapping("/details/{id}")
     @Operation(summary = "게시물 상세조회", description = "게시물 번호를 받고 해당 게시물을 조회합니다.")
-    public ResponseEntity<AdminPosts> findByAdminPostId(@PathVariable Long id) {
+    public ResponseEntity<AdminPosts> findByAdminPostId(@PathVariable("id") Long id) {
         return ResponseEntity.ok(adminPostService.findByAdminPostId(id));
     }
 
     // 게시글 조회수 확인
     @GetMapping("/viewCounts/{id}")
     @Operation(summary = "게시물 조회수 조회", description = "게시물 번호를 받고 해당 게시물의 조회수를 조회합니다. 해당 조회수는 게시글 상세조회가 실행될때마다 올라갑니다.")
-    public ResponseEntity<Long> findViewCountById(@PathVariable Long id) {
+    public ResponseEntity<Long> findViewCountById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(adminPostService.findViewCountById(id));
     }
 }

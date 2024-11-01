@@ -17,13 +17,13 @@ public class FriendController {
 
     //친구 삭제 O
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> remove(@PathVariable Long id) {
+    public ResponseEntity<?> remove(@PathVariable("id") Long id) {
         return ResponseEntity.ok(friendService.remove(id));
     }
 
     //친구 목록 조회 O
     @GetMapping("/{nickname}")
-    public ResponseEntity<?> findAllByNickname(@PathVariable String nickname) {
+    public ResponseEntity<?> findAllByNickname(@PathVariable("nickname") String nickname) {
         return ResponseEntity.ok(friendService.findAllByNickname(nickname));
     }
     //친구 요청 O
@@ -34,7 +34,7 @@ public class FriendController {
 
     //친구 요청 목록 조회 O
     @GetMapping("/request/{nickname}")
-    public ResponseEntity<?> findAllRequestByNickname(@PathVariable String nickname) {
+    public ResponseEntity<?> findAllRequestByNickname(@PathVariable("nickname") String nickname) {
         return ResponseEntity.ok(friendService.findAllRequestByNickname(nickname));
     }
 
