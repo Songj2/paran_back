@@ -48,10 +48,16 @@ public class RoomController {
         return ResponseEntity.ok(roomService.delete(id));
     }
 
-    @GetMapping("")
+    @GetMapping("/enabled-all")
     @Operation(summary = "승인된 공간 조회", description = "승인된 모든 공간정보를 조회합니다.")
     public ResponseEntity<?> findAllByEnabled( ) {
         return ResponseEntity.ok(roomService.findAllByEnabled());
+    }
+
+    @GetMapping("/enabled")
+    @Operation(summary = "승인된 공간 조회", description = "승인된 공간정보를 조회합니다. '페이지네이션'")
+    public ResponseEntity<?> findByEnabled(Pageable pageable) {
+        return ResponseEntity.ok(roomService.findByEnabled(pageable));
     }
 
     @GetMapping("/user/enabled/{nickname}")
@@ -63,19 +69,6 @@ public class RoomController {
     @Operation(summary = "등록자의 미승인인 공간 조회", description = "nickname인 유저가 등록한  공간정보를 조회합니다. pagination")
     public ResponseEntity<?> findByUser(@PathVariable("nickname") String nickname, Pageable pageable) {
         return ResponseEntity.ok(roomService.findDisabledByNickname(nickname, pageable));
-    }
-
-
-    @GetMapping("/enabled")
-    @Operation(summary = "승인된 공간 조회", description = "승인된 공간정보를 조회합니다. '페이지네이션'")
-    public ResponseEntity<?> findByEnabled(Pageable pageable) {
-        return ResponseEntity.ok(roomService.findByEnabled(pageable));
-    }
-
-    @GetMapping("/disabled")
-    @Operation(summary = "승인된 공간 조회", description = "승인된 공간정보를 조회합니다. '페이지네이션'")
-    public ResponseEntity<?> findByDisabled(Pageable pageable) {
-        return ResponseEntity.ok(roomService.findByDisabled(pageable));
     }
 
     @GetMapping("/like/{nickname}")

@@ -53,7 +53,7 @@ public class CustomSuccessHandler implements ServerAuthenticationSuccessHandler 
 
         response.getHeaders().setLocation(URI.create("https://www.paranmanzang.com/users/oauth")); // 기본값
 
-        response.setStatusCode(HttpStatus.OK); // 302 Found로 변경
+        response.setStatusCode(HttpStatus.FOUND); // 302 Found로 변경
         return response.setComplete();
     }
 
