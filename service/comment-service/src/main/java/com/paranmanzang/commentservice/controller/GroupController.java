@@ -108,7 +108,7 @@ public class GroupController {
     }
 
     @DeleteMapping("/users/{groupId}")
-    public ResponseEntity<?> deleteUser(@RequestBody String nickname, @PathVariable Long groupId) {
+    public ResponseEntity<?> deleteUser(@RequestBody String nickname, @PathVariable("groupId") Long groupId) {
         return ResponseEntity.ok(joiningService.deleteUser(nickname, groupId));
     }
 
