@@ -24,7 +24,6 @@ public class GroupPostRepositoryCustomImpl implements GroupPostRepositoryCustom 
 
     @Override
     public Page<GroupPostResponseModel> findGroupPostsByGroupId(Long groupId, Pageable pageable, String postCategory) {
-
         var ids = queryFactory
                 .select(groupPost.id)
                 .from(groupPost)
@@ -36,6 +35,7 @@ public class GroupPostRepositoryCustomImpl implements GroupPostRepositoryCustom 
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
+        log.info("카테고리: {}, ids:{}", postCategory, ids);
 
         // Step 2: 필요한 필드 조회 및 GroupPostResponseModel 변환
         List<GroupPostResponseModel> content = ids.isEmpty() ? List.of() :
