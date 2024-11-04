@@ -24,9 +24,9 @@ public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
     private final RoomServiceImpl roomService;
     private final Converter converter;
-    @Value("$(naver.client-id)")
+    @Value("${naver.client-id}")
     private String Client_Id;
-    @Value("$(naver.client-secret)")
+    @Value("${naver.client-secret}")
     private String Client_Secret_Key;
 
     @Override
