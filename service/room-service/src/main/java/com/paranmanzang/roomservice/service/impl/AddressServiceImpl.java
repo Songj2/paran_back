@@ -7,6 +7,7 @@ import com.paranmanzang.roomservice.model.repository.AddressRepository;
 import com.paranmanzang.roomservice.service.AddressService;
 import com.paranmanzang.roomservice.util.Converter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AddressServiceImpl implements AddressService {
@@ -31,6 +33,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public String search(String query) {
+        log.info("query: {}", query);
         return Objects.requireNonNull(WebClient.builder()
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader("X-Naver-Client-Id", Client_Id)
