@@ -41,7 +41,7 @@ public class FriendController {
     //친구 요청 수락 X
     @PostMapping("/state")
     public ResponseEntity<?> state(@RequestBody FriendModel friendModel, @RequestParam Boolean state) {
-        return ResponseEntity.ok(friendService.state(friendModel, state));
+        return ResponseEntity.ok(friendService.update(friendModel));
     }
 }
 

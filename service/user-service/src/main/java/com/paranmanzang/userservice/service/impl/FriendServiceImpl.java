@@ -58,7 +58,7 @@ public class FriendServiceImpl implements FriendService {
 
     // 친구 추가 -> request에서 업데이트
     @Override
-    public Object update(FriendModel friendModel) {
+    public FriendModel update(FriendModel friendModel) {
         try {
             System.out.println("friend1: " + friendModel.getRequestUser() + " friend2: " + friendModel.getResponseUser());
             log.info("friend1 {}, friend2 {} ", friendModel.getRequestUser(), friendModel.getResponseUser());
@@ -76,25 +76,11 @@ public class FriendServiceImpl implements FriendService {
         } catch (DataAccessException e) {
             // 데이터베이스 접근 예외 처리
             System.err.println("데이터베이스 접근 중 오류 발생: " + e.getMessage());
-            return false;
+            return null;
         } catch (IllegalArgumentException e) {
             // 비즈니스 로직 예외 처리
             System.err.println("비즈니스 로직 오류 발생: " + e.getMessage());
-            return false;
-        }
-    }
-
-
-    //친구 요청 수락/거절 여부
-    @Override
-    public boolean state(FriendModel friendmodel, Boolean state ) {
-        if(state){
-            update(friendmodel);
-            return true;
-        }
-        else{
-            remove(friendmodel.getId());
-            return false;
+            return null;
         }
     }
 

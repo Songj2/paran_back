@@ -11,12 +11,10 @@ public interface FriendService {
     //친구 요청 전송
     Object insertRequest(FriendModel friend);
 
-    //친구 요청 수락 여부
-    boolean state(FriendModel friendmodel, Boolean state );
-    //친구 추가
+    //친구 추가, 친구 요청 승인
     Object update(FriendModel friendModel);
 
-    //친구 삭제
+    //친구 삭제, 친구 요청 거절
     boolean remove(Long id);
 
     //친구 리스트 조회
