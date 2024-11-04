@@ -7,6 +7,7 @@ import com.paranmanzang.roomservice.model.repository.AddressRepository;
 import com.paranmanzang.roomservice.service.AddressService;
 import com.paranmanzang.roomservice.util.Converter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,10 @@ public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
     private final RoomServiceImpl roomService;
     private final Converter converter;
-
-    private final String Client_Id="";
-    private final String Client_Secret_Key= "";
+    @Value("$(naver.client-id)")
+    private String Client_Id;
+    @Value("$(naver.client-secret)")
+    private String Client_Secret_Key;
 
     @Override
     public String search(String query) {
@@ -37,10 +39,10 @@ public class AddressServiceImpl implements AddressService {
                 .uri(UriComponentsBuilder
                         .fromUriString("https://openapi.naver.com")
                         .path("/v1/search/local.json")
-                        .queryParam("query",query)
-                        .queryParam("display",5)
-                        .queryParam("start",1)
-                        .queryParam("sort","random")
+                        .queryParam("query", query)
+                        .queryParam("display", 5)
+                        .queryParam("start", 1)
+                        .queryParam("sort", "random")
                         .encode(StandardCharsets.UTF_8)
                         .build()
                         .toUri())
