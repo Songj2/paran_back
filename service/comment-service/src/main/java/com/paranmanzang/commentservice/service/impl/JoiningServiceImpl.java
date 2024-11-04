@@ -29,7 +29,7 @@ public class JoiningServiceImpl implements JoiningService {
                         .map(group -> (Object) JoiningModel.fromEntity(joiningRepository.save(Joining.builder()
                                 .nickname(joiningModel.getNickname())
                                 .group(groupRepository.findById(joiningModel.getGroupId()).get())
-                                        .requestAt(LocalDate.now())
+                                        .responseAt(LocalDate.now())
                                 .build())))
                         .orElseGet(() -> (Object) new ErrorField(joiningModel.getNickname(), "그룹을 찾을 수 없습니다.")));
     }
