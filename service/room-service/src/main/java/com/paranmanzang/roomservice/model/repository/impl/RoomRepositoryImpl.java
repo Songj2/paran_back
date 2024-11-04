@@ -7,6 +7,7 @@ import com.paranmanzang.roomservice.model.repository.RoomCustomRepository;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 public class RoomRepositoryImpl implements RoomCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
@@ -116,8 +118,8 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                         )
                 )
                 .from(room)
-                .where(room.nickname.in(
-                                jpaQueryFactory.select(room.nickname).from(room)
+                .where(room.id.in(
+                                jpaQueryFactory.select(room.id).from(room)
                                         .where(room.nickname.eq(nickname).and(room.enabled.eq(true)))
                                         .limit(pageable.getPageSize())
                                         .offset(pageable.getOffset())
@@ -131,6 +133,7 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                 .from(room)
                 .where(room.nickname.eq(nickname).and(room.enabled.eq(true)))
                 .fetchOne()).orElse(0L);
+        log.info("샐러가 조회한다. enabled: {}, result={}", totalCount, result);
         return new PageImpl<>(result, pageable, totalCount);
     }
 
@@ -152,8 +155,8 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                         )
                 )
                 .from(room)
-                .where(room.nickname.in(
-                                jpaQueryFactory.select(room.nickname).from(room)
+                .where(room.id.in(
+                                jpaQueryFactory.select(room.id).from(room)
                                         .where(room.nickname.eq(nickname).and(room.enabled.eq(false)))
                                         .limit(pageable.getPageSize())
                                         .offset(pageable.getOffset())
@@ -167,6 +170,7 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                 .from(room)
                 .where(room.nickname.eq(nickname).and(room.enabled.eq(false)))
                 .fetchOne()).orElse(0L);
+        log.info("샐러가 조회한다. disabled: {}, result={}", totalCount, result);
         return new PageImpl<>(result, pageable, totalCount);
     }
 }
