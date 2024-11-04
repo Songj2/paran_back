@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.paranmanzang.commentservice.model.entity.QBook.book;
 import static com.paranmanzang.commentservice.model.entity.QLikeBooks.likeBooks;
@@ -45,8 +46,11 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
                         .where(book.id.in(ids))
                         .fetch();
 
-
-        return new PageImpl<>(books, pageable, ids.size());
+        long totalCount = Optional.ofNullable(queryFactory
+                .select(book.id.count())
+                .from(book)
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>(books, pageable, totalCount);
     }
 
 }

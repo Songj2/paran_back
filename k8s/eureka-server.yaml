@@ -29,4 +29,3 @@ spec:
     app: eureka-server
   ports:
     - port: 8761
-  type: LoadBalancer

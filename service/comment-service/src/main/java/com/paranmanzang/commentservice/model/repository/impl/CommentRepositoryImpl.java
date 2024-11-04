@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.paranmanzang.commentservice.model.entity.QComment.comment;
 
@@ -47,7 +48,12 @@ public class CommentRepositoryImpl implements CustomCommentRepository {
                         .where(comment.id.in(ids))                   // 조회된 ID 리스트 기반으로 필터링
                         .fetch();
 
-        return new PageImpl<>(comments, pageable, ids.size());
+        long totalCount = Optional.ofNullable(queryFactory
+                .select(comment.id.count())
+                .from(comment)
+                .where(comment.postId.eq(postId))
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>(comments, pageable,totalCount);
     }
 
     @Override
