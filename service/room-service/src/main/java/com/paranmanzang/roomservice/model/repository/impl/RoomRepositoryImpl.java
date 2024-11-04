@@ -170,7 +170,6 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                 .from(room)
                 .where(room.nickname.eq(nickname).and(room.enabled.eq(false)))
                 .fetchOne()).orElse(0L);
-        log.info("샐러가 조회한다. disabled: {}, result={}", totalCount, result);
         return new PageImpl<>(result, pageable, totalCount);
     }
 }

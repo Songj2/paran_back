@@ -5,6 +5,7 @@ import com.paranmanzang.commentservice.model.repository.GroupPostRepositoryCusto
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import static com.paranmanzang.commentservice.model.entity.QBook.book;
 import static com.paranmanzang.commentservice.model.entity.QGroup.group;
 import static com.paranmanzang.commentservice.model.entity.QGroupPost.groupPost;
 
+@Slf4j
 @RequiredArgsConstructor
 public class GroupPostRepositoryCustomImpl implements GroupPostRepositoryCustom {
     private final JPAQueryFactory queryFactory;
@@ -68,6 +70,7 @@ public class GroupPostRepositoryCustomImpl implements GroupPostRepositoryCustom 
                                 .and(groupPost.postCategory.eq(postCategory))
                 )
                 .fetchOne()).orElse(0L);
+        log.info("소모임 게시글: id:{}, pageable:{}, content:{}", groupId, pageable, content);
         return new PageImpl<>(content, pageable, totalCount);
     }
 

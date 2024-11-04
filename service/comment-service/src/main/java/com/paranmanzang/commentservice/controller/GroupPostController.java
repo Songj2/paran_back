@@ -27,19 +27,19 @@ public class GroupPostController {
 
     //#69.게시글 삭제
     @DeleteMapping("/{postId}")
-    public ResponseEntity<?> delete(@PathVariable Long postId) {
+    public ResponseEntity<?> delete(@PathVariable("postId") Long postId) {
         return ResponseEntity.ok(groupPostService.deletePost(postId));
     }
 
     //#70 - 내가 속한 group의 게시물 목록
     @GetMapping("/{groupId}")
-    public ResponseEntity<?> findByGroupId(@PathVariable Long groupId, @RequestParam int page, @RequestParam int size, @RequestParam String postCategory) {
+    public ResponseEntity<?> findByGroupId(@PathVariable("groupId") Long groupId, @RequestParam int page, @RequestParam int size, @RequestParam String postCategory) {
         return ResponseEntity.ok(groupPostService.findByGroupId(groupId, PageRequest.of(page, size), postCategory));
     }
 
     // view 카운트 업데이트
     @PutMapping("/{postId}")
-    public ResponseEntity<?> updateViewCount(@PathVariable Long postId) {
+    public ResponseEntity<?> updateViewCount(@PathVariable("postId") Long postId) {
         return ResponseEntity.ok(groupPostService.updateViewCount(postId));
     }
 }
