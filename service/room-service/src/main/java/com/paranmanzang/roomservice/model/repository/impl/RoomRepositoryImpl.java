@@ -42,16 +42,19 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                 .where(room.id.in(
                         jpaQueryFactory.select(room.id)
                                 .from(room)
+                                .orderBy(room.id.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .where(room.enabled.eq(true))
                                 .fetch()
                 ))
+                .orderBy(room.id.desc())
                 .fetch().stream().toList();
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(room.id.count())
                 .from(room)
                 .where(room.enabled.eq(true))
+                .orderBy(room.id.desc())
                 .fetchOne()).orElse(0L);
 
         return new PageImpl<>(result, pageable, totalCount);
