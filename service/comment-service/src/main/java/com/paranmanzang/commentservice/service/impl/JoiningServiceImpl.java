@@ -29,7 +29,7 @@ public class JoiningServiceImpl implements JoiningService {
                         .map(group -> (Object) JoiningModel.fromEntity(joiningRepository.save(Joining.builder()
                                 .nickname(joiningModel.getNickname())
                                 .group(groupRepository.findById(joiningModel.getGroupId()).get())
-                                        .responseAt(LocalDate.now())
+                                        .requestAt(LocalDate.now())
                                 .build())))
                         .orElseGet(() -> (Object) new ErrorField(joiningModel.getNickname(), "그룹을 찾을 수 없습니다.")));
     }
@@ -39,6 +39,7 @@ public class JoiningServiceImpl implements JoiningService {
                 .map(joiningToEnable -> {
                     if (!joiningToEnable.isEnabled()) {
                         joiningToEnable.setEnabled(true);
+                        joiningToEnable.setResponseAt(LocalDate.now());
                         return JoiningModel.fromEntity(joiningRepository.save(joiningToEnable));
                     } else {
                         return (Object) new ErrorField(nickname, "이미 승인된 멤버입니다.");
