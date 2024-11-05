@@ -60,7 +60,7 @@ public class BookingServiceImpl implements BookingService {
     public Page<?> findByGroup(long groupId, Pageable pageable) {
         return  bookingRepository.findByGroupId(groupId, pageable).map(bookingModel -> {
             bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
-            bookingModel.setAccount(A);
+            bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
             return bookingModel;
         });
     }
@@ -70,6 +70,7 @@ public class BookingServiceImpl implements BookingService {
     public Page<?> findByRoom(long roomId, Pageable pageable) {
         return bookingRepository.findByRoomId(roomId, pageable).map(bookingModel -> {
             bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+            bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
             return bookingModel;
         });
 
@@ -79,6 +80,7 @@ public class BookingServiceImpl implements BookingService {
     public Page<?> findEnabledByGroups(List<Long> groupIds, Pageable pageable) {
         return bookingRepository.findEnabledByGroupIds(groupIds, pageable).map(bookingModel -> {
             bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+            bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
             return bookingModel;
         });
     }
@@ -86,6 +88,7 @@ public class BookingServiceImpl implements BookingService {
     public Page<?> findDisabledByGroups(List<Long> groupIds, Pageable pageable) {
         return bookingRepository.findDisabledByGroupIds(groupIds, pageable).map(bookingModel -> {
             bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+            bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
             return bookingModel;
         });
     }
@@ -94,6 +97,7 @@ public class BookingServiceImpl implements BookingService {
     public Page<?> findEnabledByRooms(String nickname, Pageable pageable) {
         return bookingRepository.findEnabledByRoomIds(roomRepository.findAllByNickname(nickname).stream().map(Room::getId).toList(), pageable).map(bookingModel -> {
             bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+            bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
             return bookingModel;
         });
 
@@ -102,6 +106,7 @@ public class BookingServiceImpl implements BookingService {
     public Page<?> findDisabledByRooms(String nickname, Pageable pageable) {
         return bookingRepository.findDisabledByRoomIds(roomRepository.findAllByNickname(nickname).stream().map(Room::getId).toList(), pageable).map(bookingModel -> {
             bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+            bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
             return bookingModel;
         });
     }
