@@ -2,6 +2,7 @@ package com.paranmanzang.roomservice.controller;
 
 import com.paranmanzang.roomservice.model.domain.AddressModel;
 import com.paranmanzang.roomservice.model.domain.AddressUpdateModel;
+import com.paranmanzang.roomservice.model.domain.QueryModel;
 import com.paranmanzang.roomservice.service.impl.AddressServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,8 +23,8 @@ public class AddressController {
 
     @GetMapping("/search")
     @Operation(summary = "검색 조회", description = "검색어에 해당하는 주소 정보를 최대 5개까지 조회합니다.", tags = {"05. Address",})
-    public ResponseEntity<?> search(@RequestParam("query") String query){
-        return ResponseEntity.ok(addressService.search(query));
+    public ResponseEntity<?> search(@RequestParam QueryModel model){
+        return ResponseEntity.ok(addressService.search(model.getQuery()));
 
     }
 
