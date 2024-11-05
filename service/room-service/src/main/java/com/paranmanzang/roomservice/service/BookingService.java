@@ -22,9 +22,9 @@ public interface BookingService {
 
     Page<?> findPaidByGroups(Long groupId, Pageable pageable);
 
-    Page<?> findEnabledByRooms(String nickname, Pageable pageable);
+    Page<?> findEnabledByRooms(Long id, Pageable pageable);
 
-    Page<?> findDisabledByRooms(String nickname, Pageable pageable);
+    Page<?> findDisabledByRooms(Long id, Pageable pageable);
 
-    Page<?> findPaidByRooms(String nickname, Pageable pageable);
+    Page<?> findPaidByRooms(Long id, Pageable pageable);
 }

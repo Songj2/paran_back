@@ -116,10 +116,8 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Page<?> findEnabledByRooms(String nickname, Pageable pageable) {
-        return bookingRepository.findEnabledByRoomIds(
-                        roomRepository.findAllByNickname(nickname).stream().map(Room::getId).toList(), pageable
-                )
+    public Page<?> findEnabledByRooms(Long id, Pageable pageable) {
+        return bookingRepository.findEnabledByRoomIds(id, pageable)
                 .map(tempModel -> {
                     var bookingModel = tempToModel(tempModel);
                     bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
@@ -130,9 +128,8 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Page<?> findPaidByRooms(String nickname, Pageable pageable) {
-        return bookingRepository.findPaidByRoomIds(
-                        roomRepository.findAllByNickname(nickname).stream().map(Room::getId).toList(), pageable)
+    public Page<?> findPaidByRooms(Long id, Pageable pageable) {
+        return bookingRepository.findPaidByRoomIds(id, pageable)
                 .map(tempModel -> {
                     var bookingModel = tempToModel(tempModel);
                     bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
@@ -143,15 +140,14 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Page<?> findDisabledByRooms(String nickname, Pageable pageable) {
-        return bookingRepository.findDisabledByRoomIds(
-                roomRepository.findAllByNickname(nickname).stream().map(Room::getId).toList(), pageable
-        ).map(tempModel -> {
-            var bookingModel = tempToModel(tempModel);
-            bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
-            bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
-            return bookingModel;
-        });
+    public Page<?> findDisabledByRooms(Long id, Pageable pageable) {
+        return bookingRepository.findDisabledByRoomIds(id, pageable)
+                .map(tempModel -> {
+                    var bookingModel = tempToModel(tempModel);
+                    bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+                    bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
+                    return bookingModel;
+                });
     }
 
 
