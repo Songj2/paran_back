@@ -70,7 +70,6 @@ public class AccountRepositoryImpl implements AccountCustomRepository {
                 .select(account.orderId.count())
                 .from(account)
                 .where(account.groupId.eq(groupId))
-                .orderBy(account.createAt.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>( result, pageable, totalCount);
 
@@ -109,7 +108,6 @@ public class AccountRepositoryImpl implements AccountCustomRepository {
                 .select(account.orderId.count())
                 .from(account)
                 .where(account.roomId.eq(roomId))
-                .orderBy(account.createAt.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>( result, pageable,totalCount);
     }

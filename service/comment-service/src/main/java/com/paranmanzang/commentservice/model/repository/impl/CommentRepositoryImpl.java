@@ -53,7 +53,6 @@ public class CommentRepositoryImpl implements CustomCommentRepository {
                 .select(comment.id.count())
                 .from(comment)
                 .where(comment.postId.eq(postId))
-                .orderBy(comment.ref.desc(), comment.step.asc(), comment.depth.asc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>(comments, pageable,totalCount);
     }

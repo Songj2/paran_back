@@ -17,8 +17,6 @@ import java.util.List;
 @Data
 @Builder
 @Component
-@NoArgsConstructor
-@AllArgsConstructor
 @Schema(title = "예약 정보")
 public class BookingModel {
     @Schema(title = "예약 id")
@@ -45,4 +43,25 @@ public class BookingModel {
     private String address;
     private AccountModel account;
 
+    public  BookingModel(){}
+    public BookingModel(Long id, boolean enabled, LocalDate date, Long roomId, Long groupId, String roomName, String address){
+        this.id=id;
+        this.enabled= enabled;
+        this.date= date;
+        this.roomId=roomId;
+        this.groupId= groupId;
+        this.roomName=roomName;
+        this.address= address;
+    }
+    public BookingModel(Long id, boolean enabled, LocalDate date, List<LocalTime> usingTime,Long roomId, Long groupId, String roomName, String address, AccountModel account){
+        this.id=id;
+        this.enabled= enabled;
+        this.date= date;
+        this.usingTime=usingTime;
+        this.roomId=roomId;
+        this.groupId= groupId;
+        this.roomName=roomName;
+        this.address= address;
+        this.account=account;
+    }
 }

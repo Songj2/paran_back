@@ -47,7 +47,6 @@ public class ReviewRepositoryImpl implements ReviewCustomRepository {
                 .select(review.id.count())
                 .from(review)
                 .where(review.room.id.eq(roomId))
-                .orderBy(review.createAt.desc())
                 .fetchOne())
                 .orElse(0L);
 
@@ -84,7 +83,6 @@ public class ReviewRepositoryImpl implements ReviewCustomRepository {
                 .select(review.id.count())
                 .from(review)
                 .where(review.room.nickname.eq(nickname))
-                .orderBy(review.createAt.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>( result, pageable, totalCount);
     }
@@ -117,7 +115,6 @@ public class ReviewRepositoryImpl implements ReviewCustomRepository {
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(review.id.count())
                 .from(review)
-                .orderBy(review.createAt.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>( result, pageable, totalCount);
     }

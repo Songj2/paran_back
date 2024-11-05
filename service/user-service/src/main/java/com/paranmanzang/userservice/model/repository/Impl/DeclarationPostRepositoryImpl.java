@@ -62,7 +62,6 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
                 .select(declarationPosts.id.count())
                 .from(declarationPosts)
                 .where(declarationPosts.declarer.eq(nickname))
-                .orderBy(declarationPosts.createdAt.desc())
                 .fetchOne()).orElse(0L);
 
         // 결과를 Page 객체로 반환
@@ -101,7 +100,6 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(declarationPosts.id.count())
                 .from(declarationPosts)
-                .orderBy(declarationPosts.createdAt.desc())
                 .fetchOne()).orElse(0L);
         // 결과를 Page 객체로 반환
         return new PageImpl<>(declarationPostModelList, pageable, totalCount);

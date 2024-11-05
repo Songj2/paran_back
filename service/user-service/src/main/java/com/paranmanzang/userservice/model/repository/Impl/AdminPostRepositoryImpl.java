@@ -89,7 +89,6 @@ public class AdminPostRepositoryImpl implements AdminPostRepositoryCustom {
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(adminPosts.id.count())
                 .from(adminPosts)
-                .orderBy(adminPosts.createAt.desc())
                 .fetchOne()).orElse(0L);
 
         return new PageImpl<>(adminPostModel, pageable, totalCount);
