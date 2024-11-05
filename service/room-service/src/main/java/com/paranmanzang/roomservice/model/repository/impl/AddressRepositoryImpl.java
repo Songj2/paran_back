@@ -23,4 +23,9 @@ public class AddressRepositoryImpl implements AddressCustomRepository {
     public List<Address> findEnabledRoom(List<Long> roomIdLst) {
         return jpaQueryFactory.selectFrom(address).where(address.roomId.in(roomIdLst)).fetch();
     }
+
+    @Override
+    public Address findByRoomId(Long roomId) {
+        return jpaQueryFactory.selectFrom(address).where(address.roomId.eq(roomId)).fetchOne();
+    }
 }

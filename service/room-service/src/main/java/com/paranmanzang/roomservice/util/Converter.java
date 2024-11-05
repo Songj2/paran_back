@@ -2,13 +2,18 @@ package com.paranmanzang.roomservice.util;
 
 import com.paranmanzang.roomservice.model.domain.*;
 import com.paranmanzang.roomservice.model.entity.*;
+import com.paranmanzang.roomservice.model.repository.AddressRepository;
+import com.paranmanzang.roomservice.model.repository.RoomRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.Optional;
 
 @Component
+@RequiredArgsConstructor
 public class Converter {
+    private final AddressRepository addressRepository;
     public AddressModel convertTonAddressModel(Address address){
         return AddressModel.builder()
                 .address(address.getAddress())
@@ -32,6 +37,8 @@ public class Converter {
                         .toList())
                 .roomId(booking.getRoom().getId())
                 .groupId(booking.getGroupId())
+                .roomName(booking.getRoom().getName())
+                .address(addressRepository.findByRoomId(booking.getRoom().getId()).getAddress())
                 .build();
     }
 
