@@ -33,6 +33,7 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
                 .select(declarationPosts.id)  // ID만 선택
                 .from(declarationPosts)
                 .where(declarationPosts.declarer.eq(nickname))
+                .orderBy(declarationPosts.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -54,12 +55,14 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
                         ))
                         .from(declarationPosts)
                         .where(declarationPosts.id.in(declarationpostsIds))  // ID 리스트 사용
+                        .orderBy(declarationPosts.createdAt.desc())
                         .fetch();
 
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(declarationPosts.id.count())
                 .from(declarationPosts)
                 .where(declarationPosts.declarer.eq(nickname))
+                .orderBy(declarationPosts.createdAt.desc())
                 .fetchOne()).orElse(0L);
 
         // 결과를 Page 객체로 반환
@@ -73,6 +76,7 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
         List<Long> declarationpostsIds = jpaQueryFactory
                 .select(declarationPosts.id)  // ID만 선택
                 .from(declarationPosts)
+                .orderBy(declarationPosts.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -91,11 +95,13 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
                         ))
                         .from(declarationPosts)
                         .where(declarationPosts.id.in(declarationpostsIds))  // ID 리스트 사용
+                        .orderBy(declarationPosts.createdAt.desc())
                         .fetch();
 
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(declarationPosts.id.count())
                 .from(declarationPosts)
+                .orderBy(declarationPosts.createdAt.desc())
                 .fetchOne()).orElse(0L);
         // 결과를 Page 객체로 반환
         return new PageImpl<>(declarationPostModelList, pageable, totalCount);

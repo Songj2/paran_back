@@ -42,10 +42,10 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                 .where(room.id.in(
                         jpaQueryFactory.select(room.id)
                                 .from(room)
+                                .where(room.enabled.eq(true))
                                 .orderBy(room.id.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
-                                .where(room.enabled.eq(true))
                                 .fetch()
                 ))
                 .orderBy(room.id.desc())
@@ -81,17 +81,20 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                 .where(room.id.in(
                         jpaQueryFactory.select(room.id)
                                 .from(room)
+                                .where(room.enabled.eq(false))
+                                .orderBy(room.id.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
-                                .where(room.enabled.eq(false))
                                 .fetch()
                 ))
+                .orderBy(room.id.desc())
                 .fetch().stream().toList();
 
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(room.id.count())
                 .from(room)
                 .where(room.enabled.eq(false))
+                .orderBy(room.id.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>(result, pageable, totalCount);
     }
@@ -100,6 +103,7 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
     public List<Room> findAllByNickname(String nickname) {
         return jpaQueryFactory.selectFrom(room)
                 .where(room.nickname.eq(nickname))
+                .orderBy(room.id.desc())
                 .fetch();
     }
 
@@ -124,17 +128,20 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
                 .where(room.id.in(
                                 jpaQueryFactory.select(room.id).from(room)
                                         .where(room.nickname.eq(nickname).and(room.enabled.eq(true)))
+                                        .orderBy(room.id.desc())
                                         .limit(pageable.getPageSize())
                                         .offset(pageable.getOffset())
                                         .fetch()
                         )
                 )
+                .orderBy(room.id.desc())
                 .fetch();
 
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(room.id.count())
                 .from(room)
                 .where(room.nickname.eq(nickname).and(room.enabled.eq(true)))
+                .orderBy(room.id.desc())
                 .fetchOne()).orElse(0L);
         log.info("샐러가 조회한다. enabled: {}, result={}", totalCount, result);
         return new PageImpl<>(result, pageable, totalCount);

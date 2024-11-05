@@ -29,6 +29,7 @@ public class FriendRepositoryImpl implements FriendRepositoryCustom {
                 .where(friends.requestUser.eq(nickname)
                         .or(friends.responseUser.eq(nickname))
                 )
+                .orderBy(friends.responseUser.asc())
                 .fetch();
 
         return friendIds.isEmpty()? List.of() :
@@ -42,6 +43,7 @@ public class FriendRepositoryImpl implements FriendRepositoryCustom {
                                 friends.response_at))
                         .from(friends)
                         .where(friends.id.in(friendIds))
+                        .orderBy(friends.responseUser.asc())
                         .fetch();
     }
     //친구 요청목록 유저 이름으로 찾기
@@ -54,6 +56,7 @@ public class FriendRepositoryImpl implements FriendRepositoryCustom {
                 .where(friends.requestUser.eq(nickname)
                         .or(friends.responseUser.eq(nickname))
                 )
+                .orderBy(friends.request_at.desc())
                 .fetch();
 
         return friendIds.isEmpty()? List.of() :
@@ -67,6 +70,7 @@ public class FriendRepositoryImpl implements FriendRepositoryCustom {
                                 friends.response_at))
                         .from(friends)
                         .where(friends.id.in(friendIds))
+                        .orderBy(friends.request_at.desc())
                         .fetch();
     }
 

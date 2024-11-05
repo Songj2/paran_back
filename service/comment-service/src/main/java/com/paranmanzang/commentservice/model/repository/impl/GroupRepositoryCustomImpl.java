@@ -26,6 +26,7 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
                 .select(group.id)
                 .from(group)
                 .where(group.enabled.eq(true))
+                .orderBy(group.createAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -45,11 +46,13 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
                         ))
                         .from(group)
                         .where(group.id.in(ids))
+                        .orderBy(group.createAt.desc())
                         .fetch();
         long totalCount = Optional.ofNullable(queryFactory
                 .select(group.id.count())
                 .from(group)
                 .where(group.enabled.eq(true))
+                .orderBy(group.createAt.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>(books, pageable, totalCount);
     }
@@ -89,6 +92,7 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
                 .select(group.id)
                 .from(group)
                 .where(group.enabled.eq(false))
+                .orderBy(group.createAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -108,12 +112,14 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
                         ))
                         .from(group)
                         .where(group.id.in(ids))
+                        .orderBy(group.createAt.desc())
                         .fetch();
 
         long totalCount = Optional.ofNullable(queryFactory
                 .select(group.id.count())
                 .from(group)
                 .where(group.enabled.eq(false))
+                .orderBy(group.createAt.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>(books, pageable,totalCount);
     }

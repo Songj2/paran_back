@@ -25,14 +25,18 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                         jpaQueryFactory.select(booking.id)
                                 .from(booking)
                                 .where(booking.groupId.eq(id))
+                                .orderBy(booking.createAt.desc())
                                 .limit( pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
-                )).fetch();
+                ))
+                .orderBy(booking.createAt.desc())
+                .fetch();
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(booking.id.count())
                 .from(booking)
                 .where(booking.groupId.eq(id))
+                .orderBy(booking.createAt.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>( result, pageable, totalCount);
     }
@@ -44,14 +48,18 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                         jpaQueryFactory.select(booking.id)
                                 .from(booking)
                                 .where(booking.room.id.eq(id))
+                                .orderBy(booking.createAt.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
-                )).fetch();
+                ))
+                .orderBy(booking.createAt.desc())
+                .fetch();
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(booking.id.count())
                 .from(booking)
                 .where(booking.room.id.eq(id))
+                .orderBy(booking.createAt.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>( result, pageable,totalCount);
     }
@@ -63,14 +71,18 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                         jpaQueryFactory.select(booking.id)
                                 .from(booking)
                                 .where(booking.groupId.in(groupIds).and(booking.enabled.eq(true)))
+                                .orderBy(booking.createAt.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
-                )).fetch();
+                ))
+                .orderBy(booking.createAt.desc())
+                .fetch();
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(booking.id.count())
                 .from(booking)
                 .where(booking.groupId.in(groupIds).and(booking.enabled.eq(true)))
+                .orderBy(booking.createAt.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>( result, pageable, totalCount);
     }
@@ -82,14 +94,18 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                         jpaQueryFactory.select(booking.id)
                                 .from(booking)
                                 .where(booking.groupId.in(groupIds).and(booking.enabled.eq(false)))
+                                .orderBy(booking.createAt.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
-                )).fetch();
+                ))
+                .orderBy(booking.createAt.desc())
+                .fetch();
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(booking.id.count())
                 .from(booking)
                 .where(booking.groupId.in(groupIds).and(booking.enabled.eq(false)))
+                .orderBy(booking.createAt.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>( result, pageable, totalCount );
     }
@@ -101,14 +117,18 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                         jpaQueryFactory.select(booking.id)
                                 .from(booking)
                                 .where(booking.room.id.in(roomIds).and(booking.enabled.eq(true)))
+                                .orderBy(booking.createAt.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
-                )).fetch();
+                ))
+                .orderBy(booking.createAt.desc())
+                .fetch();
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(booking.id.count())
                 .from(booking)
                 .where(booking.room.id.in(roomIds).and(booking.enabled.eq(true)))
+                .orderBy(booking.createAt.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>( result, pageable, result.size());
     }
@@ -120,14 +140,18 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                         jpaQueryFactory.select(booking.id)
                                 .from(booking)
                                 .where(booking.room.id.in(roomIds).and(booking.enabled.eq(false)))
+                                .orderBy(booking.createAt.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
-                )).fetch();
+                ))
+                .orderBy(booking.createAt.desc())
+                .fetch();
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(booking.id.count())
                 .from(booking)
                 .where(booking.room.id.in(roomIds).and(booking.enabled.eq(false)))
+                .orderBy(booking.createAt.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>( result, pageable, result.size());
     }

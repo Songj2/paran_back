@@ -46,12 +46,14 @@ public class CommentRepositoryImpl implements CustomCommentRepository {
                         ))
                         .from(comment)
                         .where(comment.id.in(ids))                   // 조회된 ID 리스트 기반으로 필터링
+                        .orderBy(comment.ref.desc(), comment.step.asc(), comment.depth.asc())
                         .fetch();
 
         long totalCount = Optional.ofNullable(queryFactory
                 .select(comment.id.count())
                 .from(comment)
                 .where(comment.postId.eq(postId))
+                .orderBy(comment.ref.desc(), comment.step.asc(), comment.depth.asc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>(comments, pageable,totalCount);
     }

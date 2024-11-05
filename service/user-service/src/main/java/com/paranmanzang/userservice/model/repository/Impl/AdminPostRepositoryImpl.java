@@ -26,6 +26,7 @@ public class AdminPostRepositoryImpl implements AdminPostRepositoryCustom {
                 .select(adminPosts.id)
                 .from(adminPosts)
                 .where(adminPosts.nickname.eq(nickname))
+                .orderBy(adminPosts.createAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -45,12 +46,14 @@ public class AdminPostRepositoryImpl implements AdminPostRepositoryCustom {
                         ))
                         .from(adminPosts)
                         .where(adminPosts.id.in(adminPostIdsN))
+                        .orderBy(adminPosts.createAt.desc())
                         .fetch();
 
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(adminPosts.id.count())
                 .from(adminPosts)
                 .where(adminPosts.nickname.eq(nickname))
+                .orderBy(adminPosts.createAt.desc())
                 .fetchOne()).orElse(0L);
 
         return new PageImpl<>(adminPostModelsn, pageable, totalCount);
@@ -61,6 +64,7 @@ public class AdminPostRepositoryImpl implements AdminPostRepositoryCustom {
         var adminPostIds = jpaQueryFactory
                 .select(adminPosts.id)
                 .from(adminPosts)
+                .orderBy(adminPosts.createAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -79,11 +83,13 @@ public class AdminPostRepositoryImpl implements AdminPostRepositoryCustom {
                         ))
                         .from(adminPosts)
                         .where(adminPosts.id.in(adminPostIds))
+                        .orderBy(adminPosts.createAt.desc())
                         .fetch();
 
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(adminPosts.id.count())
                 .from(adminPosts)
+                .orderBy(adminPosts.createAt.desc())
                 .fetchOne()).orElse(0L);
 
         return new PageImpl<>(adminPostModel, pageable, totalCount);
