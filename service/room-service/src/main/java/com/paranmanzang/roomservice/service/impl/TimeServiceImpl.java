@@ -44,7 +44,8 @@ public class TimeServiceImpl implements TImeService {
                 .filter(Room::isEnabled)
                 .forEach(room ->
                         timeRepository.saveAll(LocalDate.now().datesUntil(
-                                timeRepository.findLastByRoomId(room.getId()).getDate().plusWeeks(1)
+//                                timeRepository.findLastByRoomId(room.getId()).getDate().plusWeeks(1)
+                                LocalDate.now().plusWeeks(1)
                         ).flatMap(date ->
                                 IntStream.rangeClosed(room.getOpenTime().getHour(), room.getCloseTime().getHour())
                                         .mapToObj(hour ->
