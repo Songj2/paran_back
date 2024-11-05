@@ -23,9 +23,9 @@ public class AddressController {
 
     private final AddressServiceImpl addressService;
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     @Operation(summary = "검색 조회", description = "검색어에 해당하는 주소 정보를 최대 5개까지 조회합니다.", tags = {"05. Address",})
-    public ResponseEntity<?> search(@RequestParam QueryModel model){
+    public ResponseEntity<?> search(@RequestBody QueryModel model){
         log.info("모델: {}",model);
         return ResponseEntity.ok(addressService.search(model.getQuery()));
 
