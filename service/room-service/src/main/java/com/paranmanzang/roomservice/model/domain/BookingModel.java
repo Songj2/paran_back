@@ -41,4 +41,7 @@ public class BookingModel {
     @Positive
     private Long groupId;
 
+    private String roomName;
+    private String address;
+
 }
