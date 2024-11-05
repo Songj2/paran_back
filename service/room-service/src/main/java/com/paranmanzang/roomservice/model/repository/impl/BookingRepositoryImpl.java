@@ -42,9 +42,9 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                                 .from(booking)
                                 .where(booking.groupId.eq(id)
                                         .and(booking.id.in(
-                                                jpaQueryFactory.select(account.bookingId).from(account).fetch()
-                                        )
-                                ))
+                                                        jpaQueryFactory.select(account.bookingId).from(account).fetch()
+                                                )
+                                        ))
                                 .orderBy(booking.createAt.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
@@ -101,7 +101,7 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
     }
 
     @Override
-    public Page<BookingModel> findEnabledByGroupIds(List<Long> groupIds, Pageable pageable) {
+    public Page<BookingModel> findEnabledByGroupId(Long groupId, Pageable pageable) {
         var result = jpaQueryFactory.selectDistinct(
                         Projections.constructor(
                                 BookingModel.class,
@@ -120,7 +120,11 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                 .where(booking.id.in(
                         jpaQueryFactory.select(booking.id)
                                 .from(booking)
-                                .where(booking.groupId.in(groupIds).and(booking.enabled.eq(true)))
+                                .where(booking.enabled.eq(true)
+                                        .and(booking.id.notIn(
+                                                        jpaQueryFactory.select(account.bookingId).from(account).fetch()
+                                                )
+                                        ))
                                 .orderBy(booking.createAt.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
@@ -131,13 +135,60 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(booking.id.count())
                 .from(booking)
-                .where(booking.groupId.in(groupIds).and(booking.enabled.eq(true)))
+                .where(booking.enabled.eq(true)
+                        .and(booking.id.notIn(
+                                        jpaQueryFactory.select(account.bookingId).from(account).fetch()
+                                )
+                        ))
+                .fetchOne()).orElse(0L);
+        return new PageImpl<>(result, pageable, totalCount);
+    }
+    @Override
+    public Page<BookingModel> findPaidByGroupId(Long groupId, Pageable pageable) {
+        var result = jpaQueryFactory.selectDistinct(
+                        Projections.constructor(
+                                BookingModel.class,
+                                booking.id.as("id"),
+                                booking.enabled.as("enabled"),
+                                booking.date.as("date"),
+                                booking.room.id.as("roomId"),
+                                booking.groupId.as("groupId"),
+                                room.name.as("roomName"),
+                                address.address.as("address")
+
+                        )
+                ).from(booking)
+                .innerJoin(booking.room, room)
+                .innerJoin(address).on(booking.room.id.eq(address.roomId))
+                .where(booking.id.in(
+                        jpaQueryFactory.select(booking.id)
+                                .from(booking)
+                                .where(booking.enabled.eq(true)
+                                        .and(booking.id.in(
+                                                        jpaQueryFactory.select(account.bookingId).from(account).fetch()
+                                                )
+                                        ))
+                                .orderBy(booking.createAt.desc())
+                                .limit(pageable.getPageSize())
+                                .offset(pageable.getOffset())
+                                .fetch()
+                ))
+                .orderBy(booking.createAt.desc())
+                .fetch();
+        long totalCount = Optional.ofNullable(jpaQueryFactory
+                .select(booking.id.count())
+                .from(booking)
+                .where(booking.enabled.eq(true)
+                        .and(booking.id.notIn(
+                                        jpaQueryFactory.select(account.bookingId).from(account).fetch()
+                                )
+                        ))
                 .fetchOne()).orElse(0L);
         return new PageImpl<>(result, pageable, totalCount);
     }
 
     @Override
-    public Page<BookingModel> findDisabledByGroupIds(List<Long> groupIds, Pageable pageable) {
+    public Page<BookingModel> findDisabledByGroupId(Long groupId, Pageable pageable) {
         var result = jpaQueryFactory.selectDistinct(
                         Projections.constructor(
                                 BookingModel.class,
@@ -156,7 +207,7 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                 .where(booking.id.in(
                         jpaQueryFactory.select(booking.id)
                                 .from(booking)
-                                .where(booking.groupId.in(groupIds).and(booking.enabled.eq(false)))
+                                .where(booking.groupId.eq(groupId).and(booking.enabled.eq(false)))
                                 .orderBy(booking.createAt.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
@@ -167,7 +218,7 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(booking.id.count())
                 .from(booking)
-                .where(booking.groupId.in(groupIds).and(booking.enabled.eq(false)))
+                .where(booking.groupId.eq(groupId).and(booking.enabled.eq(false)))
                 .fetchOne()).orElse(0L);
         return new PageImpl<>(result, pageable, totalCount);
     }

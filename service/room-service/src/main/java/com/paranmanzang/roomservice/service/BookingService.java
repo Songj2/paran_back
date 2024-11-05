@@ -16,9 +16,11 @@ public interface BookingService {
 
     Page<?> findByRoom(long roomId, Pageable pageable);
 
-    Page<?> findEnabledByGroups(List<Long> groupIds, Pageable pageable);
+    Page<?> findEnabledByGroups(Long groupId, Pageable pageable);
 
-    Page<?> findDisabledByGroups(List<Long> groupIds, Pageable pageable);
+    Page<?> findDisabledByGroups(Long groupId, Pageable pageable);
+
+    Page<?> findPaidByGroups(Long groupId, Pageable pageable);
 
     Page<?> findEnabledByRooms(String nickname, Pageable pageable);
 

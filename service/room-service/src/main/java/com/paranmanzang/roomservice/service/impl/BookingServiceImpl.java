@@ -4,14 +4,12 @@ import com.paranmanzang.roomservice.model.domain.AccountModel;
 import com.paranmanzang.roomservice.model.domain.BookingModel;
 import com.paranmanzang.roomservice.model.entity.Booking;
 import com.paranmanzang.roomservice.model.entity.Room;
-import com.paranmanzang.roomservice.model.entity.Time;
 import com.paranmanzang.roomservice.model.repository.BookingRepository;
 import com.paranmanzang.roomservice.model.repository.RoomRepository;
 import com.paranmanzang.roomservice.service.BookingService;
 import com.paranmanzang.roomservice.util.Converter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -78,16 +76,24 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Page<?> findEnabledByGroups(List<Long> groupIds, Pageable pageable) {
-        return bookingRepository.findEnabledByGroupIds(groupIds, pageable).map(bookingModel -> {
+    public Page<?> findEnabledByGroups(Long groupId, Pageable pageable) {
+        return bookingRepository.findEnabledByGroupId(groupId, pageable).map(bookingModel -> {
             bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
-            bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
+            bookingModel.setAccount(AccountModel.builder().build());
             return bookingModel;
         });
     }
     @Override
-    public Page<?> findDisabledByGroups(List<Long> groupIds, Pageable pageable) {
-        return bookingRepository.findDisabledByGroupIds(groupIds, pageable).map(bookingModel -> {
+    public Page<?> findDisabledByGroups(Long groupId, Pageable pageable) {
+        return bookingRepository.findDisabledByGroupId(groupId, pageable).map(bookingModel -> {
+            bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+            bookingModel.setAccount(AccountModel.builder().build());
+            return bookingModel;
+        });
+    }
+    @Override
+    public Page<?> findPaidByGroups(Long groupId, Pageable pageable) {
+        return bookingRepository.findPaidByGroupId(groupId, pageable).map(bookingModel -> {
             bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
             bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
             return bookingModel;
