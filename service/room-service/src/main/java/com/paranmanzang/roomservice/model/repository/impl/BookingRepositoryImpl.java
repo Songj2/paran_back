@@ -36,7 +36,6 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                 .select(booking.id.count())
                 .from(booking)
                 .where(booking.groupId.eq(id))
-                .orderBy(booking.createAt.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>( result, pageable, totalCount);
     }
@@ -59,7 +58,6 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                 .select(booking.id.count())
                 .from(booking)
                 .where(booking.room.id.eq(id))
-                .orderBy(booking.createAt.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>( result, pageable,totalCount);
     }
@@ -82,7 +80,6 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                 .select(booking.id.count())
                 .from(booking)
                 .where(booking.groupId.in(groupIds).and(booking.enabled.eq(true)))
-                .orderBy(booking.createAt.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>( result, pageable, totalCount);
     }
@@ -105,7 +102,6 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                 .select(booking.id.count())
                 .from(booking)
                 .where(booking.groupId.in(groupIds).and(booking.enabled.eq(false)))
-                .orderBy(booking.createAt.desc())
                 .fetchOne()).orElse(0L);
         return new PageImpl<>( result, pageable, totalCount );
     }
@@ -128,9 +124,8 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                 .select(booking.id.count())
                 .from(booking)
                 .where(booking.room.id.in(roomIds).and(booking.enabled.eq(true)))
-                .orderBy(booking.createAt.desc())
                 .fetchOne()).orElse(0L);
-        return new PageImpl<>( result, pageable, result.size());
+        return new PageImpl<>( result, pageable, totalCount);
     }
 
     @Override
@@ -151,8 +146,7 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                 .select(booking.id.count())
                 .from(booking)
                 .where(booking.room.id.in(roomIds).and(booking.enabled.eq(false)))
-                .orderBy(booking.createAt.desc())
                 .fetchOne()).orElse(0L);
-        return new PageImpl<>( result, pageable, result.size());
+        return new PageImpl<>( result, pageable,totalCount);
     }
 }
