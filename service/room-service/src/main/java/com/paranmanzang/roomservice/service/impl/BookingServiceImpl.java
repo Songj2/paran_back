@@ -26,7 +26,6 @@ public class BookingServiceImpl implements BookingService {
     private final TimeServiceImpl timeService;
     private final AccountServiceImpl accountService;
     private final Converter converter;
-    private final BookingModel bookingModel;
 
     @Override
     public BookingModel insert(BookingModel model) {
@@ -61,6 +60,7 @@ public class BookingServiceImpl implements BookingService {
     public Page<?> findByGroup(long groupId, Pageable pageable) {
         return  bookingRepository.findByGroupId(groupId, pageable).map(bookingModel -> {
             bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+            bookingModel.setAccount(A);
             return bookingModel;
         });
     }
@@ -117,6 +117,11 @@ public class BookingServiceImpl implements BookingService {
                     return bookingRepository.save(booking);
                 })
                 .map(converter::convertToBookingModel).get();
+    }
+
+    @Override
+    public BookingModel findById(Long id) {
+        return converter.convertToBookingModel(bookingRepository.findById(id).get());
     }
 
 }

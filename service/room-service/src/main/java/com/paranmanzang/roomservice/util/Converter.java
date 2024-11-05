@@ -2,6 +2,7 @@ package com.paranmanzang.roomservice.util;
 
 import com.paranmanzang.roomservice.model.domain.*;
 import com.paranmanzang.roomservice.model.entity.*;
+import com.paranmanzang.roomservice.model.repository.AccountRepository;
 import com.paranmanzang.roomservice.model.repository.AddressRepository;
 import com.paranmanzang.roomservice.model.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,23 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class Converter {
+    private final AccountRepository accountRepository;
     private final AddressRepository addressRepository;
+
+    public AccountModel convertToAccountModel(Account account){
+        return AccountModel.builder()
+                .orderId(account.getOrderId())
+                .orderName(account.getDetail())
+                .amount(account.getAmount())
+                .amountTaxFree(account.getAmountTaxFree())
+                .groupId(account.getGroupId())
+                .canceled(account.isCanceled())
+                .reason(account.getReason())
+                .createAt(account.getCreateAt())
+                .roomId(account.getRoomId())
+                .bookingId(account.getBookingId())
+                .build();
+    }
     public AddressModel convertTonAddressModel(Address address){
         return AddressModel.builder()
                 .address(address.getAddress())
@@ -39,6 +56,7 @@ public class Converter {
                 .groupId(booking.getGroupId())
                 .roomName(booking.getRoom().getName())
                 .address(addressRepository.findByRoomId(booking.getRoom().getId()).getAddress())
+                .account((convertToAccountModel(accountRepository.findAccountByBookingId(booking.getId()).orElse(Account.builder().build()))))
                 .build();
     }
 

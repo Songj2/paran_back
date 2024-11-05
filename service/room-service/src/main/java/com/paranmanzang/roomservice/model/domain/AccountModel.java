@@ -18,7 +18,6 @@ public class AccountModel {
     private String orderName;
     private int amount;
     private int amountTaxFree;
-    private int usePoint;
     private boolean canceled;
     private String reason;
     private LocalDateTime createAt;

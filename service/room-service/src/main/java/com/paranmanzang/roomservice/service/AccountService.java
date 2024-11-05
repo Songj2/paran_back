@@ -3,11 +3,12 @@ package com.paranmanzang.roomservice.service;
 import com.paranmanzang.roomservice.model.domain.AccountCancelModel;
 import com.paranmanzang.roomservice.model.domain.AccountModel;
 import com.paranmanzang.roomservice.model.domain.AccountResultModel;
+import com.paranmanzang.roomservice.model.domain.BookingModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface AccountService {
-    Boolean insert(AccountResultModel model);
+    BookingModel insert(AccountResultModel model);
 
     String findByOrderId(String orderId);
 

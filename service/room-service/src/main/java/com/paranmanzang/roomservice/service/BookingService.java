@@ -9,6 +9,7 @@ import java.util.List;
 public interface BookingService {
     BookingModel insert(BookingModel model);
     BookingModel updateState(Long id);
+    BookingModel findById(Long id);
     Boolean delete(Long id);
 
     Page<?> findByGroup(long groupId, Pageable pageable);

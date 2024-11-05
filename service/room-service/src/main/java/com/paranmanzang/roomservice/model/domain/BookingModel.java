@@ -43,5 +43,6 @@ public class BookingModel {
 
     private String roomName;
     private String address;
+    private AccountModel account;
 
 }

@@ -28,7 +28,6 @@ public class Account {
     private int amountTaxFree;
     @Column(nullable = false)
     private String payToken;
-    private int usePoint;
     @ColumnDefault("false")
     private boolean canceled;
     private String reason;
