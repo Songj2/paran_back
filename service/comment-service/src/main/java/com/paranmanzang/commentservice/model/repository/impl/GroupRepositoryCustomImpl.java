@@ -23,7 +23,7 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
     @Override
     public Page<GroupResponseModel> findGroup(Pageable pageable) {
         var ids = queryFactory
-                .select(group.id)
+                .selectDistinct(group.id)
                 .from(group)
                 .where(group.enabled.eq(true))
                 .orderBy(group.id.desc())
@@ -33,7 +33,7 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
 
         List<GroupResponseModel> books = ids.isEmpty() ? List.of() :
                 queryFactory
-                        .select(Projections.constructor(
+                        .selectDistinct(Projections.constructor(
                                 GroupResponseModel.class,
                                 group.id,
                                 group.name,
@@ -49,7 +49,7 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
                         .orderBy(group.id.desc())
                         .fetch();
         long totalCount = Optional.ofNullable(queryFactory
-                .select(group.id.count())
+                .selectDistinct(group.id.count())
                 .from(group)
                 .where(group.enabled.eq(true))
                 .fetchOne()).orElse(0L);
@@ -59,7 +59,7 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
     @Override
     public List<GroupResponseModel> findByNickname(String nickname) {
         var ids = queryFactory
-                .select(group.id)
+                .selectDistinct(group.id)
                 .from(group)
                 .join(group.joinings, joining)
                 .where(joining.nickname.eq(nickname).and(joining.enabled.eq(true)))
@@ -68,7 +68,7 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
 
         return ids.isEmpty() ? List.of() :
                 queryFactory
-                        .select(Projections.constructor(
+                        .selectDistinct(Projections.constructor(
                                 GroupResponseModel.class,
                                 group.id,
                                 group.name,
@@ -88,7 +88,7 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
     @Override
     public Page<GroupResponseModel> findByEnable(Pageable pageable) {
         var ids = queryFactory
-                .select(group.id)
+                .selectDistinct(group.id)
                 .from(group)
                 .where(group.enabled.eq(false))
                 .orderBy(group.id.desc())
@@ -98,7 +98,7 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
 
         List<GroupResponseModel> books = ids.isEmpty() ? List.of() :
                 queryFactory
-                        .select(Projections.constructor(
+                        .selectDistinct(Projections.constructor(
                                 GroupResponseModel.class,
                                 group.id,
                                 group.name,
@@ -115,7 +115,7 @@ public class GroupRepositoryCustomImpl implements GroupRepositoryCustom {
                         .fetch();
 
         long totalCount = Optional.ofNullable(queryFactory
-                .select(group.id.count())
+                .selectDistinct(group.id.count())
                 .from(group)
                 .where(group.enabled.eq(false))
                 .fetchOne()).orElse(0L);
