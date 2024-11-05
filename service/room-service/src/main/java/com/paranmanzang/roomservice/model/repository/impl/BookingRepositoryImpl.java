@@ -46,12 +46,12 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                                                         jpaQueryFactory.select(account.bookingId).from(account).fetch()
                                                 )
                                         ))
-                                .orderBy(booking.createAt.desc())
+                                .orderBy(booking.id.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
                 ))
-                .orderBy(booking.createAt.desc())
+                .orderBy(booking.id.desc())
                 .fetch();
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(booking.id.count())
@@ -86,12 +86,12 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                         jpaQueryFactory.select(booking.id)
                                 .from(booking)
                                 .where(booking.room.id.eq(id))
-                                .orderBy(booking.createAt.desc())
+                                .orderBy(booking.id.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
                 ))
-                .orderBy(booking.createAt.desc())
+                .orderBy(booking.id.desc())
                 .fetch();
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(booking.id.count())
@@ -126,12 +126,12 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                                                         jpaQueryFactory.select(account.bookingId).from(account).fetch()
                                                 )
                                         ))
-                                .orderBy(booking.createAt.desc())
+                                .orderBy(booking.id.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
                 ))
-                .orderBy(booking.createAt.desc())
+                .orderBy(booking.id.desc())
                 .fetch();
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(booking.id.count())
@@ -169,12 +169,12 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                                                         jpaQueryFactory.select(account.bookingId).from(account).fetch()
                                                 )
                                         ))
-                                .orderBy(booking.createAt.desc())
+                                .orderBy(booking.id.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
                 ))
-                .orderBy(booking.createAt.desc())
+                .orderBy(booking.id.desc())
                 .fetch();
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(booking.id.count())
@@ -209,12 +209,12 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                         jpaQueryFactory.select(booking.id)
                                 .from(booking)
                                 .where(booking.groupId.eq(groupId).and(booking.enabled.eq(false)))
-                                .orderBy(booking.createAt.desc())
+                                .orderBy(booking.id.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
                 ))
-                .orderBy(booking.createAt.desc())
+                .orderBy(booking.id.desc())
                 .fetch();
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(booking.id.count())
@@ -249,12 +249,12 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                                         .and(booking.id.notIn(
                                                 jpaQueryFactory.select(account.bookingId).from(account).fetch()
                                         )))
-                                .orderBy(booking.createAt.desc())
+                                .orderBy(booking.id.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
                 ))
-                .orderBy(booking.createAt.desc())
+                .orderBy(booking.id.desc())
                 .fetch();
 
         long totalCount = Optional.ofNullable(jpaQueryFactory
@@ -289,12 +289,12 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                                         .and(booking.id.in(
                                                 jpaQueryFactory.select(account.bookingId).from(account).fetch()
                                         )))
-                                .orderBy(booking.createAt.desc())
+                                .orderBy(booking.id.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
                 ))
-                .orderBy(booking.createAt.desc())
+                .orderBy(booking.id.desc())
                 .fetch();
 
         long totalCount = Optional.ofNullable(jpaQueryFactory
@@ -327,12 +327,12 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
                         jpaQueryFactory.select(booking.id)
                                 .from(booking)
                                 .where(booking.room.id.in(roomIds).and(booking.enabled.eq(false)))
-                                .orderBy(booking.createAt.desc())
+                                .orderBy(booking.id.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
                 ))
-                .orderBy(booking.createAt.desc())
+                .orderBy(booking.id.desc())
                 .fetch();
 
         long totalCount = Optional.ofNullable(jpaQueryFactory
