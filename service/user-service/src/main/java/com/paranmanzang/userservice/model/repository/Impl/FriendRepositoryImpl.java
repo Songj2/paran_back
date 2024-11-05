@@ -29,7 +29,6 @@ public class FriendRepositoryImpl implements FriendRepositoryCustom {
                 .where(friends.requestUser.eq(nickname)
                         .or(friends.responseUser.eq(nickname))
                 )
-                .orderBy(friends.responseUser.asc())
                 .fetch();
 
         return friendIds.isEmpty()? List.of() :

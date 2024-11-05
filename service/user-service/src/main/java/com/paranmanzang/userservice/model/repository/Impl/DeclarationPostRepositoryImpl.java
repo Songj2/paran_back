@@ -33,7 +33,7 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
                 .select(declarationPosts.id)  // ID만 선택
                 .from(declarationPosts)
                 .where(declarationPosts.declarer.eq(nickname))
-                .orderBy(declarationPosts.createdAt.desc())
+                .orderBy(declarationPosts.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -55,7 +55,7 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
                         ))
                         .from(declarationPosts)
                         .where(declarationPosts.id.in(declarationpostsIds))  // ID 리스트 사용
-                        .orderBy(declarationPosts.createdAt.desc())
+                        .orderBy(declarationPosts.id.desc())
                         .fetch();
 
         long totalCount = Optional.ofNullable(jpaQueryFactory
@@ -75,7 +75,7 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
         List<Long> declarationpostsIds = jpaQueryFactory
                 .select(declarationPosts.id)  // ID만 선택
                 .from(declarationPosts)
-                .orderBy(declarationPosts.createdAt.desc())
+                .orderBy(declarationPosts.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -94,7 +94,7 @@ public class DeclarationPostRepositoryImpl implements DeclarationPostRepositoryC
                         ))
                         .from(declarationPosts)
                         .where(declarationPosts.id.in(declarationpostsIds))  // ID 리스트 사용
-                        .orderBy(declarationPosts.createdAt.desc())
+                        .orderBy(declarationPosts.id.desc())
                         .fetch();
 
         long totalCount = Optional.ofNullable(jpaQueryFactory

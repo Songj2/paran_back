@@ -37,11 +37,11 @@ public class ReviewRepositoryImpl implements ReviewCustomRepository {
                         jpaQueryFactory.select(review.id)
                                 .from(review)
                                 .where(review.room.id.eq(roomId))
-                                .orderBy(review.createAt.desc())
+                                .orderBy(review.id.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
-                )).orderBy(review.createAt.desc())
+                )).orderBy(review.id.desc())
                 .fetch();
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(review.id.count())
@@ -72,12 +72,12 @@ public class ReviewRepositoryImpl implements ReviewCustomRepository {
                         jpaQueryFactory.select(review.id)
                                 .from(review)
                                 .where(review.room.nickname.eq(nickname))
-                                .orderBy(review.createAt.desc())
+                                .orderBy(review.id.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
                 ))
-                .orderBy(review.createAt.desc())
+                .orderBy(review.id.desc())
                 .fetch();
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(review.id.count())
@@ -105,12 +105,12 @@ public class ReviewRepositoryImpl implements ReviewCustomRepository {
                 .where(review.id.in(
                         jpaQueryFactory.select(review.id)
                                 .from(review)
-                                .orderBy(review.createAt.desc())
+                                .orderBy(review.id.desc())
                                 .limit(pageable.getPageSize())
                                 .offset(pageable.getOffset())
                                 .fetch()
                 ))
-                .orderBy(review.createAt.desc())
+                .orderBy(review.id.desc())
                 .fetch();
         long totalCount = Optional.ofNullable(jpaQueryFactory
                 .select(review.id.count())

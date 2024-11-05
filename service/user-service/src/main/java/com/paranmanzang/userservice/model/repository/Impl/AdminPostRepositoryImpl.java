@@ -26,7 +26,7 @@ public class AdminPostRepositoryImpl implements AdminPostRepositoryCustom {
                 .select(adminPosts.id)
                 .from(adminPosts)
                 .where(adminPosts.nickname.eq(nickname))
-                .orderBy(adminPosts.createAt.desc())
+                .orderBy(adminPosts.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -46,7 +46,7 @@ public class AdminPostRepositoryImpl implements AdminPostRepositoryCustom {
                         ))
                         .from(adminPosts)
                         .where(adminPosts.id.in(adminPostIdsN))
-                        .orderBy(adminPosts.createAt.desc())
+                        .orderBy(adminPosts.id.desc())
                         .fetch();
 
         long totalCount = Optional.ofNullable(jpaQueryFactory
@@ -64,7 +64,7 @@ public class AdminPostRepositoryImpl implements AdminPostRepositoryCustom {
         var adminPostIds = jpaQueryFactory
                 .select(adminPosts.id)
                 .from(adminPosts)
-                .orderBy(adminPosts.createAt.desc())
+                .orderBy(adminPosts.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -83,7 +83,7 @@ public class AdminPostRepositoryImpl implements AdminPostRepositoryCustom {
                         ))
                         .from(adminPosts)
                         .where(adminPosts.id.in(adminPostIds))
-                        .orderBy(adminPosts.createAt.desc())
+                        .orderBy(adminPosts.id.desc())
                         .fetch();
 
         long totalCount = Optional.ofNullable(jpaQueryFactory
