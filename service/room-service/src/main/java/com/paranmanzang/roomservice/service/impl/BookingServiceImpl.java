@@ -2,6 +2,7 @@ package com.paranmanzang.roomservice.service.impl;
 
 import com.paranmanzang.roomservice.model.domain.AccountModel;
 import com.paranmanzang.roomservice.model.domain.BookingModel;
+import com.paranmanzang.roomservice.model.domain.BookingTempModel;
 import com.paranmanzang.roomservice.model.entity.Booking;
 import com.paranmanzang.roomservice.model.entity.Room;
 import com.paranmanzang.roomservice.model.repository.BookingRepository;
@@ -25,6 +26,7 @@ public class BookingServiceImpl implements BookingService {
     private final TimeServiceImpl timeService;
     private final AccountServiceImpl accountService;
     private final Converter converter;
+    private final BookingModel bookingModel;
 
     @Override
     public BookingModel insert(BookingModel model) {
@@ -39,7 +41,8 @@ public class BookingServiceImpl implements BookingService {
                     timeService.saveBooking(model);
                     return booking;
                 }).map(converter::convertToBookingModel).map(bookingModel -> {
-                    if(bookingModel.getUsingTime().isEmpty()) bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+                    if (bookingModel.getUsingTime().isEmpty())
+                        bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
                     return bookingModel;
                 }).get();
     }
@@ -57,70 +60,94 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Page<?> findByGroup(long groupId, Pageable pageable) {
-        return  bookingRepository.findByGroupId(groupId, pageable).map(bookingModel -> {
-            bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
-            bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
-            return bookingModel;
-        });
+        return bookingRepository.findByGroupId(groupId, pageable)
+                .map(tempModel -> {
+                    var bookingModel = tempToModel(tempModel);
+                    bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+                    bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
+                    return bookingModel;
+                });
     }
 
 
     @Override
     public Page<?> findByRoom(long roomId, Pageable pageable) {
-        return bookingRepository.findByRoomId(roomId, pageable).map(bookingModel -> {
-            bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
-            bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
-            return bookingModel;
-        });
+        return bookingRepository.findByRoomId(roomId, pageable)
+                .map(tempModel -> {
+                    var bookingModel = tempToModel(tempModel);
+                    bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+                    bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
+                    return bookingModel;
+                });
 
     }
 
     @Override
     public Page<?> findEnabledByGroups(Long groupId, Pageable pageable) {
-        return bookingRepository.findEnabledByGroupId(groupId, pageable).map(bookingModel -> {
-            bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
-            bookingModel.setAccount(AccountModel.builder().build());
-            return bookingModel;
-        });
+        return bookingRepository.findEnabledByGroupId(groupId, pageable)
+                .map(tempModel -> {
+                    var bookingModel = tempToModel(tempModel);
+                    bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+                    bookingModel.setAccount(AccountModel.builder().build());
+                    return bookingModel;
+                });
     }
+
     @Override
     public Page<?> findDisabledByGroups(Long groupId, Pageable pageable) {
-        return bookingRepository.findDisabledByGroupId(groupId, pageable).map(bookingModel -> {
-            bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
-            bookingModel.setAccount(AccountModel.builder().build());
-            return bookingModel;
-        });
+        return bookingRepository.findDisabledByGroupId(groupId, pageable)
+                .map(tempModel -> {
+                    var bookingModel = tempToModel(tempModel);
+                    bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+                    bookingModel.setAccount(AccountModel.builder().build());
+                    return bookingModel;
+                });
     }
+
     @Override
     public Page<?> findPaidByGroups(Long groupId, Pageable pageable) {
-        return bookingRepository.findPaidByGroupId(groupId, pageable).map(bookingModel -> {
-            bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
-            bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
-            return bookingModel;
-        });
+        return bookingRepository.findPaidByGroupId(groupId, pageable)
+                .map(tempModel -> {
+                    var bookingModel = tempToModel(tempModel);
+                    bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+                    bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
+                    return bookingModel;
+                });
     }
 
     @Override
     public Page<?> findEnabledByRooms(String nickname, Pageable pageable) {
-        return bookingRepository.findEnabledByRoomIds(roomRepository.findAllByNickname(nickname).stream().map(Room::getId).toList(), pageable).map(bookingModel -> {
-            bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
-            bookingModel.setAccount(AccountModel.builder().build());
-            return bookingModel;
-        });
+        return bookingRepository.findEnabledByRoomIds(
+                        roomRepository.findAllByNickname(nickname).stream().map(Room::getId).toList(), pageable
+                )
+                .map(tempModel -> {
+                    var bookingModel = tempToModel(tempModel);
+                    bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+                    bookingModel.setAccount(AccountModel.builder().build());
+                    return bookingModel;
+                });
 
     }
+
     @Override
     public Page<?> findPaidByRooms(String nickname, Pageable pageable) {
-        return bookingRepository.findPaidByRoomIds(roomRepository.findAllByNickname(nickname).stream().map(Room::getId).toList(), pageable).map(bookingModel -> {
-            bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
-            bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
-            return bookingModel;
-        });
+        return bookingRepository.findPaidByRoomIds(
+                        roomRepository.findAllByNickname(nickname).stream().map(Room::getId).toList(), pageable)
+                .map(tempModel -> {
+                    var bookingModel = tempToModel(tempModel);
+                    bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+                    bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
+                    return bookingModel;
+                });
 
     }
+
     @Override
     public Page<?> findDisabledByRooms(String nickname, Pageable pageable) {
-        return bookingRepository.findDisabledByRoomIds(roomRepository.findAllByNickname(nickname).stream().map(Room::getId).toList(), pageable).map(bookingModel -> {
+        return bookingRepository.findDisabledByRoomIds(
+                roomRepository.findAllByNickname(nickname).stream().map(Room::getId).toList(), pageable
+        ).map(tempModel -> {
+            var bookingModel = tempToModel(tempModel);
             bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
             bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
             return bookingModel;
@@ -143,6 +170,18 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public BookingModel findById(Long id) {
         return converter.convertToBookingModel(bookingRepository.findById(id).get());
+    }
+
+    public BookingModel tempToModel(BookingTempModel tempModel) {
+        return BookingModel.builder()
+                .id(tempModel.getId())
+                .enabled(tempModel.isEnabled())
+                .date(tempModel.getDate())
+                .roomId(tempModel.getRoomId())
+                .groupId(tempModel.getGroupId())
+                .roomName(tempModel.getRoomName())
+                .address(tempModel.getAddress())
+                .build();
     }
 
 }

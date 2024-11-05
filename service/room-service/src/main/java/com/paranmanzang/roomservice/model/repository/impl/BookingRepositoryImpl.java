@@ -1,6 +1,7 @@
 package com.paranmanzang.roomservice.model.repository.impl;
 
 import com.paranmanzang.roomservice.model.domain.BookingModel;
+import com.paranmanzang.roomservice.model.domain.BookingTempModel;
 import com.paranmanzang.roomservice.model.entity.*;
 import com.paranmanzang.roomservice.model.repository.BookingCustomRepository;
 import com.querydsl.core.types.Projections;
@@ -22,10 +23,10 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
     private final QRoom room = QRoom.room;
 
     @Override
-    public Page<BookingModel> findByGroupId(Long id, Pageable pageable) {
+    public Page<BookingTempModel> findByGroupId(Long id, Pageable pageable) {
         var result = jpaQueryFactory.selectDistinct(
                         Projections.constructor(
-                                BookingModel.class,
+                                BookingTempModel.class,
                                 booking.id.as("id"),
                                 booking.enabled.as("enabled"),
                                 booking.date.as("date"),
@@ -65,10 +66,10 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
     }
 
     @Override
-    public Page<BookingModel> findByRoomId(Long id, Pageable pageable) {
+    public Page<BookingTempModel> findByRoomId(Long id, Pageable pageable) {
         var result = jpaQueryFactory.selectDistinct(
                         Projections.constructor(
-                                BookingModel.class,
+                                BookingTempModel.class,
                                 booking.id.as("id"),
                                 booking.enabled.as("enabled"),
                                 booking.date.as("date"),
@@ -101,10 +102,10 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
     }
 
     @Override
-    public Page<BookingModel> findEnabledByGroupId(Long groupId, Pageable pageable) {
+    public Page<BookingTempModel> findEnabledByGroupId(Long groupId, Pageable pageable) {
         var result = jpaQueryFactory.selectDistinct(
                         Projections.constructor(
-                                BookingModel.class,
+                                BookingTempModel.class,
                                 booking.id.as("id"),
                                 booking.enabled.as("enabled"),
                                 booking.date.as("date"),
@@ -144,10 +145,10 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
         return new PageImpl<>(result, pageable, totalCount);
     }
     @Override
-    public Page<BookingModel> findPaidByGroupId(Long groupId, Pageable pageable) {
+    public Page<BookingTempModel> findPaidByGroupId(Long groupId, Pageable pageable) {
         var result = jpaQueryFactory.selectDistinct(
                         Projections.constructor(
-                                BookingModel.class,
+                                BookingTempModel.class,
                                 booking.id.as("id"),
                                 booking.enabled.as("enabled"),
                                 booking.date.as("date"),
@@ -188,10 +189,10 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
     }
 
     @Override
-    public Page<BookingModel> findDisabledByGroupId(Long groupId, Pageable pageable) {
+    public Page<BookingTempModel> findDisabledByGroupId(Long groupId, Pageable pageable) {
         var result = jpaQueryFactory.selectDistinct(
                         Projections.constructor(
-                                BookingModel.class,
+                                BookingTempModel.class,
                                 booking.id.as("id"),
                                 booking.enabled.as("enabled"),
                                 booking.date.as("date"),
@@ -224,10 +225,10 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
     }
 
     @Override
-    public Page<BookingModel> findEnabledByRoomIds(List<Long> roomIds, Pageable pageable) {
+    public Page<BookingTempModel> findEnabledByRoomIds(List<Long> roomIds, Pageable pageable) {
         var result = jpaQueryFactory.selectDistinct(
                         Projections.constructor(
-                                BookingModel.class,
+                                BookingTempModel.class,
                                 booking.id.as("id"),
                                 booking.enabled.as("enabled"),
                                 booking.date.as("date"),
@@ -265,10 +266,10 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
     }
 
     @Override
-    public Page<BookingModel> findPaidByRoomIds(List<Long> roomIds, Pageable pageable) {
+    public Page<BookingTempModel> findPaidByRoomIds(List<Long> roomIds, Pageable pageable) {
         var result = jpaQueryFactory.selectDistinct(
                         Projections.constructor(
-                                BookingModel.class,
+                                BookingTempModel.class,
                                 booking.id.as("id"),
                                 booking.enabled.as("enabled"),
                                 booking.date.as("date"),
@@ -306,10 +307,10 @@ public class BookingRepositoryImpl implements BookingCustomRepository {
     }
 
     @Override
-    public Page<BookingModel> findDisabledByRoomIds(List<Long> roomIds, Pageable pageable) {
+    public Page<BookingTempModel> findDisabledByRoomIds(List<Long> roomIds, Pageable pageable) {
         var result = jpaQueryFactory.selectDistinct(
                         Projections.constructor(
-                                BookingModel.class,
+                                BookingTempModel.class,
                                 booking.id.as("id"),
                                 booking.enabled.as("enabled"),
                                 booking.date.as("date"),
