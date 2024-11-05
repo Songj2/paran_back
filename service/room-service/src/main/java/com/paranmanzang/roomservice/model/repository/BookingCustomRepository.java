@@ -15,4 +15,5 @@ public interface BookingCustomRepository {
 
     Page<BookingModel> findEnabledByRoomIds(List<Long> roomIds, Pageable pageable);
     Page<BookingModel> findDisabledByRoomIds(List<Long> roomIds, Pageable pageable);
+    Page<BookingModel> findPaidByRoomIds(List<Long> roomIds, Pageable pageable);
 }

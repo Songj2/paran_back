@@ -23,4 +23,6 @@ public interface BookingService {
     Page<?> findEnabledByRooms(String nickname, Pageable pageable);
 
     Page<?> findDisabledByRooms(String nickname, Pageable pageable);
+
+    Page<?> findPaidByRooms(String nickname, Pageable pageable);
 }

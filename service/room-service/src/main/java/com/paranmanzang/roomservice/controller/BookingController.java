@@ -64,12 +64,17 @@ public class BookingController {
     }
 
     @GetMapping("/room/enabled")
-    @Operation(summary = "공간 예약 조회", description = "해당 공간에 대한 모든 예약정보를 조회합니다.")
+    @Operation(summary = "공간 승인된 예약 조회", description = "해당 공간에 대한 모든 예약정보를 조회합니다.")
     public ResponseEntity<?> findEnabledByRoom(@RequestParam("nickname") String nickname, Pageable pageable) {
         return ResponseEntity.ok(bookingService.findEnabledByRooms(nickname, pageable));
     }
+    @GetMapping("/room/paid")
+    @Operation(summary = "공간에서 결제된 예약 조회", description = "해당 공간에 대한 모든 예약정보를 조회합니다.")
+    public ResponseEntity<?> findPaidByRoom(@RequestParam("nickname") String nickname, Pageable pageable) {
+        return ResponseEntity.ok(bookingService.findPaidByRooms(nickname, pageable));
+    }
     @GetMapping("/room/disabled")
-    @Operation(summary = "공간 예약 조회", description = "해당 공간에 대한 모든 예약정보를 조회합니다.")
+    @Operation(summary = "공간에서 미승인된 예약 조회", description = "해당 공간에 대한 모든 예약정보를 조회합니다.")
     public ResponseEntity<?> findDisabledByRoom(@RequestParam("nickname") String nickname, Pageable pageable) {
         return ResponseEntity.ok(bookingService.findDisabledByRooms(nickname, pageable));
     }

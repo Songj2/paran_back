@@ -1,5 +1,6 @@
 package com.paranmanzang.roomservice.service.impl;
 
+import com.paranmanzang.roomservice.model.domain.AccountModel;
 import com.paranmanzang.roomservice.model.domain.BookingModel;
 import com.paranmanzang.roomservice.model.entity.Booking;
 import com.paranmanzang.roomservice.model.entity.Room;
@@ -96,6 +97,15 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Page<?> findEnabledByRooms(String nickname, Pageable pageable) {
         return bookingRepository.findEnabledByRoomIds(roomRepository.findAllByNickname(nickname).stream().map(Room::getId).toList(), pageable).map(bookingModel -> {
+            bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
+            bookingModel.setAccount(AccountModel.builder().build());
+            return bookingModel;
+        });
+
+    }
+    @Override
+    public Page<?> findPaidByRooms(String nickname, Pageable pageable) {
+        return bookingRepository.findPaidByRoomIds(roomRepository.findAllByNickname(nickname).stream().map(Room::getId).toList(), pageable).map(bookingModel -> {
             bookingModel.setUsingTime(timeService.findByBooking(bookingModel.getId()));
             bookingModel.setAccount(accountService.findByBookingId(bookingModel.getId()));
             return bookingModel;
