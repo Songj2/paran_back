@@ -34,16 +34,16 @@ public class LikePostRepositoryImpl implements LikePostRepositoryCustom {
                         .selectDistinct(Projections.constructor(
                                 GroupPostResponseModel.class,
                                 groupPost.id.as("id"),
+                                groupPost.title.as("title"),
                                 groupPost.content.as("content"),
                                 groupPost.createAt.as("createAt"),
                                 groupPost.modifyAt.as("modifyAt"),
-                                groupPost.nickname.as("nickname"),
-                                groupPost.title.as("title"),
-                                groupPost.viewCount.as("viewCount"),
-                                groupPost.book.id.as("bookId"),
-                                groupPost.group.id.as("groupId"),
                                 groupPost.postCategory.as("postCategory"),
+                                groupPost.viewCount.as("viewCount"),
+                                groupPost.nickname.as("nickname"),
+                                groupPost.group.id.as("groupId"),
                                 groupPost.group.name.as("groupName"),
+                                groupPost.book.id.as("bookId"),
                                 groupPost.book.title.as("bookTitle")
                         ))
                         .from(groupPost)
