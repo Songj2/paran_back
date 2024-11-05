@@ -3,10 +3,12 @@ package com.paranmanzang.roomservice.controller;
 import com.paranmanzang.roomservice.model.domain.AccountCancelModel;
 import com.paranmanzang.roomservice.model.domain.AccountResultModel;
 import com.paranmanzang.roomservice.service.impl.AccountServiceImpl;
+import com.paranmanzang.roomservice.service.impl.BookingServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,11 +20,13 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
 
     private final AccountServiceImpl accountService;
+    private final BookingServiceImpl bookingService;
 
     @PostMapping("")
     @Operation(summary = "결제 등록", description = "완료된 결제 정보를 db에 저장합니다.", tags = {"03. Account",})
     public ResponseEntity<?> insert(@RequestBody AccountResultModel model) {
-        return ResponseEntity.ok(accountService.insert(model));
+        if(accountService.insert(model)!=null) return ResponseEntity.ok(bookingService.findById(model.getBookingId()));
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("정보 저장에 실패하였습니다.");
     }
 
     @GetMapping("")

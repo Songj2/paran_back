@@ -3,7 +3,6 @@ package com.paranmanzang.roomservice.service.impl;
 import com.paranmanzang.roomservice.model.domain.AccountCancelModel;
 import com.paranmanzang.roomservice.model.domain.AccountModel;
 import com.paranmanzang.roomservice.model.domain.AccountResultModel;
-import com.paranmanzang.roomservice.model.domain.BookingModel;
 import com.paranmanzang.roomservice.model.entity.Account;
 import com.paranmanzang.roomservice.model.repository.AccountRepository;
 import com.paranmanzang.roomservice.service.AccountService;
@@ -19,12 +18,11 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
-    private final BookingServiceImpl bookingService;
 
     @Override
-    public BookingModel insert(AccountResultModel model) {
+    public LocalDateTime insert(AccountResultModel model) {
 
-        accountRepository.save(Account.builder()
+        return accountRepository.save(Account.builder()
                 .orderId(model.getOrderId())
                 .detail(model.getOrderName())
                 .payToken(model.getPaymentKey())
@@ -33,9 +31,8 @@ public class AccountServiceImpl implements AccountService {
                 .groupId(model.getGroupId())
                 .bookingId(model.getBookingId())
                 .createAt(LocalDateTime.now())
-                .build());
+                .build()).getCreateAt();
 
-        return bookingService.findById(model.getBookingId());
     }
 
     @Override
