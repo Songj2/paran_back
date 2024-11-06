@@ -50,7 +50,7 @@ metadata:
   name: chat-service
   
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: chat-service
@@ -183,7 +183,7 @@ metadata:
   name: room-service
   
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: room-service
