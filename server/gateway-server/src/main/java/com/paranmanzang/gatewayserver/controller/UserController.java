@@ -87,6 +87,7 @@ public class UserController {
 
 
     public Mono<ServerResponse> updateDeclaration(ServerRequest request) {
+        log.info("유저컨트롤러의 신고 업데이트 {}", request.queryParam("nickname"));
         String nickname = request.queryParam("nickname")
                 .orElseThrow(() -> new IllegalArgumentException("닉네임이 필요합니다"));
         return userService.updateDeclaration(nickname)

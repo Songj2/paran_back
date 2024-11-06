@@ -79,6 +79,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public Mono<Boolean> remove(String nickname){
+        ;log.info("제거 시작합니다. {}", nickname);
         return userRepository.findByNickname(nickname)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("사용자가 존재하지 않습니다.")))
                 .flatMap(user-> {
@@ -86,6 +87,7 @@ public class UserServiceImpl implements UserService {
                         return Mono.error(new IllegalArgumentException("사용자가 존재하지 않습니다."));
                     }
                     user.setState(false);
+                    log.info("제거 대상 {}", user);
                     return userRepository.save(user).then(Mono.just(true));
                 }).log()
                 .onErrorResume(DataAccessException.class, e ->{
@@ -147,11 +149,14 @@ public class UserServiceImpl implements UserService {
     }
 
     public Mono<Boolean> updateDeclaration(String nickname){
+        log.info("유저 서비스의 신고 업데이트 {}", nickname);
         return userRepository.findByNickname(nickname)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("사용자가 존재하지 않습니다,")))
                 .flatMap(user -> {
                     user.setDeclarationCount(user.getDeclarationCount()+1);
+                    log.info("신고대상: {}", user);
                     if(user.getDeclarationCount()==5){
+                        log.info("count 5이다.");
                         remove(nickname);
                     }
                     return userRepository.save(user).then(Mono.just(true));
