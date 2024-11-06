@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
                     }
                     user.setState(false);
                     return userRepository.save(user).then(Mono.just(true));
-                })
+                }).log()
                 .onErrorResume(DataAccessException.class, e ->{
                     return Mono.error(new RuntimeException("사용자 삭제 중 오류 발생: " + e.getMessage(), e));
                 })
@@ -155,7 +155,7 @@ public class UserServiceImpl implements UserService {
                         remove(nickname);
                     }
                     return userRepository.save(user).then(Mono.just(true));
-                })
+                }).log()
                 .onErrorResume(DataAccessException.class, e ->{
                     return Mono.error(new RuntimeException("신고 횟수 업데이트 중 오류 발생: " + e.getMessage(), e));
                 })
