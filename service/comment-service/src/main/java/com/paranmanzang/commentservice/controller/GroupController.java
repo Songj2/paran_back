@@ -1,17 +1,20 @@
 package com.paranmanzang.commentservice.controller;
 
 import com.paranmanzang.commentservice.model.domain.GroupModel;
+import com.paranmanzang.commentservice.model.domain.GroupResponseModel;
 import com.paranmanzang.commentservice.model.domain.JoiningModel;
 import com.paranmanzang.commentservice.service.impl.GroupServiceImpl;
 import com.paranmanzang.commentservice.service.impl.JoiningServiceImpl;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+@Slf4j
 @RestController
 @RequestMapping("/api/comments/groups")
 @RequiredArgsConstructor
@@ -33,8 +36,8 @@ public class GroupController {
 
     // 소모임 만든 후 채팅방 개설 후 실행
     @PutMapping("/chat-room/{groupId}")
-    public ResponseEntity<?> updateChatRoomId(@RequestBody String roomId, @PathVariable Long groupId) {
-        return ResponseEntity.ok(groupService.updateChatRoomId(roomId, groupId));
+    public ResponseEntity<?> updateChatRoomId(@RequestBody GroupResponseModel model, @PathVariable Long groupId) {
+        return ResponseEntity.ok(groupService.updateChatRoomId(model.getChatRoomId(), groupId));
     }
 
     //#61. 참여중인 소모임 조회
