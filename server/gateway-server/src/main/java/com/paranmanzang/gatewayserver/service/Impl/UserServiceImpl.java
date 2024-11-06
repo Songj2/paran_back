@@ -83,6 +83,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByNickname(nickname)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("사용자가 존재하지 않습니다.")))
                 .flatMap(user-> {
+                    log.info("따끈히 꺼내온 유저 상태 {}", user.getDeclarationCount());
                     if (!user.isState()) {
                         return Mono.error(new IllegalArgumentException("사용자가 존재하지 않습니다."));
                     }
@@ -157,8 +158,9 @@ public class UserServiceImpl implements UserService {
                     log.info("신고횟수: {}", user.getDeclarationCount());
                     if(user.getDeclarationCount()==5){
                         log.info("count 5이다.");
-                        remove(nickname);
+                        return remove(nickname);
                     }
+                    log.info("제거 되던가 말던가 횟수 {}", user.getDeclarationCount());
                     return userRepository.save(user).then(Mono.just(true));
                 }).log()
                 .onErrorResume(DataAccessException.class, e ->{
